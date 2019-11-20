@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-class AppExecutor:
+class AppFactory:
     def __init__(self):
 
-    def ExquteApp(self, ):
+    def CreateApplication(self, ):
         pass
 
