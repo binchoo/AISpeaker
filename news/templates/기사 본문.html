@@ -1,0 +1,105 @@
+{% load static %}
+
+<head>
+        
+        <img src={% static "/img/audio_black.png" %} class="speak-icon"><br>
+        <p class="output">diagnostic messages</p>
+    <!-- <script type="text/javascript" src="{% static 'jquery-3.4.1.min.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'appendedFunctions.js' %}"></script>
+    <script type="text/javascript" src="{% static 'articleContent.js' %}"></script>
+    <script>
+        // $('source').attr("src", $(this).data('data-src')); 
+        // $('img').removeAttr('data-src');
+        window.onload = (function(){
+            
+
+            var imgEl = document.getElementsByTagName('img');
+            for (var i=0; i<imgEl.length; i++) {
+                if(imgEl[i].getAttribute('data-src')) {
+                    imgEl[i].setAttribute('src',imgEl[i].getAttribute('data-src'));
+                    imgEl[i].removeAttribute('data-src'); //use only if you need to remove data-src attribute after setting src
+                    imgEl[i].style.width="100%";
+                    imgEl[i].style.maxWidth="100%";
+                }
+            }            
+            var iframes  = document.getElementsByTagName('iframe');
+            for (var i=0; i<iframes.length; i++) {
+                iframes[i].parentNode.removeChild(iframes[i]);
+            }
+            var bottomElementsEnds_btn = document.querySelectorAll('div.ends_btn');
+            for (var i=0; i<bottomElementsEnds_btn.length; i++) {
+                bottomElementsEnds_btn[i].parentNode.removeChild(bottomElementsEnds_btn[i]);
+            }
+
+            // 이 아래부분은 없을 수도 있음!
+            var bottomElementsEnd = document.getElementById('__markup_media_end_categorize')
+            bottomElementsEnd.parentNode.removeChild(bottomElementsEnd);
+        })
+    </script>
+    <script type="text/javascript" src="{% static 'jquery-3.4.1.min.js' %}"></script>
+    <script>
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+    var diagnosticPara = document.querySelector('.output'); //결과물html로
+    diagnosticPara.textContent = '본문에 대한 질문을 하려면 눌러주세요';
+
+
+    recognition = new SpeechRecognition();
+    recognition.lang = 'ko-KR';
+    recognition.interimResults = false;
+    //recognition.continuous = false;
+    recognition.maxAlternatives = 1;
+
+    document.getElementsByClassName("speak-icon")[0].onclick = function() {
+    recognition.start();
+    $(".speak-icon").attr("src", "/static/img/audio_color.png");
+    console.log('Ready to receive a question.');
+    }
+
+    recognition.onresult = function(event) {
+    var speechResult = event.results[0][0].transcript.toLowerCase();
+    console.log('transcript', speechResult);
+    diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
+    console.log('end');
+    $(".speak-icon").attr("src", "/static/img/audio_black.png");
+    //input_Text(speechResult)
+    //document.getElementById('frm').submit()
+    contents = document.querySelector("div#dic_area").innerText
+    send_qa("{%url 'qa'%}", speechResult,contents)
+    }
+
+    recognition.onspeechend = function() {
+    recognition.stop();
+    console.log('rec stop');
+    }
+
+    function send_qa(action,question, contents){
+    //form 에 q와 a를 담아 전송
+
+    var form = document.createElement("form");
+    form.setAttribute("charset", "UTF-8");
+    form.setAttribute("method", "Get"); // Get 또는 Post 입력
+    form.setAttribute('action', action);
+
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "text");
+    hiddenField.setAttribute("name", "question");
+    hiddenField.setAttribute("value", question);
+    form.appendChild(hiddenField);
+
+    hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "text");
+    hiddenField.setAttribute("name", "contents");
+    hiddenField.setAttribute("value", contents);
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    form.submit();
+    console.log("전송됨")
+    }
+    </script>
+    <link rel="stylesheet" type="text/css" href="{% static 'articleread.css' %}">
+</head>
+{% autoescape off %}
+{{contentElement}}
+
+{% endautoescape %}

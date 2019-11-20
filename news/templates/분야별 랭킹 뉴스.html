@@ -1,0 +1,714 @@
+{% load static %}
+{% load index %}
+<html><head>
+	<title id="browserTitleArea">분야별 랭킹 뉴스</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,target-densitydpi=medium-dpi">
+	<link rel="stylesheet" type="text/css" href="{% static 'newshome.css' %}">
+	<link rel="shortcut icon" type="image/x-icon" href="https://mimgnews.pstatic.net/image/news/m/2014/favicon/favicon.ico">
+	<script>
+		(function(){
+			var userAgent = navigator.userAgent;
+			var result = [];
+
+			if(userAgent.indexOf('Android') > -1){
+				result = [
+					'<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_hdpi_72X72.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="96x96" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xhdpi_96x96.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xxhpdi_144x144.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="192x192" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xxxhpdi_192x192.png" />'
+				];
+			}else if(userAgent.indexOf('iPhone') > -1){
+				result = [
+					'<link rel="apple-touch-icon-precomposed" sizes="120X120" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPhone_2x_120X120.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="180x180" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPhone_3x_180X180.png" />'
+				];
+			}else if(userAgent.indexOf('iPad') > -1){
+				result = [
+					'<link rel="apple-touch-icon-precomposed" sizes="167x167" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPadPro_2x_167X167.png" />',
+					'<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPad_2x_152X152.png" />'
+				];
+			}
+			document.write(result.join('\n'));
+		})();
+	</script>
+	<script type="text/javascript" src="{% static 'jquery-3.4.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'appendedFunctions.js' %}"></script>
+	<script>
+	$(document).mouseup(function(e) {
+		var container = $("div.appendedArticleContent");
+
+		// if the target of the click isn't the container nor a descendant of the container
+		if (!container.is(e.target) && container.has(e.target).length === 0) 
+		{
+			container.hide();
+		}
+	});
+	</script>
+
+	<script type="text/javascript" src="https://ssl.pstatic.net/static.news/mnews/resources/20191031_053110/js/generated/statistics_jquery.js"></script>
+	<script>
+		document.documentElement.setAttribute('data-useragent',navigator.userAgent);
+	</script>
+
+	<meta property="og:title" content="많이 본 뉴스 : 네이버 뉴스">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://news.naver.com/main/ranking/popularDay.nhn?mid=etc&amp;sid1=111">
+	<meta property="og:image" content="https://mimgnews.pstatic.net/image/news/ogtag/navernews_200x200_20160804.png">
+	<meta property="og:description" content="기사의 조회 수를 각 섹션 기준으로 집계하여 제공">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="많이 본 뉴스 : 네이버 뉴스">
+	<meta name="twitter:site" content="네이버 뉴스">
+	<meta name="twitter:creator" content="네이버 뉴스">
+	<meta name="twitter:image" content="https://mimgnews.pstatic.net/image/news/ogtag/navernews_200x200_20160804.png">
+	<meta name="twitter:description" content="기사의 조회 수를 각 섹션 기준으로 집계하여 제공">
+		
+        
+		
+		
+	</head>
+
+	<body class="">
+
+<div id="ct" role="main" class="news">
+    
+	<div class="pg2 rank_pg2" id="defaultPageNavigation">  
+			<!-- <strong>2019.11.01. (금)</strong> -->
+			<strong id="todayDate">
+				<script>
+					Date.prototype.yyyymmdd = function() {
+						var mm = this.getMonth() + 1; // getMonth() is zero-based
+						var dd = this.getDate();
+					
+						return [this.getFullYear(),
+								(mm>9 ? '' : '0') + mm,
+								(dd>9 ? '' : '0') + dd
+							].join('.');
+					};
+					Date.prototype.getWeekDay = function() {   
+						var week = new Array('일', '월', '화', '수', '목', '금', '토');
+						var today = new Date().getDay();
+						var todayLabel = week[today];
+						
+						return todayLabel;
+					};
+					
+					var date = new Date();
+					document.getElementById("todayDate").innerText = date.yyyymmdd() + ' ('+date.getWeekDay()+')';
+				</script>
+			</strong>
+	</div>
+    <div class="ranking_news">
+        <div class="h2_area">
+            <div class="h2_area_inner">
+                <h2>{{division}} 많이 본 뉴스</h2>
+            </div>
+        </div>
+        <ul class="commonlist">
+            
+			<li>
+				<a href=".{{ asdflink|index:0 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">1</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:0 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:0 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/032/2019/11/01/2972266.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:1 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">2</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:1 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:1 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/022/2019/11/01/3410773.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:2 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">3</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:2 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:2 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/023/2019/11/01/3484007.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:3 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">4</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:3 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:3 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/025/2019/11/01/2949622.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:4 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">5</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:4 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:4 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/023/2019/11/01/3484015.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:5 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">6</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:5 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:5 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/020/2019/11/01/3250797.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:6 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">7</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:6 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:6 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/028/2019/11/01/2473335.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:7 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">8</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:7 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:7 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/011/2019/11/01/3644404.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:8 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">9</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:8 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:8 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/032/2019/11/01/2972222.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:9 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">10</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:9 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:9 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254964.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:10 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">11</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:10 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:10 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/081/2019/11/01/3040427.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:11 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">12</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:11 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:11 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/015/2019/11/01/4234405.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:12 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">13</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:12 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:12 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/055/2019/11/01/769280.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:13 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">14</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:13 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:13 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/449/2019/11/01/180443.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:14 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">15</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:14 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:14 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/025/2019/11/01/2949618.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:15 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">16</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:15 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:15 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/079/2019/11/01/3286623.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:16 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">17</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:16 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:16 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/018/2019/11/01/4506442.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:17 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">18</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:17 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:17 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/081/2019/11/01/3040435.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:18 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">19</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:18 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:18 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/055/2019/11/01/769272.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+					
+				</a>
+			</li>
+		
+			<li>
+				<a href=".{{ asdflink|index:19 }}" onclick="passThis(this,event)">
+					<i class="commonlist_num">20</i>
+					<div class="commonlist_tx">
+						<div class="commonlist_tx_headline">{{ asdftitl|index:19 }}</div>
+						<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:19 }}</div>
+					</div>
+					
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/079/2019/11/01/3286602.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" width="72" height="72">
+							
+						</div>
+					
+				</a>
+			</li>
+            
+        </ul>
+        
+        <div class="ranking_group">
+
+	</div>
+    </div>
+    
+
+
+
+<!-- news channel banner -->
+
+<!-- //news channel banner -->
+
+		
+
+
+</div><!-- //ct -->
+		<hr>
+
+	
+
+
+		
+		
+		
+		
+			
+			
+				<script type="text/javascript" src="https://ssl.pstatic.net/static.news/mnews/resources/20191031_053110/js/generated/news.mobile.js"></script>
+			
+		
+		
+
+		
+		
+			
+<script id="channelPromotionBannerTemplate" type="text/x-handlebars-template">
+    <div class="ranking_news_like_channel _channel_preference">
+		<div class="like_channel">
+			<div class="like_ch_tit">
+				<a href="/channel/setting.nhn" class="lnk_like_ch_tit" onclick="nclick(jindo.$Event(event),'', this, 'nchproall')">
+					<h3 class="tit_main">보고싶은 언론사를 쉽게 구독해보세요</h3>
+				</a>
+			</div>
+			<ul class="like_ch_list">
+                <li class="like_ch_item">
+                    <!-- 언론사 선택한 경우 aria-checked="true" 변경 -->
+                    <a href="#dPkMj" class="lnk_like_ch" role="checkbox" aria-checked="true" data-office-id="{{officeId}}" data-section-id="">
+                        <div class="like_ch_thumb"><img src="{{logos.size_0x64}}" height="21" alt="{{name}}"></div>
+                        <span class="like_ch_badge">언론사 추가</span>
+                    </a>
+                </li>
+			</ul>
+			<div class="like_ch_btn_wrap">
+				<button type="button" class="btn_refresh _btn_refresh" data-section-id="">새로 추천</button>
+				<button type="button" class="btn_subscribe _btn_all disabled is_hidden" data-uhv="{{uhv}}" data-section-id="">언론사 전체 선택</button>
+				<button type="button" class="btn_subscribe _btn_confirm" data-uhv="{{uhv}}" data-section-id="">언론사 <em class="_selectedCount">4</em>개 구독</button>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/javascript">
+    var checkCount = 0;
+    $(window).on('pageshow', function() {
+        if($('._channel_preference:first').length > 0) {
+            $('.lnk_like_ch_tit:first').attr('onclick', 'nclk(event, "rnk.nchproall", "", "")')
+            $('.like_ch_list:first').on('click', '.lnk_like_ch', toggleChannel);
+            $('.like_ch_btn_wrap:first').on('click', '._btn_refresh', refresh);
+            $('.like_ch_btn_wrap:first').on('click', '._btn_all', selectAll);
+            $('.like_ch_btn_wrap:first').on('click', '._btn_confirm', confirmSelectedChannels);
+        } else if($("#_idChannelPromotionBanner").length > 0) {
+            checkCookieAndGetChannelBanner();
+        }
+    });
+
+    function checkCookieAndGetChannelBanner() {
+        if(checkCount < 10 && jQuery.cookie("NNB") == null) {
+            checkCount++;
+            setTimeout(checkCookieAndGetChannelBanner, 100);
+        } else {
+            getChannelPromotionBanner();
+        }
+    }
+
+    function getChannelPromotionBanner() {
+        var bannerArea = $('#_idChannelPromotionBanner');
+        var sChannelPromotionBannerTpl = $("#channelPromotionBannerTemplate").html();
+        var fnChannelPromotionBannerTpl = Handlebars.compile(sChannelPromotionBannerTpl);
+
+        jQuery.ajax({
+            url: "/section/channelPromotionBanner.json",
+            type: "GET",
+            dataType: "json",
+        }).done(function( res ) {
+            if (res.myChannelInfoList.length > 0) {
+                return;
+
+            }
+            bannerArea.html(fnChannelPromotionBannerTpl(res));
+            $('.lnk_like_ch_tit:first').attr('onclick', 'nclk(event, "rnk.nchproall", "", "")')
+            $('.like_ch_list:first').on('click', '.lnk_like_ch', toggleChannel);
+            $('.like_ch_btn_wrap:first').on('click', '._btn_refresh', refresh);
+            $('.like_ch_btn_wrap:first').on('click', '._btn_all', selectAll);
+            $('.like_ch_btn_wrap:first').on('click', '._btn_confirm', confirmSelectedChannels);
+        });
+    }
+
+    function toggleChannel(e) {
+        e.stopPropagation();
+        var target = $(this);
+        var value = target.attr("aria-checked");
+        if(value === "true") {
+            target.attr("aria-checked", "false");
+            nclk(e, 'rnk.nchprocancel', '', '')
+        }
+        else {
+            target.attr("aria-checked", "true");
+            nclk(e, 'rnk.nchproclick', '', '')
+        }
+
+        setTimeout(checkSelected, 0);
+    }
+
+    function checkSelected() {
+        var selectedItemCount = $('.lnk_like_ch[aria-checked=true]').length;
+        if(selectedItemCount > 0) {
+            $('._btn_all:first', '.like_ch_btn_wrap').addClass('is_hidden');
+            $('._btn_confirm:first', '.like_ch_btn_wrap').removeClass('is_hidden');
+            $('._selectedCount:first', '.like_ch_btn_wrap').html(selectedItemCount);
+        }
+        else {
+            $('._btn_confirm:first', '.like_ch_btn_wrap').addClass('is_hidden');
+            $('._btn_all:first', '.like_ch_btn_wrap').removeClass('is_hidden');
+        }
+    }
+
+    function refresh(e) {
+        e.stopPropagation();
+        nclk(e, 'rnk.nrefresh', '', '');
+
+        getChannelPromotionBanner();
+    }
+
+    function selectAll(e) {
+        e.stopPropagation();
+        nclk(e, 'rnk.nselectall', '', '');
+
+        var targetList = $('.lnk_like_ch[aria-checked=false]');
+        for(var i=0; i < targetList.length; i++) {
+            $(targetList[i]).attr('aria-checked', 'true');
+        }
+
+        setTimeout(checkSelected, 0);
+    }
+
+    function confirmSelectedChannels(e) {
+        e.stopPropagation();
+        var target = $(this);
+        if(target.hasClass('disabled')) {
+            return;
+        }
+
+        nclk(e, 'rnk.nchpro', '', '');
+
+        var selectedList = $('.lnk_like_ch[aria-checked=true]');
+        var officeIdList = [];
+        for(var i=0; i < selectedList.length; i++) {
+            officeIdList.push($(selectedList[i]).attr('data-office-id'));
+        }
+        var uhv = target.attr('data-uhv');
+
+        $.ajax({
+            url : '/channel/addChannels.nhn',
+            method: 'POST',
+            data: {officeIds:officeIdList.join(','), uhv: uhv},
+            success : onloadAddChannels
+        });
+    }
+
+    function onloadAddChannels(res) {
+        var result = res;
+        if(result === "success") {
+        	news.Util.goMainChannel();
+        }
+    }
+</script>
+
+		
+
+		<script type="text/javascript">
+/**
+ * 이 파일은 모바일 뉴스 서비스 전체 페이지에 적용되는 스크립트로써,
+ * 코드 추가 시 Front-End 성능 관점에서 주의를 요합니다.
+ */
+jQuery(window).on('load', function(){
+	setTimeout(onload, 10);
+	
+	function onload(){
+        var oLnb = new news.Lnb('._lnb_scroll',{sSortCookieKey: 'user_lnb', defaultMenuIdForNoSelected: 'HOME'});
+		new news.ImageLazyLoader().load("img[data-src]");
+		new news.MoveTopButton("._go_top");
+		
+		
+		new news.HistoryManager().init("naver_mobile_news_history", "");
+
+        // iframe lazy-loading
+        (function(){
+            try {
+                Array.prototype.slice.apply(document.querySelectorAll('iframe[data-src]'))
+                    .forEach(function(iframeEl) {
+                        var originSrc = iframeEl.getAttribute('data-src');
+                        if(originSrc) {
+                            iframeEl.setAttribute('src', originSrc);
+                        }
+                    });
+            }catch(e) {}
+        })();
+		
+	    if(typeof init === "function"){
+	        init();
+	    }
+
+		var cookie = news.Cookie.getInstance();
+		var isShownNewLnb = cookie.getItem("isShownNewLnb");
+		if(isShownNewLnb == null) {
+			isShownNewLnb = "Y";
+            cookie.setItem("isShownNewLnb", isShownNewLnb, 3650, "", "/");
+			$("._isNew").addClass("is_new");
+		}
+
+        {
+            var footerLogin = jQuery(document).find('._footer_login');
+            if(footerLogin <= 0) {
+                return;
+            }
+
+            if(news.LoginAssistor.isLoginUser()) {
+                footerLogin.prepend('<a href="javascript:news.Util.logout(\'https://nid.naver.com/nidlogin.logout?svctype=262144&url=\'+encodeURIComponent(location.href));" class="u_ftlk" id="news_logout" onclick="nclk(event,\'fot.logout\',\'\',\'\');" >로그아웃</a>')
+            }else {
+                footerLogin.prepend('<a href="https://nid.naver.com/nidlogin.login?svctype=262144" class="u_ftlk" id="news_login" onclick="nclk(event,\'fot.login\',\'\',\'\');" >로그인</a>')
+            }
+        }
+	}
+});
+
+function doAfterLoadEnd(callback, callbackOnPersisted){
+    var eventType = "onpageshow" in window ? "pageshow" : "load";
+
+    callback = callback || function(){};
+    callbackOnPersisted = callbackOnPersisted || function(){};
+
+    jQuery(window).on(eventType, function(we){
+        try{
+            if(Boolean(we.originalEvent.persisted)){ // bfcache
+                callbackOnPersisted();
+                return;
+            }
+        }catch(e){}
+
+        callback();
+    });
+}
+
+</script>
+
+<script type="text/javascript">
+
+if(typeof BMR !== "undefined"){
+	BMR.run('https://sp.naver.com/sp');
+}
+
+
+
+var eventType = "onpageshow" in window ? "pageshow" : "load";
+jQuery(window).on(eventType, function() {
+
+
+
+lcs_do();
+
+
+});
+</script>
+
+</body></html>

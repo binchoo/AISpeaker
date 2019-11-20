@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}signup{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href={% static "css/login.css" %}>
+<h1>회원가입</h1>
+<div class="container">
+    <form method="POST" action="{%url 'signup'%}">
+        {% csrf_token %}
+        <div>
+            <label for="username">username</label><br />
+            <input name="username" type="text">
+        </div>
+        <div>
+            <label for="password">password</label><br />
+            <input name="password" type="password">
+        </div>
+        <div>
+            <label for="password2" id="confirmpassword">confirm password</label><br />
+            <input name="password2" type="password">
+        </div>
+        <br>
+        <input type="submit" class="btn btn-primary" value="sign up">
+    </form>
+</div>
+
+<br><br>
+<a href="{%url 'home'%}" class="link"> 홈</a>
+<script src={% static "js/login.js" %}></script>
+{% endblock %}

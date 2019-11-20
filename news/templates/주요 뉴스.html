@@ -1,0 +1,632 @@
+{% load static %}
+{% load index %}
+<html>
+<head>
+	<title id="browserTitleArea">주요 뉴스</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,target-densitydpi=medium-dpi">
+    <link rel="stylesheet" type="text/css" href="{% static 'newshome.css' %}">
+	<link rel="shortcut icon" type="image/x-icon" href="https://mimgnews.pstatic.net/image/news/m/2014/favicon/favicon.ico">
+	<script>
+	(function(){
+		var userAgent = navigator.userAgent;
+		var result = [];
+
+		if(userAgent.indexOf('Android') > -1){
+			result = [
+				'<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_hdpi_72X72.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="96x96" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xhdpi_96x96.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xxhpdi_144x144.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="192x192" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xxxhpdi_192x192.png" />'
+			];
+		}else if(userAgent.indexOf('iPhone') > -1){
+			result = [
+				'<link rel="apple-touch-icon-precomposed" sizes="120X120" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPhone_2x_120X120.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="180x180" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPhone_3x_180X180.png" />'
+			];
+		}else if(userAgent.indexOf('iPad') > -1){
+			result = [
+				'<link rel="apple-touch-icon-precomposed" sizes="167x167" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPadPro_2x_167X167.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPad_2x_152X152.png" />'
+			];
+		}
+		document.write(result.join('\n'));
+	})();
+	</script>
+	<script type="text/javascript" src="{% static 'jquery-3.4.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'appendedFunctions.js' %}"></script>
+	<script>
+	$(document).mouseup(function(e) {
+		var container = $("div.appendedArticleContent");
+
+		// if the target of the click isn't the container nor a descendant of the container
+		if (!container.is(e.target) && container.has(e.target).length === 0) 
+		{
+			container.hide();
+		}
+	});
+	</script>
+
+	<script type="text/javascript" src="https://ssl.pstatic.net/static.news/mnews/resources/20191031_053110/js/generated/statistics_jquery.js"></script>
+	<script>
+    document.documentElement.setAttribute('data-useragent',navigator.userAgent);
+	</script>
+
+		<meta property="og:title" content="많이 본 뉴스 : 네이버 뉴스">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://news.naver.com/main/ranking/popularDay.nhn?mid=etc&amp;sid1=111">
+	<meta property="og:image" content="https://mimgnews.pstatic.net/image/news/ogtag/navernews_200x200_20160804.png">
+	<meta property="og:description" content="기사의 조회 수를 각 섹션 기준으로 집계하여 제공">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="많이 본 뉴스 : 네이버 뉴스">
+	<meta name="twitter:site" content="네이버 뉴스">
+	<meta name="twitter:creator" content="네이버 뉴스">
+	<meta name="twitter:image" content="https://mimgnews.pstatic.net/image/news/ogtag/navernews_200x200_20160804.png">
+	<meta name="twitter:description" content="기사의 조회 수를 각 섹션 기준으로 집계하여 제공">
+		
+</head>
+<body>
+	<div class="btn-wrapper">
+		<button onclick="speak()" class="click" >다시듣기</button>
+		<button onclick="pause()" >중단</button>
+	</div>
+	<div id="ct" role="main" class="news">
+		<!-- LNB 영역 -->
+
+
+		<div class="ranking_group">
+			<div class="pg2 rank_pg2" id="defaultPageNavigation">
+				<!-- <strong>2019.11.01. (금)</strong> -->
+				<strong id="todayDate">
+					<script>
+						Date.prototype.yyyymmdd = function() {
+							var mm = this.getMonth() + 1; // getMonth() is zero-based
+							var dd = this.getDate();
+						
+							return [this.getFullYear(),
+									(mm>9 ? '' : '0') + mm,
+									(dd>9 ? '' : '0') + dd
+								].join('.');
+						};
+						Date.prototype.getWeekDay = function() {   
+							var week = new Array('일', '월', '화', '수', '목', '금', '토');
+							var today = new Date().getDay();
+							var todayLabel = week[today];
+							
+							return todayLabel;
+						};
+						
+						var date = new Date();
+						document.getElementById("todayDate").innerText = date.yyyymmdd() + ' ('+date.getWeekDay()+')';
+					</script>
+				</strong>
+			</div>
+			
+		</div>
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>정치</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="politics1">
+					<!-- 괄호두개 리스트 index : 0  괄호두개-->
+					<a href=".{{ asdflink|index:0 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:0 }}</div>			
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:0 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/449/2019/11/01/180443.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="politics2">
+					<a href=".{{ asdflink|index:1 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:1 }}</div>	
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:1 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254964.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="politics3">
+					<a href=".{{ asdflink|index:2 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:2 }}</div>	
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:2 }}</div>
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>경제</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="economy1">
+					<a href=".{{ asdflink|index:3 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:3 }}</div>	
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:3 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/011/2019/11/01/3644402.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="economy2">
+					<a href=".{{ asdflink|index:4 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:4 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:4 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/011/2019/11/01/3644419.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="economy3">
+					<a href=".{{ asdflink|index:5 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:5 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:5 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/311/2019/11/01/1068540.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>사회</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="society1">
+					<a href=".{{ asdflink|index:6 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:6 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:6 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/001/2019/11/01/11183897.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="society2">
+					<a href=".{{ asdflink|index:7 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:7 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:7 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254959.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="society3">
+					<a href=".{{ asdflink|index:8 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:8 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:8 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/028/2019/11/01/2473343.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>IT</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="it_secience1">
+					<a href=".{{ asdflink|index:9 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:9 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:9 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/092/2019/11/01/2173832.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="it_secience2">
+					<a href=".{{ asdflink|index:10 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:10 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:10 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/417/2019/11/01/466723.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="it_secience3">
+					<a href=".{{ asdflink|index:11 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:11 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:11 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/018/2019/10/31/4505818.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>생활</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="life_culture1">
+					<a href=".{{ asdflink|index:12 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:12 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:12 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/018/2019/11/01/4505921.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="life_culture2">
+					<a href=".{{ asdflink|index:13 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:13 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:13 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/025/2019/11/01/2949617.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="life_culture3">
+					<a href=".{{ asdflink|index:14 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:14 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:14 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/437/2019/10/31/223203.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>세계</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="world1">
+					<a href=".{{ asdflink|index:15 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:15 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:15 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254970.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="world2">
+					<a href=".{{ asdflink|index:16 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:16 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:16 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/052/2019/11/01/1360581.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="world3">
+					<a href=".{{ asdflink|index:17 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:17 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:17 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/023/2019/11/01/3484003.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>포토</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="photo_section1">
+					<a href=".{{ asdflink|index:18 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:18 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:18 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/449/2019/11/01/180443.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="photo_section2">
+					<a href=".{{ asdflink|index:19 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:19 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:19 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/001/2019/11/01/11183897.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="photo_section3">
+					<a href=".{{ asdflink|index:20 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:20 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:20 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254959.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>TV</h2>
+					<a class="h2_area_more" href="#" id="politicsTitle" onclick="">
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="tv_section1">
+					<a href=".{{ asdflink|index:21 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:21 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:21 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/056/2019/11/01/10759322.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="tv_section2">
+					<a href=".{{ asdflink|index:22 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:22 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:22 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/052/2019/11/01/1360750.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="tv_section3">
+					<a href=".{{ asdflink|index:23 }}" onclick="passThis(this,event)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">{{ asdftitl|index:23 }}</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>{{ asdfview|index:23 }}</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/422/2019/11/01/399264.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+	<ol class="title">
+		<li>{{news_title_text}}</li>
+	</ol>
+	
+
+<script>
+
+
+audioTTS = new Audio();
+speak = function () {
+    var inputTxt = document.querySelector(".title").innerText;
+    audioTTS.src = '/news/voiceaudio?textQuery='+inputTxt;
+    audioTTS.play()
+    // const utterThis = new SpeechSynthesisUtterance(inputTxt.innerHTML);
+    // utterThis.voice = voices;
+    // utterThis.pitch = 0.8;
+    // utterThis.rate = 0.8;
+    // console.log(voices);
+    // console.log(utterThis.voice);
+    // synth.speak(utterThis);
+}
+
+var titles = document.querySelector(".title");
+titles.style.display = "none";
+
+window.onload = function () {
+    document.querySelector(".click").click();
+
+}
+
+pause =function() {
+    audioTTS.pause();
+}
+</script>		
+</body>
+</html>

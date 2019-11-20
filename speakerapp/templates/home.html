@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href={% static "css/mainapp.css" %}>
+<h1 id="project-name">스마트사운드</h1>
+
+{% if user.is_active %}
+<a href="{%url 'speaker'%}" class="link">
+  <img src={% static "img/microphone_white.png" %} class="icon">
+  ai스피커</a>
+<a href="{%url 'logout'%}" class="link">
+  <img src={% static "img/logout_white.png" %} class="icon">
+  로그아웃</a>
+{% else %}
+<a href="{%url 'login'%}" class="link">
+  <img src={% static "img/login_white.png" %} class="icon">
+  로그인</a>
+{% endif %}
+
+{% endblock %}

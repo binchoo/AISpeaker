@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Speech to Text{% endblock %}
+{% block content %}
+{%load static %}
+<link rel="stylesheet" href={% static "/css/speaker.css" %}>
+    <h1>AI Speaker</h1>
+    <p class="welcome">{{loginUser.username}}님 환영합니다. <br> 스마트사운드 A I 스피커입니다. <br>
+        아이콘을 눌러 질문을 시작하세요. <br> 날씨, 뉴스, 주식, 성경에 관한 질문을 할 수 있습니다.</p>
+    <button onclick="speak()" class="click" >다시듣기</button>
+    <button onclick="pause()" >중단</button><br><br>
+    <img src={% static "/img/audio_black.png" %} class="speak-icon">
+    <p>질문하려면 아이콘을 클릭하세요</p>
+    <p class="output">diagnostic messages</p>
+    <br>
+    <br>
+    <form method="POST" id="frm" action="{%url 'result'%}" >
+        {% csrf_token %}
+        <input name="question" id="q" value="...음성입력전" type="text">
+    </form>
+<script src={% static "/js/stt.js"%}></script>
+<script>
+var synth = window.speechSynthesis;
+speak = function () {
+    var voices = synth.getVoices()[0];
+   var inputTxt = document.querySelector('.welcome');
+   var input = document.querySelector('.welcome').innerHTML;
+   input = input.split('<br>');
+   input.forEach(v=> {
+       if(v.length) {
+           let utter = new SpeechSynthesisUtterance(v);
+           utter.voice = voices;
+           utter.pitch = 0.8;
+           utter.rate = 0.8;
+           synth.speak(utter);
+       }
+   })
+}
+window.onload = function () {
+   $(".click").trigger('click');
+}
+pause =function() {
+   synth.cancel();
+}
+</script>
+<a href="{%url 'home'%}" class="link">홈</a>
+{% endblock %}

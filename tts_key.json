@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "absolute-dahlia-242200",
+  "private_key_id": "9f6ebd49a4bf195fceb3a91a6111973ab870fc8b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDL/A4jb+TKe/Ft\nyOebdRbCeaCR/+9Ja++C4ulfUnEtBh5O/64KW8FJQfOG52BX9FQj/5ZMiQd3kGqn\nnm2EH7G1lOjRSjtY7cArFL4ggWw6I583xVGPoWa+2CDnql4dBL5AKWzVEYjEHMHh\n07jQwKiAah6PzPeucFtvQoPVmEFg+V1dWj17gr5WBT3zTAPthZPgNYlyr6rlKRwC\nHpzICKK73YfUy1jah6rGI2xXY0SMpWYd/Z5as2JQvmV36TRXHmavdU2oa5mtC0Il\nMwdG/BHddgK1vkCou335uG1iPaRLzo6bVDtgt4JuMmo1eGQviol62zeBqjvYiD8V\niNM34lgXAgMBAAECggEAT+JWoR8lYPzYCFAJD/LzZlbegL7TtZO9GSuHDGsLYoAG\nZ5au0GStleRrnBXJv7gyKWTjNfbmAzd95UXgisEkxcFayffBtSpquxRk/vLgcQZZ\nSKyQK+kgBTY78K3iLIgaf6MZeXnj7zV54lgZhTsl4iBs9pDlIJ3k2PYaDhCR7gkX\nOC4R95KCm0uoQLFNd6mfrNxHsB+2PW40BY4mMHvrhRN7Yv8/IOrPOuwuJwKI9zm7\nJxdlLTEn0+LQ0I8wanqYL4rVkZnuUf3d471a63Yb4f0kn8LMRJwl4Pu+F0gLZaSI\ndL2violXaYosNOWn8nHJyY4YWCbukyt2Cw81TCm5rQKBgQDo48mqN5nR68Pm3fu1\nHP1dkeSprdOw6fOjMvEbYrWCGPhidho3Y52TsjOHWrSqj28Eyaa7kCnFTD3HF0RP\nmJYjuVRCnMkLdyhTc4P7/Re2CSKkyhOg0HLOM2EWbafAY5pYixeJMY+uiI5Rhhyp\neY6nckXYInFfmke682Awt/A6WwKBgQDgOfl8QLLD6R98fnldwG/19zgd8NzZwd8D\ne12QpoMHpniPJkKNaWO/VcZHu4RTLsOAFmhJ6A3ABILOWdyGxJ3ZhRVG8qTYbm4O\nwEEIsnWNxAHUUY/DSPyFiBMDhMZ1jrk9ZZy7hKIPfFrC9/bDpFtOdSq2IevTPX0V\nhCkUfpGt9QKBgESoixakp7OMl0ej4AYoEsYYMdqYRZWdk1dkuFJDipFdPTUB7n6v\n3o/hdHGOGz9BZBB8Rqx7NuVUsc3VHS1+JZ1IkP/Gazr3GStpHdsXZXskPFNqw9ig\nO4hw+0l6cH82nhVGhFzNALgKyDJeoGqSTK0u8kpi9RujR0xlXdFfGPKLAoGBAICf\ngQfPrTxIjDFD86bd7tuvltdGBco8NguvRrrlaaCH0/x5vA+WdwuYzobzgDKfTrI5\nKFXM8aZGcCqizafZPZs7hjsOkZU9s5BupF+yz1AlMc9zgf5J7eFDb3TDQ3zIBGa9\n1SyUJsqvUPkqeLk9nMri1z9nMfoY+ZnQGCiTeknJAoGABbik9MLxAp8RsY+PlRJT\nH90KYePnRYWSHzZws6DqxprVawDgux/ShyrX7kFy+MsR9U/+0Eo2ixS4Ozi/nZVM\nReBq3Ri4yY9WYcTv/3qUb2J/mkvEUN5MLdIiYzZOwrORF61EbJ91rmnP/rlYXPtF\nHjoJ+HH/CsxmfOPLnLBxtX4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "aispeaker@absolute-dahlia-242200.iam.gserviceaccount.com",
+  "client_id": "111789117196052351416",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/aispeaker%40absolute-dahlia-242200.iam.gserviceaccount.com"
+}

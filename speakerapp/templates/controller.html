@@ -1,0 +1,65 @@
+<html>
+<body>
+<p>controller</p>
+<h2>{{question}}</h2>
+<br>
+<h2>{{question_type}}</h2>
+
+
+<script>
+
+send_by_q("{{question_type}}")
+
+function send_by_q(question_type){
+    if ( (question_type == "stock") ) {
+    send_qa("{%url 'stock'%}", "{{question}}" , "{{question_type}}")
+    } 
+    else if ( (question_type == "news") ) {
+    send_qa("{%url 'headlines'%}", "{{question}}" , "{{question_type}}")
+    }
+    else if ( (question_type == "weather") ) {
+    send_qa("{%url 'weather'%}", "{{question}}" , "{{question_type}}")
+    }
+    else if ( (question_type == "bible") ) {
+    q="{{question}}";
+    isToday=q.search("오늘");
+    isToday2=q.search("생명");
+        if(isToday==-1 && isToday2==-1){ send_qa("{%url 'bible'%}", "{{question}}" , "{{question_type}}")   }
+        else { send_qa("{%url 'todayBible'%}", "{{question}}" , "{{question_type}}")  }
+
+    }
+    else {
+    console.log("error in send by q")
+    }
+}
+
+function send_qa(action,question, question_type){
+//form 에 q와 a를 담아 전송
+
+var form = document.createElement("form");
+form.setAttribute("charset", "UTF-8");
+form.setAttribute("method", "Get"); // Get 또는 Post 입력
+form.setAttribute('action', action);
+
+var hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "text");
+hiddenField.setAttribute("name", "question");
+hiddenField.setAttribute("value", question);
+form.appendChild(hiddenField);
+
+hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "text");
+hiddenField.setAttribute("name", "question_type");
+hiddenField.setAttribute("value", question_type);
+form.appendChild(hiddenField);
+
+document.body.appendChild(form);
+form.submit();
+console.log("전송됨")
+}
+
+
+
+</script>
+</body>
+</html>

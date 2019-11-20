@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width initial-scale=1'>
+    <title>
+      AI SPEAKER :: {{symbol}}
+    </title>
+    {% load static %}
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="{% static '/js/simpledrawer.js' %}"></script>
+    <link rel='stylesheet' href="{% static '/css/chartpage.css' %}">
+    <link href='https://fonts.loli.net/css?family=Didact+Gothic&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext' rel='stylesheet' type='text/css' />
+  </head>
+
+  <body class='typora-export'>
+    <div id='write' class='is-mac'>
+      <div class='md-toc stock-container' mdtype='toc'>
+        <div id='chart'>
+          <h2>{{symbol}} 주가정보</h2>
+          <script>
+            const where = document.getElementById("chart");
+            var chart = new MyChart(where, '{{symbol}}').addChart({{data|safe}})
+            window.onresize = function(){
+                chart.updateSize();
+            }
+          </script>
+          <button onclick="chart.setInvert()">차트반전</button>
+        </div>
+        <div id='comment'>
+            <h2>{{symbol}} AI의 종합의견</h2>
+            <h4>이건 좀 아닌 듯 :(</h4>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

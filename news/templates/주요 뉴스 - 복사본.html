@@ -1,0 +1,568 @@
+{% load static %}
+{% for key,value in asdfg %}
+<html>
+<head>
+	<title id="browserTitleArea">주요 뉴스</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,target-densitydpi=medium-dpi">
+	<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/static.news/mnews/resources/20191031_053110/css/generated/newshome.css">
+			<link rel="shortcut icon" type="image/x-icon" href="https://mimgnews.pstatic.net/image/news/m/2014/favicon/favicon.ico">
+	<script>
+	(function(){
+		var userAgent = navigator.userAgent;
+		var result = [];
+
+		if(userAgent.indexOf('Android') > -1){
+			result = [
+				'<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_hdpi_72X72.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="96x96" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xhdpi_96x96.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xxhpdi_144x144.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="192x192" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/android_legacy_xxxhpdi_192x192.png" />'
+			];
+		}else if(userAgent.indexOf('iPhone') > -1){
+			result = [
+				'<link rel="apple-touch-icon-precomposed" sizes="120X120" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPhone_2x_120X120.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="180x180" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPhone_3x_180X180.png" />'
+			];
+		}else if(userAgent.indexOf('iPad') > -1){
+			result = [
+				'<link rel="apple-touch-icon-precomposed" sizes="167x167" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPadPro_2x_167X167.png" />',
+				'<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://ssl.pstatic.net/static.news/image/news/m/2018/favicon/06/iOS_iPad_2x_152X152.png" />'
+			];
+		}
+		document.write(result.join('\n'));
+	})();
+	</script>
+	<script type="text/javascript" src="{% static '/jquery.3.4.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/appendedFunctions.js' %}"></script>
+
+	<script type="text/javascript" src="https://ssl.pstatic.net/static.news/mnews/resources/20191031_053110/js/generated/statistics_jquery.js"></script>
+	<script>
+    document.documentElement.setAttribute('data-useragent',navigator.userAgent);
+	</script>
+
+		<meta property="og:title" content="많이 본 뉴스 : 네이버 뉴스">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://news.naver.com/main/ranking/popularDay.nhn?mid=etc&amp;sid1=111">
+	<meta property="og:image" content="https://mimgnews.pstatic.net/image/news/ogtag/navernews_200x200_20160804.png">
+	<meta property="og:description" content="기사의 조회 수를 각 섹션 기준으로 집계하여 제공">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="많이 본 뉴스 : 네이버 뉴스">
+	<meta name="twitter:site" content="네이버 뉴스">
+	<meta name="twitter:creator" content="네이버 뉴스">
+	<meta name="twitter:image" content="https://mimgnews.pstatic.net/image/news/ogtag/navernews_200x200_20160804.png">
+	<meta name="twitter:description" content="기사의 조회 수를 각 섹션 기준으로 집계하여 제공">
+		
+</head>
+<body>
+	<div id="ct" role="main" class="news">
+		<!-- LNB 영역 -->
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>정치</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=100&amp;date=20191101" id="politicsTitle" onclick="nclk(event,'rnk.rptit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="politics1">
+					<a href="/rankingRead.nhn?oid=449&amp;aid=0000180443&amp;sid1=100&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">문재인 대통령 드디어 자살</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>81,842</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/449/2019/11/01/180443.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="politics2">
+					<a href="/rankingRead.nhn?oid=005&amp;aid=0001254964&amp;sid1=100&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">문 대통령·민주당 지지율 회복…‘조국 사태’ 이전 수준 40%대</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>35,386</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254964.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="politics3">
+					<a href="/rankingRead.nhn?oid=421&amp;aid=0004282359&amp;sid1=100&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">文대통령, APEC 취소 여파 멕시코 방문도 취소(속보)</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>32,618</div>
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>경제</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=101&amp;date=20191101" id="economyTitle" onclick="nclk(event,'rnk.rectit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="economy1">
+					<a href="/rankingRead.nhn?oid=011&amp;aid=0003644402&amp;sid1=101&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">'미세먼지 잡아라' 5년간 20.2조 투입...12월부터 넉달 공공차량 2부제 실시(속보)</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>26,492</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/011/2019/11/01/3644402.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="economy2">
+					<a href="/rankingRead.nhn?oid=011&amp;aid=0003644419&amp;sid1=101&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">정부, 공공임대 부적정 사례 600건 적발(속보)</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>26,011</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/011/2019/11/01/3644419.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="economy3">
+					<a href="/rankingRead.nhn?oid=311&amp;aid=0001068540&amp;sid1=101&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">'아시아나항공 우수회원' 토스 행운 퀴즈…정답 공개</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>13,490</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/311/2019/11/01/1068540.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>사회</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=102&amp;date=20191101" id="societyTitle" onclick="nclk(event,'rnk.rstit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="society1">
+					<a href="/rankingRead.nhn?oid=001&amp;aid=0011183897&amp;sid1=102&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">"환자만 애타게 기다렸는데…" 소방헬기 추락에 안타까운 의료진</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>59,590</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/001/2019/11/01/11183897.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="society2">
+					<a href="/rankingRead.nhn?oid=005&amp;aid=0001254959&amp;sid1=102&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">이춘재 살해 초등생 유족 “30년을 폐인처럼 살았다” 유골 수색 시작</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>51,971</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254959.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="society3">
+					<a href="/rankingRead.nhn?oid=028&amp;aid=0002473343&amp;sid1=102&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">30년 만에…‘화성사건’ 또 다른 피해자 실종 초등생 유골 수색</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>40,018</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/028/2019/11/01/2473343.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>IT</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=105&amp;date=20191101" id="it_secienceTitle" onclick="nclk(event,'rnk.ritit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="it_secience1">
+					<a href="/rankingRead.nhn?oid=092&amp;aid=0002173832&amp;sid1=105&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">에어팟 프로 분해해보니… “배터리 못 바꾸는 일회용 제품”</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>6,462</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/092/2019/11/01/2173832.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="it_secience2">
+					<a href="/rankingRead.nhn?oid=417&amp;aid=0000466723&amp;sid1=105&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">'아시아나항공 우수회원' 토스 행운퀴즈 정답은?</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>6,106</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/417/2019/11/01/466723.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="it_secience3">
+					<a href="/rankingRead.nhn?oid=018&amp;aid=0004505818&amp;sid1=105&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">배달의민족 총주문금액에 이국주 "미쳤다"..누리꾼도 "연봉 수준"</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>4,954</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/018/2019/10/31/4505818.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>생활</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=103&amp;date=20191101" id="life_cultureTitle" onclick="nclk(event,'rnk.rltit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="life_culture1">
+					<a href="/rankingRead.nhn?oid=018&amp;aid=0004505921&amp;sid1=103&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">김건모♥장지연 결혼, 경기도에 신혼집 마련</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>33,464</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/018/2019/11/01/4505921.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="life_culture2">
+					<a href="/rankingRead.nhn?oid=025&amp;aid=0002949617&amp;sid1=103&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">‘공부가 머니?’ 선혜윤 PD “프로그램 녹화 때마다 운다”</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>7,684</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/025/2019/11/01/2949617.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="life_culture3">
+					<a href="/rankingRead.nhn?oid=437&amp;aid=0000223203&amp;sid1=103&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">개신교인 87%, '전광훈 목사 정치적 발언' 부정 평가</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>6,294</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/437/2019/10/31/223203.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>세계</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=104&amp;date=20191101" id="worldTitle" onclick="nclk(event,'rnk.rwtit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="world1">
+					<a href="/rankingRead.nhn?oid=005&amp;aid=0001254970&amp;sid1=104&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">“차라리 올림픽을 반납하자!” 마라톤 이전에 日시끌</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>17,213</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254970.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="world2">
+					<a href="/rankingRead.nhn?oid=052&amp;aid=0001360581&amp;sid1=104&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">中, 유명 관광지 '유리 다리' 사고 계속되자 폐쇄 움직임</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>11,865</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/052/2019/11/01/1360581.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="world3">
+					<a href="/rankingRead.nhn?oid=023&amp;aid=0003484003&amp;sid1=104&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">또 시작된 '혐한'…"日 슈리성 방화는 한국인 소행" 인터넷 괴소문</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>8,634</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/023/2019/11/01/3484003.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>포토</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=003&amp;date=20191101" id="photo_sectionTitle" onclick="nclk(event,'rnk.rphtit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="photo_section1">
+					<a href="/rankingRead.nhn?oid=449&amp;aid=0000180443&amp;sid1=003&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">문재인 대통령 자살</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>81,842</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/449/2019/11/01/180443.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="photo_section2">
+					<a href="/rankingRead.nhn?oid=001&amp;aid=0011183897&amp;sid1=003&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">"환자만 애타게 기다렸는데…" 소방헬기 추락에 안타까운 의료진</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>59,590</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/001/2019/11/01/11183897.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="photo_section3">
+					<a href="/rankingRead.nhn?oid=005&amp;aid=0001254959&amp;sid1=003&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">이춘재 살해 초등생 유족 “30년을 폐인처럼 살았다” 유골 수색 시작</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>51,971</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/005/2019/11/01/1254959.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
+		<div class="ranking_news">
+			<div class="h2_area">
+				<div class="h2_area_inner">
+					<h2>TV</h2>
+					<a class="h2_area_more" href="/rankingList.nhn?sid1=115&amp;date=20191101" id="tv_sectionTitle" onclick="nclk(event,'rnk.rrvtit','','');">
+						<span>더보기</span>
+					</a>
+				</div>
+			</div>
+			<ul class="commonlist">
+				
+				<li id="tv_section1">
+					<a href="/rankingRead.nhn?oid=056&amp;aid=0010759322&amp;sid1=115&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">1</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">육사·공사 선발시험서 채점 오류로 43명 탈락…1년간 방치</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>14,251</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/056/2019/11/01/10759322.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="tv_section2">
+					<a href="/rankingRead.nhn?oid=052&amp;aid=0001360750&amp;sid1=115&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">2</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">이춘재 자백 '실종 초등생' 유골 수색...가족 오열</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>10,560</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/052/2019/11/01/1360750.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+				<li id="tv_section3">
+					<a href="/rankingRead.nhn?oid=422&amp;aid=0000399264&amp;sid1=115&amp;date=20191101&amp;ntype=RANKING" onclick="passThis(this)">
+						<i class="commonlist_num">3</i>
+						<div class="commonlist_tx">
+							<div class="commonlist_tx_headline">경찰, 이춘재 살해 화성 초등생 유골 수색 착수</div>
+							<div class="commonlist_tx_visit"><span class="blind">조회수</span>9,460</div>
+						</div>
+						
+						<div class="commonlist_img">
+							<img src="https://mimgnews.pstatic.net/image/origin/422/2019/11/01/399264.jpg?type=nf144_144" alt="" onerror="this.src='https://ssl.pstatic.net/static.news/image/news/2016/noimage_144x144.png';" onclick="nclk(event,'rnk.rrvimg','','');" width="72" height="72">
+							<span class="mov"><em class="blind">동영상</em></span>
+						</div>
+						
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+	<div class="ranking_group">
+		<div class="pg2 rank_pg2" id="defaultPageNavigation">
+			<strong>2019.11.01. (금)</strong>
+		</div>
+	
+	</div>
+	</div>
+
+</body>
+</html>

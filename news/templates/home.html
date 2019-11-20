@@ -1,0 +1,23 @@
+{% load static %}
+<html>
+    <head>
+        <script type="text/javascript" src="{% static '/jquery.3.4.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/appendedFunctions.js' %}"></script>
+    </head>
+    <body>
+        <h1>NEWS의 시작</h1>
+
+        <button onclick="window.location.href='{% url 'headlines' %}'">주요뉴스</button>
+
+        <h2>또는 분야 선택:</h2>
+        <h2>정치 / 경제 / 사회 / 생활 / 세계 / IT</h2>
+        <form action="{% url 'rankings' %}">
+            <textarea name="division" cols="8" rows="1"></textarea>
+            <br>
+            <input type="submit" value='제출'>
+        
+        
+        </form>
+  
+    </body>
+</html>

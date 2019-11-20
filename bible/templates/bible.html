@@ -1,0 +1,104 @@
+<html>
+    <head>
+        {% load static %}
+        <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href={% static "/css/bible.css" %}>
+    </head>
+<body>
+<img src={% static "/img/audio_black.png" %} class="speak-icon"><br>
+<p class="output">diagnostic messages</p>
+<div class="ctrl-btn">
+    <button onclick="speak()" class="click" >다시듣기</button>
+    <button onclick="pause()" >중단</button>
+</div>
+<h2>{{title}}</h2>
+<p class="cont">{{contents}}</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+audioTTS = new Audio();
+speak = function (event,b,c,d) {
+    if(!audioTTS.paused){
+        audioTTS.pause();
+    }
+    var contents = document.querySelector(".cont").innerText
+    audioTTS.src = '/news/voiceaudio?textQuery='+contents;
+    audioTTS.play()
+}
+
+pause = function () {
+    if(!audioTTS.paused){
+        audioTTS.pause()
+        return;
+    }
+}
+
+window.onload = function () {
+    document.querySelector(".click").click();
+}
+
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+var diagnosticPara = document.querySelector('.output'); //결과물html로
+diagnosticPara.textContent = '본문에 대한 질문을 하려면 아이콘을 클릭하세요';
+
+
+recognition = new SpeechRecognition();
+recognition.lang = 'ko-KR';
+recognition.interimResults = false;
+//recognition.continuous = false;
+recognition.maxAlternatives = 1;
+
+document.getElementsByClassName("speak-icon")[0].onclick = function() {
+recognition.start();
+$(".speak-icon").attr("src", "/static/img/audio_color.png");
+console.log('Ready to receive a question.');
+}
+
+recognition.onresult = function(event) {
+var speechResult = event.results[0][0].transcript.toLowerCase();
+console.log('transcript', speechResult);
+diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
+console.log('end');
+$(".speak-icon").attr("src", "/static/img/audio_black.png");
+//input_Text(speechResult)
+//document.getElementById('frm').submit()
+contents = document.querySelector('.cont').innerText
+send_qa("{%url 'qa'%}", speechResult,contents)
+}
+
+recognition.onspeechend = function() {
+recognition.stop();
+console.log('rec stop');
+}
+
+function send_qa(action,question, contents){
+//form 에 q와 a를 담아 전송
+
+var form = document.createElement("form");
+form.setAttribute("charset", "UTF-8");
+form.setAttribute("method", "Get"); // Get 또는 Post 입력
+form.setAttribute('action', action);
+
+var hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "text");
+hiddenField.setAttribute("name", "question");
+hiddenField.setAttribute("value", question);
+form.appendChild(hiddenField);
+
+hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "text");
+hiddenField.setAttribute("name", "contents");
+hiddenField.setAttribute("value", contents);
+form.appendChild(hiddenField);
+
+document.body.appendChild(form);
+form.submit();
+console.log("전송됨")
+}
+
+
+</script>
+
+</body>
+</html>
