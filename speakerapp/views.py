@@ -1,7 +1,5 @@
 from django.shortcuts import render
 from . import question_classifier
-from Controller.Controller import Controller
-from django.http import HttpResponse
 # Create your views here.
 
 
@@ -21,20 +19,16 @@ def wait(request):
 
 #iframe 컨트롤러 - 리시버url
 def controller(request):
-    question = request.POST["question"]
-    c = Controller()
-    response = c.propagete(question)
-    return HttpResponse(response)
-    # try :
-    #     question_type = request.POST["question_type"]
-    #     question = request.POST["question"]
-    #     print("result->컨트롤러")
-    #     return render(request, 'controller.html',{'question': question, 'question_type' : question_type})
-    # except KeyError:
-    #     question_type = "wait"
-    #     question = "wait"
-    #     print("result->컨트롤러 예외발생")
-    #     return render(request, 'controller.html',{'question': question, 'question_type' : question_type})
+    try :
+        question_type = request.POST["question_type"]
+        question = request.POST["question"]
+        print("result->컨트롤러")
+        return render(request, 'controller.html',{'question': question, 'question_type' : question_type})
+    except KeyError:
+        question_type = "wait"
+        question = "wait"
+        print("result->컨트롤러 예외발생")
+        return render(request, 'controller.html',{'question': question, 'question_type' : question_type})
 
 ##    if (question_type=="weather"):
 ##        return render(request, 'weather.html')

@@ -276,11 +276,11 @@ def evaluateAndShowAttention(input_sentence):
 
 #output_words, attentions = evaluate(encoder1, attn_decoder1, "내가 주식을 사려고 하는데 살까 말까", max_length=MAX_LENGTH)
 #print((output_words)[0])
-# print("불러오기완료")
-# import os
-# print (os.getcwd()) #현재 디렉토리의
-# print (os.path.realpath(__file__))#파일
-# print (os.path.dirname(os.path.realpath(__file__)) )
+print("불러오기완료")
+import os
+print (os.getcwd()) #현재 디렉토리의
+print (os.path.realpath(__file__))#파일
+print (os.path.dirname(os.path.realpath(__file__)) )
 
 def getFinalResult(input_sentence):
     output_words, attentions = evaluate(encoder1, attn_decoder1, input_sentence, max_length=MAX_LENGTH)
