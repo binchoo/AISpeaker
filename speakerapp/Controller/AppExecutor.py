@@ -1,9 +1,10 @@
 #!/usr/bin/python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
 
 class AppExecutor:
     def __init__(self):
+        pass
 
     def ExquteApp(self, ):
         pass
-
