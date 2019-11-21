@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Django chart" uuid="a340185a-6771-4dc5-8d66-f3d19d8c160f">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
+      <user-name>djangostock</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="Django bible" uuid="c572e6fa-9370-4167-a11f-6f558aa50821">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
+      <user-name>djangobible</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="Django default" uuid="468d1b4f-55f1-4e1f-b1ac-975d7e2463ba">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <auth-required>false</auth-required>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>
