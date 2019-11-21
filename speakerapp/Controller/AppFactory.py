@@ -3,7 +3,6 @@
 
 class AppFactory:
     def __init__(self):
-        pass
 
     def CreateApplication(self, ):
         pass
