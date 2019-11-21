@@ -9,7 +9,7 @@ class Application :
         response = requests.get(self.app_url, {'question' : question})
         return response
 
-class StockApplicaion(Application) :
+class StockApplication(Application) :
 
     def __init__(self) :
         self.app_url = 'http://127.0.0.1:8000/chart'
