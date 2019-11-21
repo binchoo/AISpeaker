@@ -22,8 +22,7 @@ def wait(request):
 #iframe 컨트롤러 - 리시버url
 def controller(request):
     question = request.POST["question"]
-    c = Controller()
-    response = c.propagete(question)
+    response = Controller().propagate(question)
     return HttpResponse(response)
     # try :
     #     question_type = request.POST["question_type"]

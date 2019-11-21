@@ -3,7 +3,7 @@ from .AppExecutor import AppExecutor
 
 class Controller:
         
-    def propagete(self, question) :
+    def propagate(self, question) :
         q_type = QuestionClassifier().classify(question)
-        response = AppExecutor().ExecuteApp(q_type, question)
+        response = AppExecutor().executeApp(q_type, question)
         return response
