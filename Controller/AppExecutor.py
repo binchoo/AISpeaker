@@ -1,9 +1,10 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
+from .AppFactory import AppFactory
 
 class AppExecutor:
-    def __init__(self):
-
-    def ExquteApp(self, ):
-        pass
+    def ExecuteApp(self, app_type, question):
+        app_instance = AppFactory().initApp(app_type)
+        response = app_instance.execute(question)
+        return response
 

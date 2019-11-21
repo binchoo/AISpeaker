@@ -1,8 +1,6 @@
-import Application
+from . import Application as Apps
 
 class AppFactory():
-
-    _app_module = __import__('Application')
     _app_list = { 
         'news' : 'NewsApplication', 
         'weather' : 'WeatherApplication', 
@@ -11,8 +9,9 @@ class AppFactory():
     }
 
     def initApp(self, app_type):
+
         app_class_name = AppFactory._app_list[app_type]
-        app_class = getattr(AppFactory._app_module, app_class_name)
+        app_class = getattr(Apps, app_class_name)
         app_instance = app_class()
         return app_instance
 

@@ -22,7 +22,11 @@ class WeatherApplication(Application) :
 class NewsApplication(Application) :
 
     def __init__(self) :
-        self.app_url = 'http://127.0.0.1:8000/news'
+        self.app_url = 'http://127.0.0.1:8000/news/hls'
+
+    def execute(self, question) :
+        response = requests.get(self.app_url)
+        return response
 
 class BibleApplication(Application) :
 
