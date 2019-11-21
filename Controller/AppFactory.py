@@ -1,6 +1,7 @@
 from . import Application as Apps
 
 class AppFactory():
+
     _app_list = { 
         'news' : 'NewsApplication', 
         'weather' : 'WeatherApplication', 
@@ -16,6 +17,7 @@ class AppFactory():
         return app_instance
 
     def _append_app_list(self, app_type, app_name) :
+        
         if app_type in AppFactory._app_list.keys() :
             print('app_type {} is already in use'.format(app_type))
             raise Exception
