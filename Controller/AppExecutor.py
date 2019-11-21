@@ -4,9 +4,11 @@ from .AppFactory import AppFactory
 
 class AppExecutor:
 
+    _app_factory = AppFactory()
+
     def executeApp(self, app_type, question):
-        
-        app_instance = AppFactory().initApp(app_type)
-        response = app_instance.execute(question)
+
+        self.app_instance = self._app_factory.initApp(app_type)
+        response = self.app_instance.execute(question)
         return response
 
