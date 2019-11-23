@@ -1,4 +1,4 @@
-import Application
+import Application as Apps
 
 
 class AppFactory():
