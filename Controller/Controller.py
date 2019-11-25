@@ -13,5 +13,5 @@ class Controller:
     def propagate(self, question) :
 
         q_type = self._qc.classify(question)
-        response = AppExecutor().executeApp(q_type, question)
+        response = AppExecutor().ExecuteApp(q_type, question)
         return response

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import AppFactory as factory
+from .AppFactory import AppFactory as factory
 
 
 class AppExecutor:
