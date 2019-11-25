@@ -1,6 +1,6 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-
+#-*- coding: utf-8 -*-
+from .AppFactory import AppFactory
 
 class AppExecutor:
 
@@ -11,3 +11,4 @@ class AppExecutor:
         self.app_instance = self._app_factory.initApp(app_type)
         response = self.app_instance.execute(question)
         return response
+
