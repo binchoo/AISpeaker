@@ -11,7 +11,10 @@ class AppExecutor:
 
     def findApp(self, type):
         if(type not in self._appDictionary):
-            self._appDictionary[type] = self.createApp(type)
+            try:
+                self._appDictionary[type] = self.createApp(type)
+            except:
+                raise Exception
         return self._appDictionary[type]
 
     def createApp(self, appName):
