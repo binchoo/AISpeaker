@@ -22,3 +22,7 @@ class AppExecutor:
 
     def ExecuteApp(self, type, question):
         return self.findApp(type).execute(question)
+
+
+a = AppExecutor()
+a.ExecuteApp("news")
