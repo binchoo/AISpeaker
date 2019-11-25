@@ -1,14 +1,24 @@
 #!/usr/bin/python
-#-*- coding: utf-8 -*-
-from .AppFactory import AppFactory
+# -*- coding: utf-8 -*-
+import AppFactory as factory
+
 
 class AppExecutor:
+    _appDictionary = dict()
 
-    _app_factory = AppFactory()
+    def __init__(self):
+        pass
 
-    def executeApp(self, app_type, question):
+    def findApp(self, type):
+        if(type not in self._appDictionary):
+            try:
+                self._appDictionary[type] = self.createApp(type)
+            except:
+                raise Exception
+        return self._appDictionary[type]
 
-        self.app_instance = self._app_factory.initApp(app_type)
-        response = self.app_instance.execute(question)
-        return response
+    def createApp(self, appName):
+        return factory.initApp(appName)
 
+    def ExecuteApp(self, type, question):
+        return self.findApp(type).execute(question)
