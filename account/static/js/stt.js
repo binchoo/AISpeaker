@@ -26,7 +26,17 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
     console.log('end');
     $(".speak-icon").attr("src", "/static/img/audio_black.png");
     input_Text(speechResult)
-    document.getElementById('frm').submit()
+    $.ajax({
+      type:"POST",
+      url: 'result',
+      dataType: 'json',
+      data: {question: speechResult},
+      success:function(data) {
+        console.log("success", data);
+      }
+
+    })
+    //document.getElementById('frm').submit()
     }
 
     recognition.onspeechend = function() {
