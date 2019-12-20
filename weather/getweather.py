@@ -22,39 +22,30 @@ class Weather:
             self.loc_data = '위치: 광진구 날씨'
             return '광진구'
 
-    def get_weather_page(self, voice):
-        self.weather_data = ""
-        self.loc_data = ""
-        regex = re.compile("날씨|기온|온도|비|눈|우산|미세|오존")
-        search_str = regex.search(voice)
-        if search_str != None:
-            # 네이버 날씨 페이지 가져오기
-            q_type = search_str.group()
-            html = requests.get('https://search.naver.com/search.naver?query=' + self.get_location(voice) + '날씨')
-            # pprint(html.text)
-            soup = bs(html.text, 'html.parser')  # 파싱
-            if q_type == '날씨':
-                self.print_all_weather(soup)
-            elif q_type == '온도' or q_type == '기온':
-                self.get_today_tem(soup)
-            elif q_type == '미세' or q_type == '오존':
-                self.get_weather_dust(soup)
-            elif q_type == '비' or q_type == '눈' or q_type == '우산':
-                is_rain = self.get_weather_detail(soup)
-                if is_rain == 1:
-                    # print("비소식이있습니다. 우산을 챙기세요.")
-                    self.weather_data += "비소식이있습니다. 우산을 챙기세요. "
-                elif is_rain == 2:
-                    # print("눈소식이 있습니다. 우산을 챙기세요.")
-                    self.weather_data += "눈소식이 있습니다. 우산을 챙기세요. "
-
+    def get_weather_page(self, q_type, loc):
+     
+        # 네이버 날씨 페이지 가져오기
+        html = requests.get('https://search.naver.com/search.naver?query=' + loc + '날씨')
+        
+        # pprint(html.text)
+        soup = bs(html.text, 'html.parser')  # 파싱
+        if q_type == 'weather':
+            self.print_all_weather(soup)
+        elif q_type == 'temperature':
+            self.get_today_tem(soup)
+        elif q_type == 'finedust' or q_type == 'ozone':
+            self.get_weather_dust(soup)
+        elif q_type == 'rain':
+            is_rain = self.get_weather_detail(soup)
+            if is_rain == 1:
+                # print("비소식이있습니다. 우산을 챙기세요.")
+                self.weather_data += "비소식이있습니다. 우산을 챙기세요. "
+            elif is_rain == 2:
+                # print("눈소식이 있습니다. 우산을 챙기세요.")
+                self.weather_data += "눈소식이 있습니다. 우산을 챙기세요. "
             else:
                 # print("비나 눈소식이 없습니다.")
                 self.weather_data += "비나 눈소식이 없습니다. "
-
-        else:
-            # print("날씨 정보가 없습니다.")
-            self.weather_data += "해당 질문에 대한 정보가 없습니다. "
 
     def get_today_tem(self, soup):
         # 오늘온도
