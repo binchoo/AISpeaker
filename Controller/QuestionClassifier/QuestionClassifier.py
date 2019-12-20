@@ -1,15 +1,13 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 from speakerapp import question_classifier
+from .IClassifier import IClassifier
 from .Decorator import RNNClassifier_V2, RegexClassifier_V2
 import requests
 import re
 
-class IClassifier:
-    def classify(self, question):
-        pass
-
 class QuestionClassifier:
+
     def setClassifier(self, _classifier):
         if _classifier == 'rnn':
             self.classifier = RNNClassifier()
@@ -32,7 +30,7 @@ class RNNClassifier(IClassifier):
 
 class RegexClassifier(IClassifier):
     def classify(self,question):
-        wheather_regex = re.compile("날씨|기온|온도|비|눈|우산|미세|오존")
+        wheather_regex = re.compile("날씨|기온|온도|비|눈|우산|미세|오존|자외선")
         wheather_str = wheather_regex.search(question)
         if wheather_str != None:
             return 'weather'

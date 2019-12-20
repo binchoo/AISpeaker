@@ -1,5 +1,4 @@
-from .QuestionClassifier import IClassifier
-import re
+from .IClassifier import IClassifier
 
 class Decorator(IClassifier) :
 
@@ -13,6 +12,7 @@ class Decorator(IClassifier) :
     def _classify(self, question, base_q_type) :
         pass
 
+import re
 class RNNClassifier_V2(Decorator) :
     
     def _classify(self, question, base_q_type) :

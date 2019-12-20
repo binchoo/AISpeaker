@@ -9,9 +9,12 @@ class Controller:
         _qc를 인공지능 혹은 정규표현식 엔진으로 설정한다
         '''
         self._qc = QuestionClassifier()
+        self._qc.setClassifier('regex')
+        self._qc.versionUp()
 
     def propagate(self, question) :
 
         q_type = self._qc.classify(question)
+        print(q_type)
         response = AppExecutor().ExecuteApp(q_type, question)
         return response

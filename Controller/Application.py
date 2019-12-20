@@ -16,6 +16,18 @@ class StockApplication(Application) :
 class WeatherApplication(Application) :
     app_url = 'http://127.0.0.1:8000/weather'
 
+class TemperatureApplication(WeatherApplication) :
+    app_url = 'http://127.0.0.1:8000/weather/temperature'
+
+class FineDustApplication(WeatherApplication) :
+    app_url = 'http://127.0.0.1:8000/weather/finedust'
+
+class RainApplication(WeatherApplication) :
+    app_url = 'http://127.0.0.1:8000/weather/rain'
+    
+class OzonApplication(WeatherApplication) :
+    app_url = 'http://127.0.0.1:8000/weather/ozon'
+
 class NewsApplication(Application) :
 
     app_url = 'http://127.0.0.1:8000/news/hls'

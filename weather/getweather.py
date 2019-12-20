@@ -33,7 +33,7 @@ class Weather:
             self.print_all_weather(soup)
         elif q_type == 'temperature':
             self.get_today_tem(soup)
-        elif q_type == 'finedust' or q_type == 'ozone':
+        elif q_type == 'finedust' or q_type == 'ozon':
             self.get_weather_dust(soup)
         elif q_type == 'rain':
             is_rain = self.get_weather_detail(soup)
