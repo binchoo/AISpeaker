@@ -14,11 +14,14 @@
     <br>
     <br>
     <p id="q"></p>
+    <div class="output-page">
+        <div width ="640" name="ctf"></div>
+        <img src={% static "/img/clear.png" %} id="clear-btn">
+    </div>
     <!-- <form method="POST" id="frm" action="{%url 'result'%}" >
         {% csrf_token %}
         <input name="question" id="q" value="...음성입력전" type="text">
     </form> -->
-<script src={% static "/js/stt.js"%}></script>
 <script>
 function getCookie(name) {
     var cookieValue = null;
@@ -40,6 +43,7 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $(document).ready(function() {
+    $(".output-page").css("display", "none");
     var csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
@@ -49,6 +53,7 @@ $(document).ready(function() {
         }
     });
 });
+
 var synth = window.speechSynthesis;
 speak = function () {
     var voices = synth.getVoices()[0];
@@ -71,6 +76,11 @@ window.onload = function () {
 pause =function() {
    synth.cancel();
 }
+$(".output-page > #clear-btn").click(function() {
+    console.log("clicked")
+    $(this).parent().css("display", "none");
+})
 </script>
+<script src={% static "/js/stt.js"%}></script>
 <a href="{%url 'home'%}" class="link">홈</a>
 {% endblock %}

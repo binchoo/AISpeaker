@@ -4,7 +4,7 @@ html,body{width:100%}
 html{font-size:10px;line-height:10px}
 body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
 body,input,textarea,select,button,table{font-size:14px;font-family:HelveticaNeue,AppleSDGothicNeo-Regular,sans-serif;line-height:1.25em}
-body{position:relative;background-color:rgba(176, 205, 166);color:#000;-webkit-text-size-adjust:none}
+.news{position:relative;background-color:rgba(176, 205, 166);color:#000;-webkit-text-size-adjust:none}
 body.no_greendot{background-color:#efefef}
 html[data-useragent*="Windows"] body{font-family:'나눔고딕',NanumGothic,'맑은 고딕','Malgun Gothic','돋움',Dotum,'굴림',Gulim,Helvetica,sans-serif}
 .bfsize1{font-size:17px}

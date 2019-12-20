@@ -23,6 +23,7 @@ def wait(request):
 def controller(request):
     question = request.POST["question"]
     response = Controller().propagate(question)
+    print(response)
     return HttpResponse(response)
     # try :
     #     question_type = request.POST["question_type"]
@@ -49,6 +50,6 @@ def controller(request):
 def result(request):
     question = request.POST["question"]
     print(question)
-    question_type = question_classifier.getFinalResult(question)
-    print(question_type)
-    return JsonResponse({'question': question , 'question_type' : question_type})
+    response = Controller().propagate(question)
+    print(response)
+    return HttpResponse(response)

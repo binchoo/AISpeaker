@@ -31,8 +31,13 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
       url: 'result',
       dataType: 'json',
       data: {question: speechResult},
-      success:function(data) {
-        console.log("success", data);
+      success:function(res) {
+        console.log(res);
+      }, error: function(res) {
+        console.log(res.responseText);
+        var iframe = document.querySelector(".output-page > div");
+        iframe.innerHTML = res.responseText;
+        $(".output-page").css("display", "block");
       }
 
     })
