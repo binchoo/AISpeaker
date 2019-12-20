@@ -31,6 +31,7 @@ class RegexClassifier_V2(Decorator) :
                 'uv' : re.compile(r'오존'),
                 'finedust': re.compile(r'미세먼지'), 
                 'rain' : re.compile(r'비|눈|우산'),
+                'temperature' : re.compile(r'기온|온도'),
             }
             for sub_type in regex_dict :
                 regex = regex_dict[sub_type]
