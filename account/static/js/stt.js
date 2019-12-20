@@ -26,7 +26,22 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
     console.log('end');
     $(".speak-icon").attr("src", "/static/img/audio_black.png");
     input_Text(speechResult)
-    document.getElementById('frm').submit()
+    $.ajax({
+      type:"POST",
+      url: 'result',
+      dataType: 'json',
+      data: {question: speechResult},
+      success:function(res) {
+        console.log(res);
+      }, error: function(res) {
+        console.log(res.responseText);
+        var iframe = document.querySelector(".output-page > div");
+        iframe.innerHTML = res.responseText;
+        $(".output-page").css("display", "block");
+      }
+
+    })
+    //document.getElementById('frm').submit()
     }
 
     recognition.onspeechend = function() {

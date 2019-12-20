@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from . import question_classifier
 from Controller.Controller import Controller
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 # Create your views here.
 
 
@@ -23,6 +23,7 @@ def wait(request):
 def controller(request):
     question = request.POST["question"]
     response = Controller().propagate(question)
+    print(response)
     return HttpResponse(response)
     # try :
     #     question_type = request.POST["question_type"]
@@ -49,6 +50,6 @@ def controller(request):
 def result(request):
     question = request.POST["question"]
     print(question)
-    question_type = question_classifier.getFinalResult(question)
-    print(question_type)
-    return render(request, 'result.html', {'question': question , 'question_type' : question_type})
+    response = Controller().propagate(question)
+    print(response)
+    return HttpResponse(response)
