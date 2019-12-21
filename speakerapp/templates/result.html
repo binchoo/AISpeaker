@@ -17,116 +17,116 @@
 <img src={% static "/img/audio_black.png" %} class="speak-icon"><br>
 <br>
 <div class="output-page">
-    <iframe src="{%url 'wait'%}" width ="640" name="ctf"></iframe>
+    <iframe src="{%url 'wait'%}" width="640" name="ctf"></iframe>
     <img src={% static "/img/clear.png" %} id="clear-btn">
 </div>
 <a href="{%url 'home'%}" class="link">홈</a>
 <a href="{%url 'speaker'%}" class="link">스피커</a>
 
 <script>
-var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 
-var diagnosticPara = document.querySelector('.output'); //결과물html로
-diagnosticPara.textContent = '다시 질문하려면 아이콘을 클릭하세요';
-
-
-recognition = new SpeechRecognition();
-recognition.lang = 'ko-KR';
-recognition.interimResults = false;
-//recognition.continuous = false;
-recognition.maxAlternatives = 1;
-
-document.getElementsByClassName("speak-icon")[0].onclick = function() {
-recognition.start();
-$(".speak-icon").attr("src", "/static/img/audio_color.png");
-console.log('Ready to receive a question.');
-}
-
-recognition.onresult = function(event) {
-var speechResult = event.results[0][0].transcript.toLowerCase();
-console.log('transcript', speechResult);
-diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
-console.log('end');
-$(".speak-icon").attr("src", "/static/img/audio_black.png");
-//input_Text(speechResult)
-//document.getElementById('frm').submit()
-send_result("{%url 'result'%}", speechResult)
-}
-
-recognition.onspeechend = function() {
-recognition.stop();
-console.log('rec stop');
-}
-
-window.onload = function () {
-    send_qa_to_controller( "{%url 'controller'%}", "{{question}}" , "{{question_type}}" )
-}
-
-var qtype = $(".qtype").text();
-$(".response").css({
-  "background-image": `url(/static/img/{{question_type}}.jpg)`,
-  "background-size": "cover",
-  "background-repeat": "no-repeat",
-  "background-position": "center"
-})
-var csrftoken = '{{ csrf_token }}';
+    var diagnosticPara = document.querySelector('.output'); //결과물html로
+    diagnosticPara.textContent = '다시 질문하려면 아이콘을 클릭하세요';
 
 
-function send_qa_to_controller(action,question, question_type){
-//form 에 q와 a를 담아 controller에 전송
+    recognition = new SpeechRecognition();
+    recognition.lang = 'ko-KR';
+    recognition.interimResults = false;
+    //recognition.continuous = false;
+    recognition.maxAlternatives = 1;
 
-var form = document.createElement("form");
-form.setAttribute("charset", "UTF-8");
-form.setAttribute("method", "Post"); // Get 또는 Post 입력
-form.setAttribute('action', action);
-form.setAttribute('target', "ctf");
+    document.getElementsByClassName("speak-icon")[0].onclick = function () {
+        recognition.start();
+        $(".speak-icon").attr("src", "/static/img/audio_color.png");
+        console.log('Ready to receive a question.');
+    }
 
-var hiddenField = document.createElement("input");
-hiddenField.setAttribute("type", "hidden");
-hiddenField.setAttribute("name", "question");
-hiddenField.setAttribute("value", question);
-form.appendChild(hiddenField);
+    recognition.onresult = function (event) {
+        var speechResult = event.results[0][0].transcript.toLowerCase();
+        console.log('transcript', speechResult);
+        diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
+        console.log('end');
+        $(".speak-icon").attr("src", "/static/img/audio_black.png");
+        //input_Text(speechResult)
+        //document.getElementById('frm').submit()
+        send_result("{%url 'result'%}", speechResult)
+    }
 
-hiddenField = document.createElement("input");
-hiddenField.setAttribute("type", "hidden");
-hiddenField.setAttribute("name", "question_type");
-hiddenField.setAttribute("value", question_type);
-form.appendChild(hiddenField);
+    recognition.onspeechend = function () {
+        recognition.stop();
+        console.log('rec stop');
+    }
 
-hiddenField = document.createElement("input");
-hiddenField.setAttribute("type", "hidden");
-hiddenField.setAttribute("name", "csrfmiddlewaretoken");
-hiddenField.setAttribute("value", csrftoken);
-form.appendChild(hiddenField);
+    window.onload = function () {
+        send_qa_to_controller("{%url 'controller'%}", "{{question}}", "{{question_type}}")
+    }
 
-document.body.appendChild(form);
-form.submit();
-}
+    var qtype = $(".qtype").text();
+    $(".response").css({
+        "background-image": `url(/static/img/{{question_type}}.jpg)`,
+        "background-size": "cover",
+        "background-repeat": "no-repeat",
+        "background-position": "center"
+    })
+    var csrftoken = '{{ csrf_token }}';
 
-function send_result(action, question){
-var form = document.createElement("form");
-form.setAttribute("charset", "UTF-8");
-form.setAttribute("method", "Post"); // Get 또는 Post 입력
-form.setAttribute('action', action);
 
-hiddenField = document.createElement("input");
-hiddenField.setAttribute("type", "hidden");
-hiddenField.setAttribute("name", "csrfmiddlewaretoken");
-hiddenField.setAttribute("value", csrftoken);
-form.appendChild(hiddenField);
+    function send_qa_to_controller(action, question, question_type) {
+        //form 에 q와 a를 담아 controller에 전송
 
-var hiddenField = document.createElement("input");
-hiddenField.setAttribute("type", "hidden");
-hiddenField.setAttribute("name", "question");
-hiddenField.setAttribute("value", question);
-form.appendChild(hiddenField);
+        var form = document.createElement("form");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Post"); // Get 또는 Post 입력
+        form.setAttribute('action', action);
+        form.setAttribute('target', "ctf");
 
-document.body.appendChild(form);
-form.submit();
-}
-$(".output-page > #clear-btn").click(function() {
-    console.log("clicked")
-    $(this).parent().css("display", "none");
-})
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "question");
+        hiddenField.setAttribute("value", question);
+        form.appendChild(hiddenField);
+
+        hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "question_type");
+        hiddenField.setAttribute("value", question_type);
+        form.appendChild(hiddenField);
+
+        hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "csrfmiddlewaretoken");
+        hiddenField.setAttribute("value", csrftoken);
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function send_result(action, question) {
+        var form = document.createElement("form");
+        form.setAttribute("charset", "UTF-8");
+        form.setAttribute("method", "Post"); // Get 또는 Post 입력
+        form.setAttribute('action', action);
+
+        hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "csrfmiddlewaretoken");
+        hiddenField.setAttribute("value", csrftoken);
+        form.appendChild(hiddenField);
+
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "question");
+        hiddenField.setAttribute("value", question);
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    $(".output-page > #clear-btn").click(function () {
+        console.log("clicked")
+        $(this).parent().css("display", "none");
+    })
 </script>
 {% endblock %}
