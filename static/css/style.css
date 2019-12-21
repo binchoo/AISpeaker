@@ -1,0 +1,15 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Titillium Web', 'Nanum Gothic', sans-serif;
+  text-align: center;
+}
+
+h1 {
+  margin: 4%;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 4em;
+}
