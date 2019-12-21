@@ -12,6 +12,7 @@ class AppFactory():
         'ozon' : 'OzonApplication',
         'finedust' : 'FineDustApplication',
         'none' : 'NoneApplication',
+        'todaybible' : 'TodayBibleApplication'
     }
 
     @staticmethod

@@ -3,30 +3,30 @@ import requests
 execute(self, question) 인터페이스를 준수하는 앱 모음
 '''
 class Application :
-
+    sub_url = ''
     app_url = 'http://127.0.0.1:8000/'
+
+    def __init__(self) :
+        self.app_url += self.sub_url
     
     def execute(self, question) :
         response = requests.get(self.app_url, {'question' : question})
         return response
 
-class StockApplication(Application) :
-    app_url = 'http://127.0.0.1:8000/chart'
-
 class WeatherApplication(Application) :
     app_url = 'http://127.0.0.1:8000/weather'
 
 class TemperatureApplication(WeatherApplication) :
-    app_url = 'http://127.0.0.1:8000/weather/temperature'
+    sub_url = '/temperature'
 
 class FineDustApplication(WeatherApplication) :
-    app_url = 'http://127.0.0.1:8000/weather/finedust'
+    sub_url = '/finedust'
 
 class RainApplication(WeatherApplication) :
-    app_url = 'http://127.0.0.1:8000/weather/rain'
+    sub_url = '/rain'
     
 class OzonApplication(WeatherApplication) :
-    app_url = 'http://127.0.0.1:8000/weather/ozon'
+    sub_url = '/ozon'
 
 class NewsApplication(Application) :
 
@@ -36,8 +36,14 @@ class NewsApplication(Application) :
         response = requests.get(self.app_url)
         return response
 
+class StockApplication(Application) :
+    app_url = 'http://127.0.0.1:8000/chart'
+
 class BibleApplication(Application) :
     app_url = 'http://127.0.0.1:8000/bible'
+
+class TodayBibleApplication(BibleApplication) :
+    sub_url = '/today'
 
 from django.http import HttpResponse
 class NoneApplication(Application) :
