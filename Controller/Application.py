@@ -38,3 +38,8 @@ class NewsApplication(Application) :
 
 class BibleApplication(Application) :
     app_url = 'http://127.0.0.1:8000/bible'
+
+from django.http import HttpResponse
+class NoneApplication(Application) :
+    def execute(self, question) :
+        return HttpResponse("Oops, I don't understand.")

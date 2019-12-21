@@ -10,7 +10,8 @@ class AppFactory():
         'temperature' : 'TemperatureApplication',
         'rain' : 'RainApplication',
         'ozon' : 'OzonApplication',
-        'finedust' : 'FineDustApplication'
+        'finedust' : 'FineDustApplication',
+        'none' : 'NoneApplication',
     }
 
     @staticmethod

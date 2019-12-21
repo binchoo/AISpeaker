@@ -50,5 +50,5 @@ def controller(request):
 def result(request):
     question = request.POST["question"]
     print(question)
-    response = Controller(type='rnn', upgrade=True).propagate(question)
+    response = Controller(type='regex', upgrade=True).propagate(question)
     return HttpResponse(response)

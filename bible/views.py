@@ -3,49 +3,48 @@ import os
 # Create your views here.
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from django.http import HttpResponse, JsonResponse
 import re
 from google.cloud import texttospeech
 from . db import BibleDataGetter
 import urllib3
 import json
 from ast import literal_eval
+
+bdg = BibleDataGetter()
 # Create your views here.
-def getBibleData(request) :
-    question = request.GET['question']
-    bdg = BibleDataGetter()
-    
+def getBibleData(question) :
     book, chap, verse, get_para = bdg.recogBiblePosition(question)
     if get_para :
-        title, content = bdg.getBibleParagraph(book, chap, verse)
+        title, contents = bdg.getBibleParagraph(book, chap, verse)
     else :
-        title, content = bdg.getBibleVerse(book, chap[0], verse[0])
-    print(title, content)
-    return title, content
-
-def clean_text(text):
-    text = re.sub("[\r\n]", "", text)
-    return text
+        title, contents = bdg.getBibleVerse(book, chap[0], verse[0])
+    return title, contents
 
 def todayBible(request) :
     today = get_today_bible()
     bdg = BibleDataGetter()
     book, chap, verse, get_para = bdg.recogBiblePosition(today)
     if get_para :
-        title, content = bdg.getBibleParagraph(book, chap, verse)
+        _, content = bdg.getBibleParagraph(book, chap, verse)
     else :
-        title, content = bdg.getBibleVerse(book, chap[0], verse[0])
+        _, content = bdg.getBibleVerse(book, chap[0], verse[0])
     #{"index": index, "contents": contents,"simple": today_simple,"all": all_contents}
     return render(request, 'todayBible.html', {"content": content })
 
-
 def bible(request):
-    question = request.GET['question']
-
-    #title_name = Dict[result]
-    #jang = Jang.objects.get(title=title_name)
-    try:
-        title,contents = getBibleData(request)
-        return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
+    question = request.GET['question'] 
+    try :
+        itertrue = request.GET['iter']
+    except :
+        itertrue = 'false'
+    try :
+        if itertrue == 'false' :
+            title, contents = getBibleData(question)
+            return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
+        else :
+            contents = bdg.next()
+            return JsonResponse({'contents': contents})
     except:
         return render(request, 'notfound.html')
 

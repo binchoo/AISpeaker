@@ -2,7 +2,36 @@ from . models import KlvBible, BibleBooksKlv, KlvOutline
 from django.db import connections
 import re
 
-class BibleDataGetter :
+class Iterator() :
+
+    def __init__(self) :
+        self.iterable = False
+        self.hasnext = True
+
+    def _set_iterable(self, iterable) :
+        self.iterable = iterable
+
+    def iterate(self) :
+        pass
+
+class BibleDataGetter(Iterator) :        
+
+    def _set_iterable(self, start, batch) :
+        super()._set_iterable(True)
+        self.current_verse = start
+        self.iter_batch = batch
+
+    def next(self) :
+        if(self.iterable) :
+            start = self.current_verse
+            end = start + self.iter_batch - 1
+            data = ""
+            for row in KlvBible.objects.filter(id__gte=start, id__lte=end) :
+                data += row.data + " "
+            self.current_verse = end + 1
+            return data
+        else :
+            raise NotImplementedError
 
     bookRegex = re.compile(r"(창세기|출애굽기|레위기|민수기|신명기|여호수아|사사기|룻기|사무엘상|사무엘하|열왕기상|열왕기하|역대상|역대하|에스라|느헤미야|에스더|욥기|시편|잠언|전도서|아가|이사야|예레미야|예레미야 애가|에스겔|다니엘|호세아|요엘|아모스|오바댜|요나|미가|나훔|하박국|스바냐|학개|스가랴|말라기|마태복음|마가복음|누가복음|요한복음|사도행전|로마서|고린도전서|고린도후서|갈라디아서|에베소서|빌립보서|골로새서|데살로니가전서|데살로니가후서|디모데전서|디모데후서|디도서|빌레몬서|히브리서|야고보서|베드로전서|베드로후서|요한1서|요한2서|요한3서|유다서|요한계시록)")
     chapterRegex = re.compile(r"\d+장")
@@ -49,6 +78,7 @@ class BibleDataGetter :
 
     def _getBibleVerse(self, book, chap, verse) :
         verse = KlvBible.objects.get(book__exact=book, chapter=chap, verse=verse)
+        self._set_iterable(start=verse.id + 1, batch=4)
         return verse
 
     def getBibleVerse(self, kortitle, chap, verse) :
@@ -57,31 +87,21 @@ class BibleDataGetter :
         return title, self._getBibleVerse(book, chap, verse).data
 
     def getBibleParagraph(self, kortitle, chap, verse) :
-        # verse_id_query = "SELECT b.id FROM klv_bible AS b INNER JOIN bible_books_klv AS book ON b.book=book.book WHERE book.korean='{}' AND b.chapter={} AND b.verse={}"
-        # paragraph_query = "SELECT * FROM klv_outline WHERE start_id <= {} AND end_id >= {}"
-
-        # cursor = connections[KlvBible._meta.app_label].cursor()
-
-        # cursor.execute(verse_id_query.format(kortitle, chap, verse))
-        # verse_id = cursor.fetchone()[0]
-
-        # cursor.execute(paragraph_query.format(verse_id, verse_id))
-        # _, title, start, end = cursor.fetchone()
         verses = KlvBible.objects
+        next_row_id = 0
         data = str()
-
         if len(chap) == 1 :
             book = self._book_from_kortitle(kortitle).book
-            #verse_id = self._getBibleVerse(book, chap[0], verse[0]).id
-            #paragraph = KlvOutline.objects.get(start_id__lte=verse_id, end_id__gte=verse_id)
             if chap[0] == str(0):
                 title = "{}".format(kortitle)
                 for row in verses.filter(book=book) :
                     data += row.data + " "
+                    next_row_id = row.id + 1
             else :
                 title = "{} {}장".format(kortitle, chap[0])
                 for row in verses.filter(book=book, chapter=chap[0]) :
                     data += row.data + " "
+                    next_row_id = row.id + 1
 
         elif len(chap) == 2 :
             if len(verse) == 1 :
@@ -90,6 +110,7 @@ class BibleDataGetter :
                 book = self._book_from_kortitle(kortitle).book
                 for row in verses.filter(book=book, chapter__gte=chap[0], chapter__lte=chap[1]) :
                     data += row.data + " "
+                    next_row_id = row.id + 1
             else:
                 title = "{} {}장 {}절 - {}장 {}절".format(kortitle, chap[0], verse[0], chap[1], verse[1])
                 book = self._book_from_kortitle(kortitle).book
@@ -97,4 +118,7 @@ class BibleDataGetter :
                 verse_id_1 = self._getBibleVerse(book, chap[1], verse[1]).id
                 for row in verses.filter(id__gte=verse_id_0, id__lte=verse_id_1) :
                     data += row.data + " "
+                    next_row_id = row.id + 1
+
+        self._set_iterable(start=next_row_id, batch=4)
         return title, data
