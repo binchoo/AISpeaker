@@ -19,7 +19,7 @@ class RegexClassifier_V2(Decorator) :
 
         if base_q_type == 'weather' :
             regex_dict = { 
-                'uv' : re.compile(r'오존'),
+                'ozon' : re.compile(r'오존'),
                 'finedust': re.compile(r'미세먼지'), 
                 'rain' : re.compile(r'비|눈|우산'),
                 'temperature' : re.compile(r'기온|온도'),
@@ -30,17 +30,5 @@ class RegexClassifier_V2(Decorator) :
                     return sub_type
         return base_q_type
 
-class RNNClassifier_V2(Decorator) :
-    def _classify(self, question, base_q_type) :
-        if base_q_type == 'weather' :
-            regex_dict = { 
-                'uv' : re.compile(r'오존'),
-                'finedust': re.compile(r'미세먼지'), 
-                'rain' : re.compile(r'비|눈|우산'),
-                'temperature' : re.compile(r'기온|온도'),
-            }
-            for sub_type in regex_dict : 
-                regex = regex_dict[sub_type]
-                if regex.search(question) != None :
-                    return sub_type
-        return base_q_type
+class RNNClassifier_V2(RegexClassifier_V2) :
+    pass
