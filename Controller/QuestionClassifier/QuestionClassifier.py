@@ -25,7 +25,7 @@ class QuestionClassifier:
 
 
 class RNNClassifier(IClassifier):
-    def classify(self, question):
+    def classify(self, question): 
         return question_classifier.getFinalResult(question)
 
 class RegexClassifier(IClassifier):
