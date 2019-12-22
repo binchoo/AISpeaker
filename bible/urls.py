@@ -6,4 +6,5 @@ urlpatterns = [
     path('', views.bible, name='bible'),
     path('today', views.todayBible, name='todayBible'),
     path('qa', views.qa, name='qa'),
+    path('more', views.more, name='more'),
 ]

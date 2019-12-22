@@ -32,20 +32,16 @@ def todayBible(request) :
     #{"index": index, "contents": contents,"simple": today_simple,"all": all_contents}
     return render(request, 'todayBible.html', {"content": content })
 
+def more(request) :
+    contents = bdg.next()
+    return JsonResponse({'contents': contents})
+
 def bible(request):
-    question = request.GET['question'] 
     try :
-        itertrue = request.GET['iter']
+        question = request.GET['question']
+        title, contents = getBibleData(question)
+        return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
     except :
-        itertrue = 'false'
-    try :
-        if itertrue == 'false' :
-            title, contents = getBibleData(question)
-            return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
-        else :
-            contents = bdg.next()
-            return JsonResponse({'contents': contents})
-    except:
         return render(request, 'notfound.html')
 
 #생명의 삶 창세기 몇장 몇절 에서 몇장 몇절까지

@@ -1,7 +1,7 @@
 from QuestionClassifier.QuestionClassifier import QuestionClassifier
 from .AppExecutor import AppExecutor
 
-class Controller:  
+class Forwarder:  
 
     def __init__(self, **kwargs) :
         '''

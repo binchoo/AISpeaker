@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from . import question_classifier
-from Controller.Controller import Controller
+from Forwarder.Forwarder import Forwarder
 from django.http import HttpResponse, JsonResponse
 # Create your views here.
 
