@@ -157,6 +157,7 @@ div {
 }
 
 .control-icon {
+  height: 48px;
   width: 48px;
   position: absolute;
   filter: drop-shadow(1px 1px 5px rgba(213, 92, 90, 0.75));
@@ -170,6 +171,21 @@ div {
 .control-icon:nth-of-type(2) {
   bottom: -10vh;
   right: 2vh;
+}
+
+.play {
+  background-image: url("../img/round_play_circle_outline_white_48dp.png");
+  background-size: cover;
+}
+
+.pause {
+  background-image: url("../img/round_pause_circle_outline_white_48dp.png");
+  background-size: cover;
+}
+
+.restart {
+  background-image: url("../img/round_loop_white_48dp.png");
+  background-size: cover;
 }
 
 .animation-dom {
