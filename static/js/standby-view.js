@@ -86,16 +86,16 @@ class StandbyView {
   switchPlayAndPause(arg) {
     if (arg.show) {
       this.playAndPause
-        .removeCalss("play")
-        .addClass("pause")
+        .removeClass("pause")
+        .addClass("play")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");
       }, 210);
     } else {
       this.playAndPause
-        .removeCalss("pause")
-        .addClass("play")
+        .removeClass("play")
+        .addClass("pause")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");

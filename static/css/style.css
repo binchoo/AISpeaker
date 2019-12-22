@@ -230,6 +230,7 @@ div {
 
 #overlay-modal .control-icon {
   width: 32px;
+  height: 32px;
   filter: drop-shadow(1px 1px 3px rgba(213, 92, 90, 0.75));
 }
 
@@ -245,7 +246,7 @@ div {
 
 #msgbox {
   display: block;
-  width: 600px;
+  width: 95%;
   height: 75vh;
   margin: -35px auto 0;
   border: 5px solid rgb(250, 242, 232);
