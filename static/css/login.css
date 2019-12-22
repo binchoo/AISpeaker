@@ -1,0 +1,38 @@
+h1 {
+  margin-top: 8%;
+  margin-bottom: 4%;
+}
+
+input[name="username"], input[name="password"], input[name="password2"] {
+  width: 240px;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+input[name="username"]:focus, input[name="password"]:focus, input[name="password2"]:focus {
+  outline: none;
+  border: 1.5px solid cornflowerblue;
+  border-radius: 3px;
+}
+
+label {
+  position: relative;
+  left: -75px;
+  top: 40px;
+}
+
+#confirmpassword {
+  left: -50px;
+}
+
+.link {
+  color: #333;
+  padding: 0 8px;
+}
+.link:hover {
+  color: #333;
+  text-shadow: 0 0 2px rgba(0,0,0, 0.3);
+}

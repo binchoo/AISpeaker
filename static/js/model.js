@@ -113,8 +113,9 @@ class Model {
       this.controller.sendQuestion(text);
       console.log("get text from stt : " + text);
     } else {
-      this.question = text;
-      this.controller.sendAdditionalQuestion(this.answer, text);
+      this.question = text; //질문
+      var contesnts = $(this.answer).find("div > cont").text();;  // 질문 대상 단락
+      this.controller.sendAdditionalQuestion(text, this.answer);
       console.log("get text from stt + Q : " + text);
     }
   }
