@@ -41,7 +41,7 @@ class Model {
           {
             name: "play-and-pause",
             modified: false,
-            arg: { show: true }
+            arg: { show: false }
           },
           {
             name: "reset",
@@ -111,13 +111,17 @@ class Model {
     if (this.thisView == "standby-view") {
       this.question = text;
       this.controller.sendQuestion(text);
-      console.log("get text from stt : " + text);
     } else {
       this.question = text; //질문
-      var contents = $('<div>'+this.answer+'</div>').find('p.cont').text()  // 질문 대상 단락
-      this.controller.sendAdditionalQuestion(text, contents);
-      console.log("get text from stt + Q : " + text);
+      let contesnts = this.dataCleansing(this.answer, '<p class="cont">');
+      this.controller.sendAdditionalQuestion(text, contesnts);
     }
+  }
+
+  dataCleansing(htmlText, tag) {
+    let start = htmlText.indexOf(tag, 0) + tag.length;
+    let end = htmlText.indexOf(tag, start);
+    return htmlText.substring(start, end);
   }
 
   updateSpeechAnimation() {

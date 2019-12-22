@@ -12,7 +12,7 @@
     <!-- <img src={% static "/img/audio_black.png" %} class="speak-icon"><br />
     <p class="output">diagnostic messages</p> -->
     <div class="ctrl-btn" hidden>
-      <button id="iframe-play-read" onclick="speak()" class="click"></button>
+      <button id="iframe-play-reading" onclick="speak()"></button>
       <button id="iframe-pause-reading" onclick="pause()"></button>
     </div>
     <h2>{{title}}</h2>
@@ -38,7 +38,7 @@
       };
 
       window.onload = function() {
-        document.querySelector("#iframe-play-read").click();
+        document.querySelector("#iframe-play-reading").click();
       };
 
       //   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;

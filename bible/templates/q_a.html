@@ -5,12 +5,23 @@
     </head>
 <body class="qna-section">
     <section>
-        <h1 class="qna-header">{{question}}</h1>
-        <div class="ans-wrapper">
-            <button onclick="speak()" class="click" >다시듣기/멈춤</button>
-            <h2 class="ans">{{answer}}</h2>
-        </div>
-    <a href="javascript:history.back()" class="btn btn-primary">뒤로가기</a>
+      <h1 class="qna-header">{{question}}</h1>
+      <div class="ans-wrapper">
+        <button
+          id="iframe-play-reading"
+          onclick="speak()"
+          class="click"
+          hidden
+        ></button>
+        <button
+          id="iframe-pause-reading"
+          onclick="pause()"
+          class="click"
+          hidden
+        ></button>
+        <h2 class="ans">{{answer}}</h2>
+      </div>
+      <!-- <a href="javascript:history.back()" class="btn btn-primary">뒤로가기</a> -->
     </section>
 <script>
     

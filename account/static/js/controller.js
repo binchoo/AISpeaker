@@ -52,8 +52,8 @@ class Controller {
   OverlayView_PlayAndPhuse() {
     let isPause = model.getModelData("overlay-view", 1).show;
     model.changeViewModel([{ view: "overlay-view", argc: 1, argv: !isPause }]);
-    if (!isPause) ttsManager.pauseTTS();
-    else ttsManager.startTTS(model.getPreviousMessage());
+    if (!isPause) ttsManager.pauseReading();
+    else ttsManager.startReading();
   }
   OverlayView_ResetSpeach() {
     model.changeViewModel([

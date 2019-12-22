@@ -17,11 +17,9 @@ class STTManger {
     this.recognitionAdapter.stop();
   }
   getText(result) {
-    console.log("get Text : " + result);
     model.getText(result);
   }
   update() {
-    console.log("updte");
     this.model.updateSpeechAnimation();
   }
 }
@@ -56,7 +54,6 @@ class STTAdapter {
     sttManager.update();
   }
   end(result) {
-    console.log("mic end " + result);
     this.sttManager.getText(result);
   }
 }
@@ -109,10 +106,8 @@ class SpeechRecognition {
     };
     this.recognition.onspeechend = () => {
       recognition.stop();
-      console.log("rec stop");
     };
     this.recognition.onend = event => {
-      console.log(event);
       this.adapter.update();
     };
   }
