@@ -117,7 +117,7 @@ class OverlayView {
 
     if (arg.update) {
       console.log("update");
-      this.mailBox.get(0).contentDocument.open();
+      this.mailBox.get(0).contentWindow.document.open();
       this.mailBox.get(0).contentDocument.write(arg.data);
       arg.update = false;
     } else {
