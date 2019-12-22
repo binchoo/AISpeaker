@@ -77,20 +77,14 @@ class OverlayView {
   switchPlayAndPause(arg) {
     if (arg.show) {
       this.playAndPause
-        .attr(
-          "src",
-          '{% static "img/round_play_circle_outline_white_48dp.png" %}'
-        )
+        .attr("src", "../img/round_play_circle_outline_white_48dp.png")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");
       }, 210);
     } else {
       this.playAndPause
-        .attr(
-          "src",
-          '{% static "img/round_pause_circle_outline_white_48dp.png" %}'
-        )
+        .attr("src", "../img/round_pause_circle_outline_white_48dp.png")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");

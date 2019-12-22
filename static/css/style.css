@@ -159,6 +159,7 @@ div {
 .control-icon {
   height: 48px;
   width: 48px;
+  content: "";
   position: absolute;
   filter: drop-shadow(1px 1px 5px rgba(213, 92, 90, 0.75));
 }
@@ -174,18 +175,15 @@ div {
 }
 
 .play {
-  background-image: url("../img/round_play_circle_outline_white_48dp.png");
-  background-size: cover;
+  content: url("../img/round_play_circle_outline_white_48dp.png");
 }
 
 .pause {
-  background-image: url("../img/round_pause_circle_outline_white_48dp.png");
-  background-size: cover;
+  content: url("../img/round_pause_circle_outline_white_48dp.png");
 }
 
 .restart {
-  background-image: url("../img/round_loop_white_48dp.png");
-  background-size: cover;
+  content: url("../img/round_loop_white_48dp.png");
 }
 
 .animation-dom {
