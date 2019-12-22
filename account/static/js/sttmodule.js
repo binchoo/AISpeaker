@@ -78,7 +78,6 @@ class ChromeRecognition {
       this.recognition.stop();
     };
     this.recognition.onend = event => {
-      console.log(event);
       this.adapter.update();
     };
   }
