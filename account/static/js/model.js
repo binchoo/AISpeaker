@@ -22,7 +22,11 @@ class Model {
           {
             name: "open-mailbox",
             modified: false,
-            arg: { show: true, update: false, data: "질문을 말씀해주세요" }
+            arg: {
+              show: true,
+              update: false,
+              data: "주식, 날씨, 뉴스, 성경에 대해 물어보세요!"
+            }
           }
         ]
       },
@@ -50,7 +54,7 @@ class Model {
             arg: {
               show: false,
               update: false,
-              data: "질문을 말씀해주세요"
+              data: ""
             }
           }
         ]
@@ -136,8 +140,6 @@ class Model {
     mailbox = mailbox.data[3];
     mailbox.modified = true;
     mailbox.arg = { show: true, update: true, data: this.question };
-
-    console.log("receive data form server : " + result);
 
     this.thisView = "overlay-view";
     this.updateView();

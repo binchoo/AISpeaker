@@ -77,14 +77,16 @@ class OverlayView {
   switchPlayAndPause(arg) {
     if (arg.show) {
       this.playAndPause
-        .attr("src", "../img/round_play_circle_outline_white_48dp.png")
+        .removeCalss("play")
+        .addClass("pause")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");
       }, 210);
     } else {
       this.playAndPause
-        .attr("src", "../img/round_pause_circle_outline_white_48dp.png")
+        .removeCalss("pause")
+        .addClass("play")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");

@@ -86,14 +86,16 @@ class StandbyView {
   switchPlayAndPause(arg) {
     if (arg.show) {
       this.playAndPause
-        .attr("src", "{% static 'img/round_play_circle_outline_white_48dp.png' %}")
+        .removeClass("pause")
+        .addClass("play")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");
       }, 210);
     } else {
       this.playAndPause
-        .attr("src", "{% static 'img/round_pause_circle_outline_white_48dp.png' %}")
+        .removeClass("play")
+        .addClass("pause")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");

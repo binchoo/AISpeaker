@@ -1,6 +1,7 @@
 class OverlayView {
   constructor() {
     this.overlayView = $("#overlay-view");
+    this.mailBox = $("#overlay-view > #overlay-modal > #msgbox");
     this.speakerCircle = $("#overlay-modal > .speaker-circle");
     this.coreVoice = $(
       "#overlay-modal > .speaker-circle > #overlay-core-voice"
@@ -77,14 +78,16 @@ class OverlayView {
   switchPlayAndPause(arg) {
     if (arg.show) {
       this.playAndPause
-        .attr("src", "{% static 'img/round_play_circle_outline_white_48dp.png' %}")
+        .removeClass("pause")
+        .addClass("play")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");
       }, 210);
     } else {
       this.playAndPause
-        .attr("src", "{% static 'img/round_pause_circle_outline_white_48dp.png' %}")
+        .removeClass("play")
+        .addClass("pause")
         .addClass("press-button");
       setTimeout(() => {
         this.playAndPause.removeClass("press-button");
@@ -114,7 +117,7 @@ class OverlayView {
 
     if (arg.update) {
       console.log("update");
-      console.log(arg.data);
+      this.mailBox.get(0).contentDocument.write(arg.data);
       arg.update = false;
     } else {
       console.log("no updaye");
