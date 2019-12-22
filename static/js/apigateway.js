@@ -5,13 +5,15 @@ class APIGateway {
         this.serverUrl = "https://bquadai.asdv.cf/";
         break;
       case "localhost":
-        this.serverUrl = "127.0.0.1:8080";
+        this.serverUrl = "127.0.0.1:8000";
         break;
       default:
         this.serverUrl = undefined;
     }
   }
   objectLinker(model) {
+    this.model = model;
+
     let csrftoken = this.getCookie("csrftoken");
     $.ajaxSetup({
       beforeSend: (xhr, settings) => {
@@ -20,7 +22,6 @@ class APIGateway {
         }
       }
     });
-    this.model = model;
   }
   send(res) {
     setTimeout(() => {
@@ -93,10 +94,9 @@ class APIGateway {
   }
 
   receive(res) {
-    console.log(res);
-    console.log(res.responseText);
     this.model.receiveResult(res.responseText);
   }
+
   getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie != "") {

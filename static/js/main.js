@@ -15,7 +15,7 @@ $(document).ready(function() {
   overlay = new OverlayView();
   sttManager = new STTManger();
   ttsManager = new TTSModel();
-  apiGateway = new APIGateway("bquad");
+  apiGateway = new APIGateway("localhost");
 
   model.objectLinker(view, controller);
   controller.objectLinker(model, sttManager, ttsManager, apiGateway);
@@ -27,7 +27,7 @@ $(document).ready(function() {
   stanby.objectLinker(view);
   overlay.objectLinker(view);
 
-  //controller.ReadFirstTimeOnLoad();
+  controller.ReadFirstTimeOnLoad();
 });
 
 const siriWave = new SiriWave({

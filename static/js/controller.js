@@ -77,6 +77,10 @@ class Controller {
     this.apiGateway.sendQuestion(question);
   }
 
+  sendAdditionalQuestion(question, contents) {
+    this.apiGateway.sendAdditionalQuestion(question, contents);
+  }
+
   startRecognition() {
     this.sttManager.startListen();
   }
