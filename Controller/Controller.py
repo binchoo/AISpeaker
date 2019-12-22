@@ -1,4 +1,4 @@
-from .QuestionClassifier.QuestionClassifier import QuestionClassifier
+from QuestionClassifier.QuestionClassifier import QuestionClassifier
 from .AppExecutor import AppExecutor
 
 class Controller:  
