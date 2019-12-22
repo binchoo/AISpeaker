@@ -21,7 +21,7 @@
       };
 
       window.onload = function() {
-        document.querySelector(".click").click();
+        document.querySelector("#iframe-play-read").click();
       };
 
       var loc = document.querySelector(".loc");
@@ -139,10 +139,10 @@
     </script>
   </head>
   <body>
-    <!-- <div class="ctrl-btn">
-        <button onclick="speak()" class="click" >다시듣기</button>
-        <button onclick="pause()" >중단</button>
-    </div> -->
+    <div class="ctrl-btn" hidden>
+      <button id="iframe-play-reading" onclick="speak()"></button>
+      <button id="iframe-pause-reading" onclick="pause()"></button>
+    </div>
     <div class="weather-section">
       <img src={% static "/img/placeholder.png" %} class="icon">
       <p class="loc">{{loc}}</p>
