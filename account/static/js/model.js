@@ -114,8 +114,9 @@ class Model {
       console.log("get text from stt : " + text);
     } else {
       this.question = text; //질문
-      var contesnts = $(this.answer).find("div > cont").text();;  // 질문 대상 단락
-      this.controller.sendAdditionalQuestion(text, this.answer);
+      console.log(this.answer);
+      var contents = $('<div>'+this.answer+'</div>').find('p.cont').text()  // 질문 대상 단락
+      this.controller.sendAdditionalQuestion(text, contents);
       console.log("get text from stt + Q : " + text);
     }
   }

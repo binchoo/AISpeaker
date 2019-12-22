@@ -26,4 +26,6 @@ class TTSModel {
     this.isCanceled = true;
     this.synth.cancel();
   }
+
+  stop;
 }
