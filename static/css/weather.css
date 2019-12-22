@@ -1,0 +1,53 @@
+.icon {
+  width: 24px;
+  margin: 8px 0;
+  padding: 4px;
+  vertical-align: middle;
+  margin-left: 8%;
+}
+
+p {display: inline;}
+
+.info {margin: 5% 0;}
+
+.temp, .dust {
+  float: left;
+  box-sizing: border-box;
+  padding: 0 5%;
+  margin: 3% 0;
+}
+
+.clearfix::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.temp > p {
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin: 16px 8px;
+  color: #777;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+.blue {color: rgba(97, 167, 221); font-weight: 400;}
+.red {color: red; font-weight: 400;}
+.black {color: #333; font-weight: 400;}
+
+.currTemp {
+  color: #333;
+  font-weight: 700;
+  line-height: 40px;
+  font-size: 32px;
+}
+
+.dust {
+  word-spacing: 16px;
+  line-height: 1.4em;
+  padding: 3% 5%;
+}
+
+.weather-section {margin: 15% 0;}
