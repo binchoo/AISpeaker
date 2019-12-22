@@ -2,6 +2,18 @@
   {% load static %}
   <head>
     <link rel="stylesheet" href={% static "/css/weather.css" %}>
+  </head>
+  <body>
+    <div class="ctrl-btn" hidden>
+      <button id="iframe-play-reading" onclick="speak()"></button>
+      <button id="iframe-pause-reading" onclick="pause()"></button>
+    </div>
+    <div class="weather-section">
+      <img src={% static "/img/placeholder.png" %} class="icon">
+      <p class="loc">{{loc}}</p>
+      <div class="info clearfix">{{weatherdata}}</div>
+    </div>
+
     <script>
       audioTTS = new Audio();
       speak = function(event, b, c, d) {
@@ -137,16 +149,5 @@
       parent.appendChild(temp);
       parent.appendChild(dust);
     </script>
-  </head>
-  <body>
-    <div class="ctrl-btn" hidden>
-      <button id="iframe-play-reading" onclick="speak()"></button>
-      <button id="iframe-pause-reading" onclick="pause()"></button>
-    </div>
-    <div class="weather-section">
-      <img src={% static "/img/placeholder.png" %} class="icon">
-      <p class="loc">{{loc}}</p>
-      <div class="info clearfix">{{weatherdata}}</div>
-    </div>
   </body>
 </html>
