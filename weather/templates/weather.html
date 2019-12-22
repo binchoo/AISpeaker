@@ -2,6 +2,18 @@
   {% load static %}
   <head>
     <link rel="stylesheet" href={% static "/css/weather.css" %}>
+  </head>
+  <body>
+    <div class="ctrl-btn" hidden>
+      <button id="iframe-play-reading" onclick="speak()"></button>
+      <button id="iframe-pause-reading" onclick="pause()"></button>
+    </div>
+    <div class="weather-section">
+      <img src={% static "/img/placeholder.png" %} class="icon">
+      <p class="loc">{{loc}}</p>
+      <div class="info clearfix">{{weatherdata}}</div>
+    </div>
+
     <script>
       audioTTS = new Audio();
       speak = function(event, b, c, d) {
@@ -88,31 +100,32 @@
                 hour = "else";
               }
             }
-            icon.src = "/static/img / { hour }.png";
-            icon.style.width = "80px";
-            icon.style.padding = "8px";
-            icon.classList.add("weather-icon");
-
-            temp.appendChild(icon);
           }
-          var time = document.createElement("p");
-          time.innerHTML =
-            date.getHours() +
-            "시 현재" +
-            (weatherInfo["요약"] ? ", " + weatherInfo["요약"] : "") +
-            "<br>" +
-            "<strong class='currTemp'>" +
-            weatherInfo["현재온도"] +
-            "</strong><br>" +
-            "<span class='blue'>" +
-            weatherInfo["최소온도"] +
-            "</span> / <span class='red'>" +
-            weatherInfo["최고온도"] +
-            "</span> | <span class='black'>체감온도 " +
-            weatherInfo["체감온도"] +
-            "</span>";
-          temp.appendChild(time);
+          icon.src = `/static/img/${hour}.png`;
+          icon.style.width = "80px";
+          icon.style.padding = "8px";
+          icon.classList.add("weather-icon");
+
+          temp.appendChild(icon);
         }
+        var time = document.createElement("p");
+        time.innerHTML =
+          date.getHours() +
+          "시 현재" +
+          (weatherInfo["요약"] ? ", " + weatherInfo["요약"] : "") +
+          "<br>" +
+          "<strong class='currTemp'>" +
+          weatherInfo["현재온도"] +
+          "</strong><br>" +
+          "<span class='blue'>" +
+          weatherInfo["최소온도"] +
+          "</span> / <span class='red'>" +
+          weatherInfo["최고온도"] +
+          "</span> | <span class='black'>체감온도 " +
+          weatherInfo["체감온도"] +
+          "</span>";
+        temp.appendChild(time);
+
         if (weatherInfo["미세먼지"]) {
           var micro = document.createElement("p");
           micro.innerHTML =
@@ -127,6 +140,7 @@
             "<br>";
           dust.appendChild(micro);
         }
+
         var parent = document.querySelector(".info");
         parent.innerHTML = "";
         parent.appendChild(temp);
@@ -135,18 +149,5 @@
         document.querySelector("#iframe-play-reading").click();
       });
     </script>
-  </head>
-  <body>
-    <div class="ctrl-btn" hidden>
-      <button id="iframe-play-reading" onclick="speak()"></button>
-      <button id="iframe-pause-reading" onclick="pause()"></button>
-    </div>
-    <div class="weather-section">
-      <img src={% static "/img/placeholder.png" %} class="icon">
-      <p class="loc">{{loc}}</p>
-      <p class="cont">
-        <div class="info clearfix">{{weatherdata}}</div>
-      </p>
-    </div>
   </body>
 </html>

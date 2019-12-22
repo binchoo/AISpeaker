@@ -1,8 +1,9 @@
 <html>
-  <head>
-    {% load static %} <link rel="stylesheet" href={% static "/css/bible.css" %}>
-  </head>
-  <body class="qna-section">
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href={% static "/css/bible.css" %}>
+    </head>
+<body class="qna-section">
     <section>
       <h1 class="qna-header">{{question}}</h1>
       <div class="ans-wrapper">
@@ -22,28 +23,23 @@
       </div>
       <!-- <a href="javascript:history.back()" class="btn btn-primary">뒤로가기</a> -->
     </section>
-    <script>
-      audioTTS = new Audio();
-      var speak = function(event, b, c, d) {
-        if (!audioTTS.paused) {
-          audioTTS.pause();
-          return;
-        }
-        var contents = document.querySelector(".ans").innerText;
-        audioTTS.src = "/news/voiceaudio?textQuery=" + contents;
-        audioTTS.play();
-      };
+<script>
+    
+audioTTS = new Audio();
+speak = function (event,b,c,d) {
+    if(!audioTTS.paused){
+        audioTTS.pause()
+        return;
+    }
+    var contents = document.querySelector(".ans").innerText
+    audioTTS.src = '/news/voiceaudio?textQuery='+contents;
+    audioTTS.play()
+}
 
-      var pause = function() {
-        if (!audioTTS.paused) {
-          audioTTS.pause();
-          return;
-        }
-      };
+window.onload = function () {
+    document.querySelector(".click").click();
 
-      window.onload = function() {
-        document.querySelector(".click").click();
-      };
-    </script>
-  </body>
+}
+</script>
+</body>
 </html>

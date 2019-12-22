@@ -56,7 +56,7 @@ class APIGateway {
     } else {
       $.ajax({
         type: "POST",
-        url: "biblemore",
+        url: "bible/more",
         dataType: "json",
         data: {
           data: 3

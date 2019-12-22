@@ -113,11 +113,15 @@ class Model {
       this.controller.sendQuestion(text);
     } else {
       this.question = text; //질문
-      var contesnts = $(this.answer)
-        .find("div > cont")
-        .text(); // 질문 대상 단락
+      let contesnts = this.dataCleansing(this.answer, '<p class="cont">');
       this.controller.sendAdditionalQuestion(text, contesnts);
     }
+  }
+
+  dataCleansing(htmlText, tag) {
+    let start = htmlText.indexOf(tag, 0) + tag.length;
+    let end = htmlText.indexOf(tag, start);
+    return htmlText.substring(start, end);
   }
 
   updateSpeechAnimation() {
