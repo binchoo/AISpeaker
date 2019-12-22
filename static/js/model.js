@@ -113,8 +113,8 @@ class Model {
       this.controller.sendQuestion(text);
     } else {
       this.question = text; //질문
-      let contesnts = this.dataCleansing(this.answer, '<p class="cont">');
-      this.controller.sendAdditionalQuestion(text, contesnts);
+      var contents = $('<div>'+this.answer+'</div>').find('p.cont').text();
+      this.controller.sendAdditionalQuestion(text, contents);
     }
   }
 

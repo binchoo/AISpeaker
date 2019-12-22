@@ -3,7 +3,18 @@
 
 <head>
   <link rel="stylesheet" href={% static "/css/weather.css" %}>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+  <div class="ctrl-btn" hidden>
+    <button id="iframe-play-reading" onclick="speak()"></button>
+    <button id="iframe-pause-reading" onclick="pause()"></button>
+  </div>
+  <div class="weather-section">
+    <img src={% static "/img/placeholder.png" %} class="icon">
+    <p class="loc">{{loc}}</p>
+    <div class="info clearfix">{{weatherdata}}</div>
+  </div>
   <script>
     audioTTS = new Audio();
     speak = function (event, b, c, d) {
@@ -91,6 +102,9 @@
               hour = "else";
             }
           }
+          var contents = document.querySelector(".info").innerText
+          audioTTS.src = '/news/voiceaudio?textQuery=' + contents;
+          audioTTS.play()
         }
         icon.src = `/static/img/${hour}.png`;
         icon.style.width = "80px";
@@ -138,22 +152,21 @@
       parent.appendChild(dust);
 
       document.querySelector("#iframe-play-reading").click();
-    });
-  </script>
-</head>
+    }); </script>
+  </head>
 
-<body>
-  <div class="ctrl-btn" hidden>
-    <button id="iframe-play-reading" onclick="speak()"></button>
-    <button id="iframe-pause-reading" onclick="pause()"></button>
-  </div>
-  <div class="weather-section">
-    <img src={% static "/img/placeholder.png" %} class="icon">
-    <p class="loc">{{loc}}</p>
-    <p class="cont">
-      <div class="info clearfix">{{weatherdata}}</div>
-    </p>
-  </div>
-</body>
+  <body>
+    <div class="ctrl-btn" hidden>
+      <button id="iframe-play-reading" onclick="speak()"></button>
+      <button id="iframe-pause-reading" onclick="pause()"></button>
+    </div>
+    <div class="weather-section">
+      <img src={% static "/img/placeholder.png" %} class="icon">
+      <p class="loc">{{loc}}</p>
+      <p class="cont">
+        <div class="info clearfix">{{weatherdata}}</div>
+      </p>
+    </div>
+  </body>
 
 </html>
