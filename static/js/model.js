@@ -105,6 +105,23 @@ class Model {
     this.thisView = view;
   }
 
+  appandModelData(text) {
+    let data = this.viewModel["overlay-view"].data[3].arg.data;
+    let index = data.indexOf('</p><div onclick="next()" />') - 1;
+    data = data.substring(0, index) + " " + text + data.substring(index);
+    this.viewModel["overlay-view"].data[3].arg.data = data;
+    this.answer = data;
+    this.appendIFrame(text);
+    // this.viewModel["overlay-view"].modified = true;
+    // this.viewModel["overlay-view"].data[3].modified = true;
+    // this.viewModel["overlay-view"].data[3].arg.update = true;
+    // this.updateView();
+  }
+
+  appendIFrame(text) {
+    $("#msgbox")[0].contentWindow.appendBibleText(text);
+  }
+
   getServerError() {}
 
   getText(text) {
@@ -113,23 +130,35 @@ class Model {
       this.controller.sendQuestion(text);
     } else {
       this.question = text; //질문
-      var contents = $('<div>'+this.answer+'</div>').find('p.cont').text();
-      this.controller.sendAdditionalQuestion(text, contents);
+      let contesnts = this.dataCleansing(
+        this.answer,
+        '<p class="cont">',
+        "</p>"
+      );
+      console.log(contesnts);
+      this.controller.sendAdditionalQuestion(text, contesnts);
     }
   }
 
-  dataCleansing(htmlText, tag) {
-    let start = htmlText.indexOf(tag, 0) + tag.length;
-    let end = htmlText.indexOf(tag, start);
+  dataCleansing(htmlText, openTag, closeTag) {
+    let start = htmlText.indexOf(openTag, 0) + openTag.length;
+    let end = htmlText.indexOf(closeTag, start);
     return htmlText.substring(start, end);
   }
 
   updateSpeechAnimation() {
-    let temp = this.viewModel[this.thisView];
-    temp.modified = true;
-    temp = temp.data[0];
-    temp.modified = true;
-    temp.arg.show = false;
+    if (this.getModelData("standby-view", 0).show) {
+      let temp = this.viewModel["standby-view"];
+      temp.modified = true;
+      temp.data[0].modified = true;
+      temp.data[0].arg.show = false;
+    }
+    if (this.getModelData("overlay-view", 0).show) {
+      let temp = this.viewModel["overlay-view"];
+      temp.modified = true;
+      temp.data[0].modified = true;
+      temp.data[0].arg.show = false;
+    }
     this.updateView();
   }
   receiveResult(result) {

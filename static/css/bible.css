@@ -18,11 +18,11 @@ body {
   padding: 4%;
   letter-spacing: 2px;
   line-height: 1.8em;
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: "Nanum Gothic", sans-serif;
 }
 
 iframe {
- border: none;
+  border: none;
 }
 
 .speak-icon {
@@ -63,4 +63,13 @@ iframe {
 .ans {
   font-weight: 400;
   font-size: 16px;
+}
+
+#appendBible {
+  content: "";
+  margin: 0 auto;
+  width: 80%;
+  height: 35px;
+  opacity: 0.75;
+  background-color: #d55c5a;
 }

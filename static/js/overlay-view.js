@@ -103,6 +103,13 @@ class OverlayView {
   }
 
   toggleOverlay(arg) {
+    if (arg.update) {
+      this.mailBox.get(0).contentDocument.location.reload(true);
+      this.mailBox.get(0).onload = () => {
+        this.mailBox.get(0).contentDocument.write(arg.data);
+        arg.update = false;
+      };
+    }
     if (arg.show) {
       console.log("show overlay");
       this.showOverlayView = true;
@@ -113,15 +120,6 @@ class OverlayView {
       this.showOverlayView = false;
       this.overlayView.addClass("slide-down").removeClass("slide-up");
       this.overlayView.css({ opacity: "0", "pointer-events": "none" });
-    }
-
-    if (arg.update) {
-      console.log("update");
-      this.mailBox.get(0).contentDocument.open();
-      this.mailBox.get(0).contentDocument.write(arg.data);
-      arg.update = false;
-    } else {
-      console.log("no updaye");
     }
   }
 }

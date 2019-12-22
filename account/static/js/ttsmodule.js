@@ -28,18 +28,10 @@ class TTSModel {
   }
 
   startReading() {
-    $("#msgbox")
-      .contents()
-      .find("#iframe-play-reading")
-      .get(0)
-      .click();
+    $("#msgbox")[0].contentWindow.speak();
   }
 
   pauseReading() {
-    $("#msgbox")
-      .contents()
-      .find("#iframe-pause-reading")
-      .get(0)
-      .click();
+    $("#msgbox")[0].contentWindow.pause();
   }
 }
