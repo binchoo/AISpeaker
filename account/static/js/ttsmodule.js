@@ -27,5 +27,11 @@ class TTSModel {
     this.synth.cancel();
   }
 
-  stop;
+  startReading() {
+    console.log("Start overlay read!");
+  }
+
+  pauseReading() {
+    console.log("Pause overlay read!");
+  }
 }
