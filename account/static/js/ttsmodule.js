@@ -28,10 +28,18 @@ class TTSModel {
   }
 
   startReading() {
-    console.log("Start overlay read!");
+    $("#msgbox")
+      .contents()
+      .find("#iframe-play-reading")
+      .get(0)
+      .click();
   }
 
   pauseReading() {
-    console.log("Pause overlay read!");
+    $("#msgbox")
+      .contents()
+      .find("#iframe-pause-reading")
+      .get(0)
+      .click();
   }
 }

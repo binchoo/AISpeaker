@@ -84,10 +84,10 @@ class APIGateway {
           contents: contents
         },
         success: res => {
-          console.log(res);
+          this.receive(res);
         },
         error: res => {
-          console.log(res);
+          this.receive(res);
         }
       });
     }

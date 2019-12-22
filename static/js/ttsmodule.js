@@ -26,4 +26,20 @@ class TTSModel {
     this.isCanceled = true;
     this.synth.cancel();
   }
+
+  startReading() {
+    $("#msgbox")
+      .contents()
+      .find("#iframe-play-reading")
+      .get(0)
+      .click();
+  }
+
+  pauseReading() {
+    $("#msgbox")
+      .contents()
+      .find("#iframe-pause-reading")
+      .get(0)
+      .click();
+  }
 }
