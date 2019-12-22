@@ -7,6 +7,12 @@ class AppFactory():
         'weather' : 'WeatherApplication', 
         'stock' : 'StockApplication', 
         'bible': 'BibleApplication', 
+        'temperature' : 'TemperatureApplication',
+        'rain' : 'RainApplication',
+        'ozon' : 'OzonApplication',
+        'finedust' : 'FineDustApplication',
+        'none' : 'NoneApplication',
+        'todaybible' : 'TodayBibleApplication'
     }
 
     @staticmethod

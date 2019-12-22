@@ -1,0 +1,26 @@
+#project-name {
+  color: white;
+  text-shadow: 2px 2px 2px #444;
+  cursor: default;
+  padding-top: 10%;
+}
+
+body {
+  background-image: url(../img/bg.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+.link {
+  color: #fff;
+  padding: 8px;
+}
+.link:hover {
+  color: #fff;
+  text-shadow: 0 0 3px rgba(255,255,255, 0.7);
+}
+
+.icon {
+  width: 32px;
+}
