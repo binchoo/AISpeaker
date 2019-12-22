@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from bible import views as bible_views
 
 urlpatterns = [
     path('home',views.home, name='news_home'),
@@ -8,4 +9,5 @@ urlpatterns = [
     path('rks',views.rankings, name='rankings'),
     path('rankingRead.nhn',views.articleContent, name='articlecont'),
     path('voiceaudio',views.respondAudioFile, name='respondAudioFile'),
+    path('qa', bible_views.qa, name='news_qa')
 ]

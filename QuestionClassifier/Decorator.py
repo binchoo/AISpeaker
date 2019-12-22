@@ -13,7 +13,7 @@ class Decorator(IClassifier) :
         pass
 
 import re
-class RegexClassifier_V2(Decorator) :
+class SpecificRegexClassifier(Decorator) :
     
     def _classify(self, question, base_q_type) :
 
@@ -37,5 +37,5 @@ class RegexClassifier_V2(Decorator) :
                 return sub_type
         return base_q_type
 
-class RNNClassifier_V2(RegexClassifier_V2) :
+class SpecificRNNClassifier(SpecificRegexClassifier) :
     pass

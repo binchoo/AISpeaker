@@ -22,7 +22,7 @@ def wait(request):
 #iframe 컨트롤러 - 리시버url
 def controller(request):
     question = request.POST["question"]
-    response = Controller(type='rnn', upgrade=True).propagate(question)
+    response = Forwarder(type='rnn', upgrade=True).forward(question)
     print(response)
     return HttpResponse(response)
     # try :
@@ -50,5 +50,5 @@ def controller(request):
 def result(request):
     question = request.POST["question"]
     print(question)
-    response = Controller(type='rnn', upgrade=True).propagate(question)
+    response = Forwarder(type='rnn', upgrade=True).forward(question)
     return HttpResponse(response)

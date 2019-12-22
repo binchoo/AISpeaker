@@ -2,11 +2,11 @@
 #-*- coding: utf-8 -*-
 from speakerapp import question_classifier
 from .IClassifier import IClassifier
-from .Decorator import RNNClassifier_V2, RegexClassifier_V2
+from .Decorator import SpecificRNNClassifier, SpecificRegexClassifier
 import requests
 import re
 
-class QuestionClassifier:
+class QuestionClassifier():
 
     def setClassifier(self, _classifier):
         if _classifier == 'rnn':
@@ -16,9 +16,9 @@ class QuestionClassifier:
 
     def versionUp(self):
         if isinstance(self.classifier, RNNClassifier):
-            self.classifier = RNNClassifier_V2(self.classifier)
+            self.classifier = SpecificRNNClassifier(self.classifier)
         elif isinstance(self.classifier, RegexClassifier):
-            self.classifier = RegexClassifier_V2(self.classifier)
+            self.classifier = SpecificRegexClassifier(self.classifier)
 
     def classify(self, question):
         return self.classifier.classify(question)

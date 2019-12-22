@@ -20,7 +20,7 @@ class Forwarder:
             if kwargs['upgrade'] :
                 self._qc.versionUp()
     
-    def propagate(self, question) :
+    def forward(self, question) :
 
         q_type = self._qc.classify(question)
         print(q_type)

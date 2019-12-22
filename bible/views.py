@@ -100,8 +100,8 @@ def respondAudioFile(request):
     return response
 
 def qa(request):
-    question = request.GET['question']
-    contents = request.GET['contents']
+    question = request.POST['question']
+    contents = request.POST['contents']
     answer = get_ans_from_passage(question,contents)
     return render(request, 'q_a.html', {'question': question, 'answer': answer ,'contents': contents})
 
