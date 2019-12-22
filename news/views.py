@@ -12,7 +12,7 @@ GOOGLE_APPLICATION_CREDENTIALS = './voiceauth.json'
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'index.html')
 
 def test(request):
     with open('news/static/headline.json', 'r') as f:

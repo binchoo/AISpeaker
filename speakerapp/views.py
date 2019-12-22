@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse
 #홈화면
 def home(request):
     user = request.user
-    return render(request, 'home.html',{'user' : user})
+    return render(request, 'index.html',{'user' : user})
 
 #스피커초기 화면
 def speaker(request):
