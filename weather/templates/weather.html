@@ -1,172 +1,125 @@
 <html>
 {% load static %}
-
 <head>
-  <link rel="stylesheet" href={% static "/css/weather.css" %}>
-</head>
-
-<body>
-  <div class="ctrl-btn" hidden>
-    <button id="iframe-play-reading" onclick="speak()"></button>
-    <button id="iframe-pause-reading" onclick="pause()"></button>
-  </div>
-  <div class="weather-section">
-    <img src={% static "/img/placeholder.png" %} class="icon">
-    <p class="loc">{{loc}}</p>
-    <div class="info clearfix">{{weatherdata}}</div>
-  </div>
-  <script>
-    audioTTS = new Audio();
-    speak = function (event, b, c, d) {
-      if (!audioTTS.paused) {
-        audioTTS.pause();
-      }
-      var contents = document.querySelector(".info").innerText;
-      audioTTS.src = "/news/voiceaudio?textQuery=" + contents;
-      audioTTS.play();
-    };
-    pause = function () {
-      if (!audioTTS.paused) {
-        audioTTS.pause();
-        return;
-      }
-    };
-    $(document).ready(function () {
-      console.log("ASDASDASD");
-      var loc = document.querySelector(".loc");
-      loc.innerHTML = loc.innerHTML.substring(5, loc.innerHTML.length - 3);
-
-      var info = document.querySelector(".info").innerHTML.split(". ");
-      var weatherInfo = {};
-      var weatherIcon = {
-        해맑음: "daysunny",
-        해구름조금: "daycloud",
-        해구름많음: "daycloudy",
-        달맑음: "nightsunny",
-        달구름조금: "nightcloud",
-        달구름많음: "nightcloudy",
-        흐림: "murky",
-        번개: "thunder",
-        눈: "snow",
-        비: "rain"
-      };
-      info.forEach(function (v) {
-        if (v.includes("현재온도")) {
-          weatherInfo["현재온도"] = v.substring(6, v.length - 2);
-        } else if (v.includes("최소온도")) {
-          weatherInfo["최소온도"] = v.substring(5, v.length - 2);
-        } else if (v.includes("최고온도")) {
-          weatherInfo["최고온도"] = v.substring(5, v.length - 2);
-        } else if (v.includes("체감온도")) {
-          weatherInfo["체감온도"] = v.substring(5, v.length - 2);
-        } else if (v.includes("초미세먼지")) {
-          weatherInfo["초미세먼지"] = v.substring(7, v.length - 4);
-          console.log(v, weatherInfo["초미세먼지"]);
-        } else if (v.includes("미세먼지")) {
-          weatherInfo["미세먼지"] = v.substring(6, v.length - 4);
-        } else if (v.includes("오존지수")) {
-          weatherInfo["오존지수"] = v.substring(6, v.length - 4);
-        } else if (v.includes(",")) {
-          [weatherInfo["요약"], weatherInfo["한줄"]] = v.trim().split(", ");
-        }
-      });
-      var temp = document.createElement("div");
-      temp.classList.add("temp");
-      var dust = document.createElement("div");
-      dust.classList.add("dust");
-      if (
-        weatherInfo["현재온도"] &&
-        weatherInfo["요약"] &&
-        weatherInfo["미세먼지"]
-      ) {
-        temp.style.width = "55%";
-        dust.style.width = "45%";
-        temp.style.borderRight = "1px solid #e5e5e5";
-      }
-      var date = new Date();
-      var hour = date.getHours();
-      if (weatherInfo["현재온도"]) {
-        if (weatherInfo["요약"]) {
-          var icon = document.createElement("img");
-          hour = hour >= 6 && hour < 18 ? "해" : "달";
-          if (
-            weatherInfo["요약"] === "맑음" ||
-            weatherInfo["요약"] === "구름조금" ||
-            weatherInfo["요약"] === "구름많음"
-          ) {
-            hour = weatherIcon[hour + weatherInfo["요약"]];
-          } else {
-            if (weatherInfo["요약"]) {
-              hour = weatherIcon[weatherInfo["요약"]];
-            } else {
-              hour = "else";
+    <link rel="stylesheet" href={% static "/css/weather.css" %}>
+    <script>
+        audioTTS = new Audio();
+        speak = function (event,b,c,d) {
+            if(!audioTTS.paused){
+                audioTTS.pause();
             }
-          }
-          var contents = document.querySelector(".info").innerText
-          audioTTS.src = '/news/voiceaudio?textQuery=' + contents;
-          audioTTS.play()
+            var contents = document.querySelector(".info").innerText
+            audioTTS.src = '/news/voiceaudio?textQuery='+contents;
+            audioTTS.play()
         }
-        icon.src = `/static/img/${hour}.png`;
-        icon.style.width = "80px";
-        icon.style.padding = "8px";
-        icon.classList.add("weather-icon");
-
-        temp.appendChild(icon);
-      }
-      var time = document.createElement("p");
-      time.innerHTML =
-        date.getHours() +
-        "시 현재" +
-        (weatherInfo["요약"] ? ", " + weatherInfo["요약"] : "") +
-        "<br>" +
-        "<strong class='currTemp'>" +
-        weatherInfo["현재온도"] +
-        "</strong><br>" +
-        "<span class='blue'>" +
-        weatherInfo["최소온도"] +
-        "</span> / <span class='red'>" +
-        weatherInfo["최고온도"] +
-        "</span> | <span class='black'>체감온도 " +
-        weatherInfo["체감온도"] +
-        "</span>";
-      temp.appendChild(time);
-
-      if (weatherInfo["미세먼지"]) {
-        var micro = document.createElement("p");
-        micro.innerHTML =
-          "미세먼지 " +
-          weatherInfo["미세먼지"] +
-          "<br>" +
-          "초미세먼지 " +
-          weatherInfo["초미세먼지"] +
-          "<br>" +
-          "오존지수 " +
-          weatherInfo["오존지수"] +
-          "<br>";
-        dust.appendChild(micro);
-      }
-
-      var parent = document.querySelector(".info");
-      parent.innerHTML = "";
-      parent.appendChild(temp);
-      parent.appendChild(dust);
-
-      document.querySelector("#iframe-play-reading").click();
-    }); </script>
-  </head>
-
-  <body>
-    <div class="ctrl-btn" hidden>
-      <button id="iframe-play-reading" onclick="speak()"></button>
-      <button id="iframe-pause-reading" onclick="pause()"></button>
+        
+        pause = function () {
+            if(!audioTTS.paused){
+                audioTTS.pause()
+                return;
+            }
+        }
+        
+        window.onload = function () {
+            document.querySelector(".click").click();
+        }
+    
+        var loc = document.querySelector(".loc");
+        loc.innerHTML = loc.innerHTML.substring(5, loc.innerHTML.length-3);
+    
+        var info = document.querySelector(".info").innerHTML.split(". ");
+        var weatherInfo = {};
+        var weatherIcon = {
+            '해맑음' : 'daysunny',
+            '해구름조금' : 'daycloud',
+            '해구름많음' : 'daycloudy',
+            '달맑음' : 'nightsunny',
+            '달구름조금' : 'nightcloud',
+            '달구름많음' : 'nightcloudy',
+            '흐림' : 'murky',
+            '번개' : 'thunder',
+            '눈' : 'snow',
+            '비' : 'rain'
+        }
+        info.forEach(function(v) {
+            if(v.includes('현재온도')) {
+                weatherInfo['현재온도'] = v.substring(6, v.length-2);
+            } else if(v.includes('최소온도')) {
+                weatherInfo['최소온도'] = v.substring(5, v.length-2);
+            } else if(v.includes('최고온도')) {
+                weatherInfo['최고온도'] = v.substring(5, v.length-2);
+            } else if(v.includes('체감온도')) {
+                weatherInfo['체감온도'] = v.substring(5, v.length-2);
+            } else if(v.includes('초미세먼지')) {
+                weatherInfo['초미세먼지'] = v.substring(7, v.length-4);
+                console.log(v, weatherInfo['초미세먼지'])
+            } else if(v.includes('미세먼지')) {
+                weatherInfo['미세먼지'] = v.substring(6, v.length-4);
+            } else if(v.includes('오존지수')) {
+                weatherInfo['오존지수'] = v.substring(6, v.length-4);
+            } else if(v.includes(',')) {
+                [weatherInfo['요약'], weatherInfo['한줄']] = v.trim().split(', ');
+            }
+        })
+        var temp = document.createElement("div");
+        temp.classList.add("temp");
+        var dust = document.createElement("div");
+        dust.classList.add("dust");
+        if(weatherInfo['현재온도'] && weatherInfo['요약'] && weatherInfo['미세먼지']) {
+            temp.style.width = "55%";
+            dust.style.width = "45%";
+            temp.style.borderRight = "1px solid #e5e5e5";
+        }
+        var date = new Date;
+        var hour = date.getHours();
+        if(weatherInfo['현재온도']) {
+            if(weatherInfo['요약']) {
+                var icon = document.createElement("img");
+                hour = hour >=6 && hour <18 ? '해' : '달';
+                if(weatherInfo['요약'] === '맑음' || weatherInfo['요약'] === '구름조금' || weatherInfo['요약'] === '구름많음') {
+                    hour = weatherIcon[hour+weatherInfo['요약']];
+                }
+                else {
+                    if(weatherInfo['요약']) {
+                        hour = weatherIcon[weatherInfo['요약']];
+                    } else {
+                        hour = 'else';
+                    }
+                }
+                icon.src = `../static/img/${hour}.png`;
+                icon.style.width = "80px";
+                icon.style.padding = "8px";
+                icon.classList.add("weather-icon");
+                
+                temp.appendChild(icon);
+            }
+            var time = document.createElement("p");
+            time.innerHTML = date.getHours() + "시 현재" + (weatherInfo['요약'] ? ', ' + weatherInfo['요약'] : '') + "<br>"
+                            + "<strong class='currTemp'>" + weatherInfo['현재온도'] + "</strong><br>"
+                            + "<span class='blue'>" + weatherInfo['최소온도'] + "</span> / <span class='red'>" + weatherInfo['최고온도'] + "</span> | <span class='black'>체감온도 " + weatherInfo['체감온도'] + "</span>";
+            temp.appendChild(time);
+        }
+        if(weatherInfo['미세먼지']) {
+            var micro = document.createElement('p');
+            micro.innerHTML = "미세먼지 " + weatherInfo['미세먼지'] + "<br>"
+                            + "초미세먼지 " + weatherInfo['초미세먼지'] + "<br>"
+                            + "오존지수 " + weatherInfo['오존지수'] + "<br>";
+            dust.appendChild(micro);
+        }
+        var parent = document.querySelector(".info");
+        parent.innerHTML = "";
+        parent.appendChild(temp);
+        parent.appendChild(dust);
+    </script>
+</head>
+<body>
+    <div class="ctrl-btn">
+        <button onclick="speak()" class="click" >다시듣기</button>
+        <button onclick="pause()" >중단</button>
     </div>
     <div class="weather-section">
-      <img src={% static "/img/placeholder.png" %} class="icon">
-      <p class="loc">{{loc}}</p>
-      <p class="cont">
-        <div class="info clearfix">{{weatherdata}}</div>
-      </p>
+        <img src={% static "/img/placeholder.png" %} class="icon"><p class="loc"> {{loc}}</p>
+        <div class="info clearfix"> {{weatherdata}}</div>
     </div>
-  </body>
-
+</body>
 </html>
