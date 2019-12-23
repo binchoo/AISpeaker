@@ -49,7 +49,7 @@ def controller(request):
 ##       return render(request,'wait_or_error.html')
 
 def qc_invert(request) :
-    if qc_type = 'rnn' :
+    if qc_type == 'rnn' :
         qc_type = 'regex'
     else :
         qc_type = 'rnn'
