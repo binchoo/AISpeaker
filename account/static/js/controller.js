@@ -80,6 +80,9 @@ class Controller {
   sendAdditionalQuestion(question, contents) {
     this.apiGateway.sendAdditionalQuestion(question, contents);
   }
+  getMoreData() {
+    this.apiGateway.sendIteratorRequest();
+  }
 
   startRecognition() {
     this.sttManager.startListen();
@@ -97,5 +100,8 @@ class Controller {
   ReadFirstTimeOnLoad() {
     this.ttsManager.pauseTTS();
     this.StandbyView_PlayAndPhuse();
+  }
+  appendIFrame(text) {
+    $("#msgbox")[0].contentWindow.appendBibleText(text);
   }
 }
