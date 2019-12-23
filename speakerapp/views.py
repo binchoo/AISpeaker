@@ -50,5 +50,5 @@ def controller(request):
 def result(request):
     question = request.POST["question"]
     print(question)
-    response = Forwarder(type='rnn', upgrade=True).forward(question)
+    response = Forwarder(type='regex', upgrade=True).forward(question)
     return HttpResponse(response)
