@@ -133,3 +133,32 @@ def get_ans_from_passage(question,passage):
     data = json.loads(my_json)
     answer= str(data['return_object']['MRCInfo']['answer'])
     return answer
+
+def qa2(request):
+    question = request.GET['question']
+    contents = request.GET['contents']
+    answer = get_ans_from_passage2(question,contents)
+    return render(request, 'q_a.html', {'question': question, 'answer': answer ,'contents': contents, 'source': "DMSLab"})
+
+def get_ans_from_passage2(q,p):
+    ApiURL = "http://117.16.136.56:8000/mrc"
+    paragraph = p
+    question = q
+
+    requestJson = {
+        "argument": {
+            "paragraph": paragraph,
+            "question": question
+        }
+    }
+
+    http = urllib3.PoolManager()
+    response = http.request(
+        "POST",
+        ApiURL,
+        headers={"Content-Type": "application/json; charset=UTF-8"},
+        body=json.dumps(requestJson)
+    )
+    print("[responseCode] " + str(response.status))
+    print("[responBody]")
+    return response.data.decode('utf-8')
