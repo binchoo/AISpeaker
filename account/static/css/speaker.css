@@ -108,7 +108,7 @@ h3 > img {
   background-color: rgba(0,0,0, 0.8);
 }
 
-.output-page > div {
+.output-page > iframe {
   background-color: white;
   transition: 0.7s all;
   position: relative;
@@ -118,11 +118,10 @@ h3 > img {
   height: 84%;
   overflow: scroll;
   border-radius: 8px;
-  margin: 0 auto;
 }
 
 @media (max-width: 686px) {
-  .output-page > div {
+  .output-page > iframe {
     width: 80%;
   }
 }

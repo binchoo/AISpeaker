@@ -7,7 +7,6 @@ urlpatterns = [
     path('home',views.home, name='news_home'),
     path('hls',views.headlines, name='headlines'),
     path('rks',views.rankings, name='rankings'),
-    path('rankingRead.nhn',views.articleContent, name='articlecont'),
     path('voiceaudio',views.respondAudioFile, name='respondAudioFile'),
     path('qa', bible_views.qa, name='news_qa')
 ]
