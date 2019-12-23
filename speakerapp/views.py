@@ -4,7 +4,7 @@ from Forwarder.Forwarder import Forwarder
 from django.http import HttpResponse, JsonResponse
 # Create your views here.
 
-qc_type = 'rnn'
+global qc_type = 'rnn'
 
 #홈화면
 def home(request):
@@ -58,5 +58,10 @@ def qc_invert(request) :
 def result(request):
     question = request.POST["question"]
     print(question)
+<<<<<<< HEAD
     response = Forwarder(type='regex', upgrade=True).forward(question)
     return HttpResponse(response)
+=======
+    response = Forwarder(type=qc_type, upgrade=True).forward(question)
+    return HttpResponse(response)
+>>>>>>> 9e82bbc66931436613f6d5eff431db3829604afd
