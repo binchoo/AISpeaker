@@ -4,7 +4,7 @@ from Forwarder.Forwarder import Forwarder
 from django.http import HttpResponse, JsonResponse
 # Create your views here.
 
-global qc_type = 'rnn'
+qc_type = 'rnn'
 
 #홈화면
 def home(request):
@@ -49,6 +49,7 @@ def controller(request):
 ##       return render(request,'wait_or_error.html')
 
 def qc_invert(request) :
+    global qc_type
     if qc_type == 'rnn' :
         qc_type = 'regex'
     else :
