@@ -105,6 +105,23 @@ class Model {
     this.thisView = view;
   }
 
+  appandModelData(text) {
+    let data = this.viewModel["overlay-view"].data[3].arg.data;
+    let index = data.indexOf('</p><div onclick="next()" />') - 1;
+    data = data.substring(0, index) + " " + text + data.substring(index);
+    this.viewModel["overlay-view"].data[3].arg.data = data;
+    this.answer = data;
+    this.appendIFrame(text);
+    // this.viewModel["overlay-view"].modified = true;
+    // this.viewModel["overlay-view"].data[3].modified = true;
+    // this.viewModel["overlay-view"].data[3].arg.update = true;
+    // this.updateView();
+  }
+
+  appendIFrame(text) {
+    $("#msgbox")[0].contentWindow.appendBibleText(text);
+  }
+
   getServerError() {}
 
   getText(text) {
@@ -130,11 +147,18 @@ class Model {
   }
 
   updateSpeechAnimation() {
-    let temp = this.viewModel[this.thisView];
-    temp.modified = true;
-    temp = temp.data[0];
-    temp.modified = true;
-    temp.arg.show = false;
+    if (this.getModelData("standby-view", 0).show) {
+      let temp = this.viewModel["standby-view"];
+      temp.modified = true;
+      temp.data[0].modified = true;
+      temp.data[0].arg.show = false;
+    }
+    if (this.getModelData("overlay-view", 0).show) {
+      let temp = this.viewModel["overlay-view"];
+      temp.modified = true;
+      temp.data[0].modified = true;
+      temp.data[0].arg.show = false;
+    }
     this.updateView();
   }
   receiveResult(result) {

@@ -62,10 +62,10 @@ class APIGateway {
           data: 3
         },
         success: res => {
-          console.log(res);
+          this.model.appandModelData(res.contents);
         },
         error: res => {
-          console.log(res);
+          this.model.appandModelData(res.contents);
         }
       });
     }
