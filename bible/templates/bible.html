@@ -8,47 +8,99 @@
   </head>
 
   <body>
-    <!-- <img src={% static "/img/audio_black.png" %} class="speak-icon"><br />
-    <p class="output">diagnostic messages</p> -->
-    <div class="ctrl-btn" hidden>
-      <button id="iframe-play-reading" onclick="speak()"></button>
-      <button id="iframe-pause-reading" onclick="pause()"></button>
-    </div>
-    <h2>{{title}}</h2>
-    <p class="cont">{{contents}}</p>
-    <div id="append-bible" onclick="next()"></div>
+  <img src={% static "/img/audio_black.png" %} class="speak-icon2" width="20">dms<br />
+  <div class="ctrl-btn">
+    <button id="iframe-play-reading" onclick="speak()"></button>
+    <button id="iframe-pause-reading" onclick="pause()"></button>
+  </div>
+  <h2>{{title}}</h2>
+  <p class="cont">{{contents}} </p>
+  <div id="appendBible" onclick="next()"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-      audioTTS = new Audio();
-      var speak = function(event, b, c, d) {
-        if (!audioTTS.paused) {
-          audioTTS.pause();
-        }
-        var contents = document.querySelector(".cont").innerText;
-        audioTTS.src = "/news/voiceaudio?textQuery=" + contents;
-        audioTTS.play();
-      };
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    audioTTS = new Audio();
+    var speak = function (event, b, c, d) {
+      if (!audioTTS.paused) {
+        audioTTS.pause();
+      }
+      var contents = document.querySelector(".cont").innerText;
+      audioTTS.src = "/news/voiceaudio?textQuery=" + contents;
+      audioTTS.play();
+    };
 
-      var pause = function() {
-        if (!audioTTS.paused) {
-          audioTTS.pause();
-          return;
-        }
-      };
+    var pause = function () {
+      if (!audioTTS.paused) {
+        audioTTS.pause();
+        return;
+      }
+    };
 
-      var next = function() {
-        parent.controller.getMoreData();
-      };
+    var next = function () {
+      parent.apiGateway.sendBibleMore();
+    }
 
-      var appendBibleText = function(text) {
-        let cont = $(".cont");
-        cont.text(cont.text() + " " + text);
-      };
+    var appendBibleText = function (text) {
+      let cont = $(".cont")
+      cont.text(cont.text() + " " + text);
+    }
 
-      $(document).ready(function() {
-        document.querySelector("#iframe-play-reading").click();
-      });
-    </script>
-  </body>
+    $(document).ready(function () {
+      document.querySelector("#iframe-play-reading").click();
+    });
+
+    /*DMS BERT LOGICS*/
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+    recognition2 = new SpeechRecognition();
+    recognition2.lang = 'ko-KR';
+    recognition2.interimResults = false;
+    //recognition.continuous = false;
+    recognition2.maxAlternatives = 1;
+
+    document.getElementsByClassName("speak-icon2")[0].onclick = function () {
+      recognition2.start();
+      $(".speak-icon2").attr("src", "/static/img/audio_color.png");
+      console.log('Ready to receive a question2.');
+    }
+
+    recognition2.onresult = function (event) {
+      var speechResult = event.results[0][0].transcript.toLowerCase();
+      console.log('transcript', speechResult);
+      $(".speak-icon").attr("src", "/static/img/audio_black.png");
+      contents = document.querySelector('p.cont').innerText
+      send_qa("{%url 'qa2'%}", speechResult, contents)
+    }
+
+    recognition2.onspeechend = function () {
+      recognition2.stop();
+      console.log('rec stop');
+    }
+
+    function send_qa(action, question, contents) {
+      //form 에 q와 a를 담아 전송
+
+      var form = document.createElement("form");
+      form.setAttribute("charset", "UTF-8");
+      form.setAttribute("method", "Get"); // Get 또는 Post 입력
+      form.setAttribute('action', action);
+
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "text");
+      hiddenField.setAttribute("name", "question");
+      hiddenField.setAttribute("value", question);
+      form.appendChild(hiddenField);
+
+      hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "text");
+      hiddenField.setAttribute("name", "contents");
+      hiddenField.setAttribute("value", contents);
+      form.appendChild(hiddenField);
+
+      document.body.appendChild(form);
+      form.submit();
+      console.log("전송됨")
+    }
+  </script>
+</body>
+
 </html>
