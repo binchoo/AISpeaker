@@ -15,6 +15,7 @@
     <p class="loc">{{loc}}</p>
     <div class="info clearfix">{{weatherdata}}</div>
   </div>
+  
   <script>
     audioTTS = new Audio();
     speak = function (event, b, c, d) {
@@ -26,7 +27,6 @@
       audioTTS.play()
     }
 
-<<<<<<< HEAD
     pause = function () {
       if (!audioTTS.paused) {
         audioTTS.pause()
@@ -126,46 +126,5 @@
     parent.appendChild(dust);
   </script>
 </body>
-=======
-          temp.appendChild(icon);
-        }
-        var time = document.createElement("p");
-        time.innerHTML =
-          date.getHours() +
-          "시 현재" +
-          (weatherInfo["요약"] ? ", " + weatherInfo["요약"] : "") +
-          "<br>" +
-          "<strong class='currTemp'>" +
-          weatherInfo["현재온도"] +
-          "</strong><br>" +
-          "<span class='blue'>" +
-          weatherInfo["최소온도"] +
-          "</span> / <span class='red'>" +
-          weatherInfo["최고온도"] +
-          "</span> | <span class='black'>체감온도 " +
-          weatherInfo["체감온도"] +
-          "</span>";
-        temp.appendChild(time);
-
-        if (weatherInfo["미세먼지"]) {
-          var micro = document.createElement("p");
-          micro.innerHTML =
-            "미세먼지 " +
-            weatherInfo["미세먼지"] +
-            "<br>" +
-            "초미세먼지 " +
-            weatherInfo["초미세먼지"] +
-            "<br>" +
-            "오존지수 " +
-            weatherInfo["오존지수"] +
-            "<br>";
-          dust.appendChild(micro);
-        }
-
-        var parent = document.querySelector(".info");
-        parent.innerHTML = "";
-        parent.appendChild(temp);
-        parent.appendChild(dust);
->>>>>>> 88d7cba9f9af4f5a655cffe6566ddccaa93d1c47
 
 </html>

@@ -113,14 +113,19 @@ class Model {
       this.controller.sendQuestion(text);
     } else {
       this.question = text; //질문
-      var contents = $('<div>'+this.answer+'</div>').find('p.cont').text();
-      this.controller.sendAdditionalQuestion(text, contents);
+      let contesnts = this.dataCleansing(
+        this.answer,
+        '<p class="cont">',
+        "</p>"
+      );
+      console.log(contesnts);
+      this.controller.sendAdditionalQuestion(text, contesnts);
     }
   }
 
-  dataCleansing(htmlText, tag) {
-    let start = htmlText.indexOf(tag, 0) + tag.length;
-    let end = htmlText.indexOf(tag, start);
+  dataCleansing(htmlText, openTag, closeTag) {
+    let start = htmlText.indexOf(openTag, 0) + openTag.length;
+    let end = htmlText.indexOf(closeTag, start);
     return htmlText.substring(start, end);
   }
 
