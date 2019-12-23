@@ -14,4 +14,7 @@ urlpatterns = [
 
     #speaker/controller
     path('controller', views.controller, name='controller'),
+
+    #speaker/qc_inverter
+    path('qc_inverter', views.qc_invert, name='qc_invert'),
 ]
