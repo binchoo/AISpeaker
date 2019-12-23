@@ -131,8 +131,8 @@ class Model {
       this.question = text; //질문
       let contesnts = this.dataCleansing(
         this.answer,
-        '<p class="cont">',
-        "</p>"
+        '<div id="dic_area">',
+        "</div>"
       );
       console.log(contesnts);
       this.controller.sendAdditionalQuestion(text, contesnts);
