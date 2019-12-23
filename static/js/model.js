@@ -111,7 +111,7 @@ class Model {
     data = data.substring(0, index) + " " + text + data.substring(index);
     this.viewModel["overlay-view"].data[3].arg.data = data;
     this.answer = data;
-    this.appendData;
+    this.appendData(text);
     // this.viewModel["overlay-view"].modified = true;
     // this.viewModel["overlay-view"].data[3].modified = true;
     // this.viewModel["overlay-view"].data[3].arg.update = true;
