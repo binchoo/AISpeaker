@@ -23,11 +23,6 @@ class APIGateway {
       }
     });
   }
-  send(res) {
-    setTimeout(() => {
-      this.model.receiveResult(res);
-    }, 5);
-  }
 
   sendQuestion(question) {
     if (this.serverUrl === undefined) {
@@ -50,7 +45,7 @@ class APIGateway {
     }
   }
 
-  sendBibleMore() {
+  sendIteratorRequest() {
     if (this.serverUrl === undefined) {
       this.model.getServerError(500);
     } else {
