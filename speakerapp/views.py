@@ -54,15 +54,10 @@ def qc_invert(request) :
         qc_type = 'regex'
     else :
         qc_type = 'rnn'
-    return HttpResponse("Changed To {} Classifier.".format(qc_type))
+    return HttpResponse("Changed To {} Classifier.\n".format(qc_type))
 
 def result(request):
     question = request.POST["question"]
     print(question)
-<<<<<<< HEAD
-    response = Forwarder(type='regex', upgrade=True).forward(question)
-    return HttpResponse(response)
-=======
     response = Forwarder(type=qc_type, upgrade=True).forward(question)
     return HttpResponse(response)
->>>>>>> 9e82bbc66931436613f6d5eff431db3829604afd

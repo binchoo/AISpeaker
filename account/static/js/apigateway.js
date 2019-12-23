@@ -66,6 +66,27 @@ class APIGateway {
     }
   }
 
+  sendInvertQC() {
+    if (this.serverUrl === undefined) {
+      this.model.getServerError(500);
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "speaker/qc_inverter",
+        dataType: "json",
+        data: {
+        },
+        success: res => {
+          console.log(res.responseText);
+        },
+        error: res => {
+          console.log(res.responseText);
+        }
+      });
+    }
+  }
+
+
   sendAdditionalQuestion(question, contents) {
     if (this.serverUrl === undefined) {
       this.model.getServerError(500);
