@@ -18,6 +18,7 @@ from django.urls import path, include
 ##다른 앱들 import
 #import account.views
 import speakerapp.views
+import news.views as news_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,4 +41,6 @@ urlpatterns = [
 
     #/controller/weather/~
     path('weather/', include('weather.urls')),
+
+    path('rankingRead.nhn',news_views.articleContent, name='articlecont'),
 ]
