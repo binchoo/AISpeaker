@@ -73,10 +73,10 @@ class Model {
     this.controller = controller;
   }
 
-  changeViewModel(chages) {
-    for (const key in chages) {
-      if (chages.hasOwnProperty(key)) {
-        const element = chages[key];
+  changeViewModel(changes) {
+    for (const key in changes) {
+      if (changes.hasOwnProperty(key)) {
+        const element = changes[key];
         this.viewModel[element.view].modified = true;
         this.viewModel[element.view].data[element.argc].modified = true;
         if (element.argv !== undefined) {
