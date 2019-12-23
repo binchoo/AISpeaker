@@ -39,7 +39,7 @@ class APIGateway {
           this.receive(res);
         },
         error: res => {
-          this.receive(res);
+          if (res.status === 200) this.receive(res);
         }
       });
     }
@@ -60,7 +60,7 @@ class APIGateway {
           this.model.appandModelData(res.contents);
         },
         error: res => {
-          this.model.appandModelData(res.contents);
+          console.log(res);
         }
       });
     }
@@ -82,7 +82,7 @@ class APIGateway {
           this.receive(res);
         },
         error: res => {
-          this.receive(res);
+          if (res.status === 200) this.receive(res);
         }
       });
     }

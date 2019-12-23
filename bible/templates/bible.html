@@ -1,21 +1,36 @@
 <html>
-  <head>
-    {% load static %}
-    <!-- href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap"
+
+<head>
+  {% load static %}
+  <!-- href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap"
     rel="stylesheet" /> <link rel="stylesheet" href={% static "/css/bible.css"
     %}> -->
-    <link rel="stylesheet" href={% static "/css/bible.css" %}>
-  </head>
+  <link rel="stylesheet" href={% static "/css/bible.css" %}>
+</head>
 
+<<<<<<< HEAD
+<body>
+  <!-- <img src={% static "/img/audio_black.png" %} class="speak-icon"><br />
+    <p class="output">diagnostic messages</p> -->
+  <div class="ctrl-btn" hidden>
+=======
   <body>
   <img src={% static "/img/audio_black.png" %} class="speak-icon2" width="20">dms<br />
   <div class="ctrl-btn">
+>>>>>>> 6952fe39b034e7614bf8b1c2ce46af7574ab9330
     <button id="iframe-play-reading" onclick="speak()"></button>
     <button id="iframe-pause-reading" onclick="pause()"></button>
   </div>
   <h2>{{title}}</h2>
+<<<<<<< HEAD
+  <div id="dic_area">
+    <p class="cont">{{contents}}</p>
+  </div>
+  <div id="append-bible" onclick="next()"></div>
+=======
   <p class="cont">{{contents}} </p>
   <div id="appendBible" onclick="next()"></div>
+>>>>>>> 6952fe39b034e7614bf8b1c2ce46af7574ab9330
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
@@ -37,6 +52,15 @@
     };
 
     var next = function () {
+<<<<<<< HEAD
+      parent.controller.getMoreData();
+    };
+
+    var appendBibleText = function (text) {
+      let cont = $(".cont");
+      cont.text(cont.text() + " " + text);
+    };
+=======
       parent.apiGateway.sendBibleMore();
     }
 
@@ -44,10 +68,17 @@
       let cont = $(".cont")
       cont.text(cont.text() + " " + text);
     }
+>>>>>>> 6952fe39b034e7614bf8b1c2ce46af7574ab9330
 
     $(document).ready(function () {
       document.querySelector("#iframe-play-reading").click();
     });
+<<<<<<< HEAD
+  </script>
+</body>
+
+</html>
+=======
 
     /*DMS BERT LOGICS*/
     var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
@@ -104,3 +135,4 @@
 </body>
 
 </html>
+>>>>>>> 6952fe39b034e7614bf8b1c2ce46af7574ab9330

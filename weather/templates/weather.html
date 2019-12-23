@@ -13,9 +13,11 @@
   <div class="weather-section">
     <img src={% static "/img/placeholder.png" %} class="icon">
     <p class="loc">{{loc}}</p>
-    <p class="cont">
-      <div class="info clearfix">{{weatherdata}}</div>
-    </p>
+    <div id="dic_area">
+      <p class="cont">
+        <div class="info clearfix">{{weatherdata}}</div>
+      </p>
+    </div>
   </div>
 
   <script>
