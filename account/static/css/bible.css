@@ -73,3 +73,12 @@ iframe {
   background-color: #f9eee8;
   color: #d55c5a;
 }
+
+#append-bible {
+  content: "";
+  margin: 0 auto;
+  width: 100%;
+  height: 40px;
+  background-color: #f9eee8;
+  color: #d55c5a;
+}
