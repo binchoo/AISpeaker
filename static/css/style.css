@@ -141,7 +141,7 @@ div {
   animation: blinking 1.6s infinite linear;
 }
 
-#speaker-circle .effect-halo-runnig:nth-of-type(2) {
+.effect-halo-runnig:nth-of-type(2) {
   opacity: 0;
   animation-delay: 0.8s;
 }
