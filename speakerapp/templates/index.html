@@ -2,83 +2,70 @@
 {% csrf_token %}
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>AIKU : AI Speaker</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href={% static "css/style.css" %} />
-    <link rel="stylesheet" href={% static "/css/animation.css" %} />
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  </head>
-  <body id="main-body">
-    <div id="standby-view">
-      <div id="main-title">AIKU</div>
-      <div id="sub-title">AI Speaker</div>
-      <div id="speaker-section">
-        <div class="speaker-circle">
-          <span class="effect-halo effect-halo-blink"></span>
-          <span class="effect-halo effect-halo-blink"></span>
-          <span class="core-voice" id="standby-core-voice">
-            <img
-              class="core-btn-img fade-in"
-              id="standby-core-img"
-              src={% static "img/cupcake.png" %}
-            />
-          </span>
-          <div class="icon-section">
-            <img
-              class="control-icon animation-dom play"
-            />
-            <img
-              class="control-icon animation-dom restart"
-            />
-          </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>AIKU : AI Speaker</title>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href={% static "css/style.css" %} />
+  <link rel="stylesheet" href={% static "/css/animation.css" %} />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body id="main-body">
+  <div id="standby-view">
+    <div id="main-title">AIKU</div>
+    <div id="sub-title">AI Speaker</div>
+    <div id="speaker-section">
+      <div class="speaker-circle">
+        <span class="effect-halo effect-halo-blink"></span>
+        <span class="effect-halo effect-halo-blink"></span>
+        <span class="core-voice" id="standby-core-voice">
+          <img class="core-btn-img fade-in" id="standby-core-img" src={% static "img/cupcake.png" %} />
+        </span>
+        <div class="icon-section">
+          <img class="control-icon animation-dom play" />
+          <img class="control-icon animation-dom restart" />
         </div>
-        <div id="siri-wave"></div>
       </div>
-      <div id="result-mailbox">
-        <img src={% static "/img/round_mail_black_48dp.png" %} class="msg-icon" />
-        &nbsp;
-        <p>주식, 날씨, 뉴스, 성경에 대해 물어보세요!</p>
-      </div>
+      <div id="siri-wave"></div>
     </div>
-    <div id="overlay-view">
-      <div id="overlay-modal">
-        <div class="speaker-circle">
-          <span class="effect-halo effect-halo-blink"></span>
-          <span class="effect-halo effect-halo-blink"></span>
-          <span class="core-voice" id="overlay-core-voice">
-            <img class="core-btn-img" src={% static "/img/cupcake.png" %}/>
-          </span>
-          <div class="icon-section">
-            <img
-              class="control-icon animation-dom pause"
-            />
-            <img
-              class="control-icon animation-dom restart"
-            />
-          </div>
+    <div id="result-mailbox">
+      <img src={% static "/img/round_mail_black_48dp.png" %} class="msg-icon" />
+      &nbsp;
+      <p>주식, 날씨, 뉴스, 성경에 대해 물어보세요!</p>
+    </div>
+  </div>
+  <div id="overlay-view">
+    <div id="overlay-modal">
+      <div class="speaker-circle">
+        <span class="effect-halo effect-halo-blink"></span>
+        <span class="effect-halo effect-halo-blink"></span>
+        <span class="core-voice" id="overlay-core-voice">
+          <img class="core-btn-img" src={% static "/img/cupcake.png" %} />
+        </span>
+        <div class="icon-section">
+          <img class="control-icon animation-dom pause" />
+          <img class="control-icon animation-dom restart" />
         </div>
-        <iframe id="msgbox"></iframe>
       </div>
+      <iframe id="msgbox"></iframe>
     </div>
-    <script src="https://unpkg.com/siriwave/dist/siriwave.min.js"></script>
-    <script src={% static "/js/siri-wave.js" %}></script>
-    <script src={% static "/js/standby-view.js" %}></script>
-    <script src={% static "/js/apigateway.js" %}></script>
-    <script src={% static "/js/controller.js" %}></script>
-    <script src={% static "/js/model.js" %}></script>
-    <script src={% static "/js/overlay-view.js" %}></script>
-    <script src={% static "/js/sttmodule.js" %}></script>
-    <script src={% static "/js/ttsmodule.js" %}></script>
-    <script src={% static "/js/view.js" %}></script>
-    <script src={% static "/js/main.js" %}></script>
-  </body>
+  </div>
+  <script src={% static "/js/siri-wave-min.js" %}></script>
+  <script src={% static "/js/standby-view.js" %}></script>
+  <script src={% static "/js/apigateway.js" %}></script>
+  <script src={% static "/js/controller.js" %}></script>
+  <script src={% static "/js/model.js" %}></script>
+  <script src={% static "/js/overlay-view.js" %}></script>
+  <script src={% static "/js/sttmodule.js" %}></script>
+  <script src={% static "/js/ttsmodule.js" %}></script>
+  <script src={% static "/js/view.js" %}></script>
+  <script src={% static "/js/main.js" %}></script>
+</body>
+
 </html>

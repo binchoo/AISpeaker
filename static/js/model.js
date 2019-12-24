@@ -77,7 +77,6 @@ class Model {
     for (const key in changes) {
       if (changes.hasOwnProperty(key)) {
         const element = changes[key];
-        this.viewModel[element.view].modified = true;
         this.viewModel[element.view].data[element.argc].modified = true;
         if (element.argv !== undefined) {
           this.viewModel[element.view].data[element.argc].arg = {
@@ -98,7 +97,22 @@ class Model {
   }
 
   updateView() {
+    this.modifiedBubbling();
     this.view.update(this.viewModel);
+  }
+
+  modifiedBubbling() {
+    for (const target in this.viewModel) {
+      if (this.viewModel.hasOwnProperty(target)) {
+        const view = this.viewModel[target];
+        for (const key in view.data) {
+          if (view.hasOwnProperty(key)) {
+            const element = view[key];
+            view.modified = view.modified || element.modified;
+          }
+        }
+      }
+    }
   }
 
   changeThisView(view) {
@@ -112,7 +126,6 @@ class Model {
     this.viewModel["overlay-view"].data[3].arg.data = data;
     this.answer = data;
     this.appendData(text);
-    // this.viewModel["overlay-view"].modified = true;
     // this.viewModel["overlay-view"].data[3].modified = true;
     // this.viewModel["overlay-view"].data[3].arg.update = true;
     // this.updateView();
@@ -147,30 +160,24 @@ class Model {
 
   updateSpeechAnimation() {
     if (this.getModelData("standby-view", 0).show) {
-      let temp = this.viewModel["standby-view"];
+      let temp = this.viewModel["standby-view"].data[0];
       temp.modified = true;
-      temp.data[0].modified = true;
       temp.data[0].arg.show = false;
     }
     if (this.getModelData("overlay-view", 0).show) {
-      let temp = this.viewModel["overlay-view"];
+      let temp = this.viewModel["overlay-view"].data[0];
       temp.modified = true;
-      temp.data[0].modified = true;
-      temp.data[0].arg.show = false;
+      temp.arg.show = false;
     }
     this.updateView();
   }
   receiveResult(result) {
     this.answer = result;
-    let overlay = this.viewModel["overlay-view"];
-    overlay.modified = true;
-    overlay = overlay.data[3];
+    let overlay = this.viewModel["overlay-view"].data[3];
     overlay.modified = true;
     overlay.arg = { show: true, update: true, data: result };
 
-    let mailbox = this.viewModel["standby-view"];
-    mailbox.modified = true;
-    mailbox = mailbox.data[3];
+    let mailbox = this.viewModel["standby-view"].data[3];
     mailbox.modified = true;
     mailbox.arg = { show: true, update: true, data: this.question };
 
