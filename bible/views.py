@@ -6,40 +6,31 @@ from bs4 import BeautifulSoup
 from django.http import HttpResponse, JsonResponse
 import re
 from google.cloud import texttospeech
-from . db import BibleDataGetter
+from . db import BibleReader
 import urllib3
 import json
 from ast import literal_eval
 
-bdg = BibleDataGetter()
+bibleReader = BibleReader()
 # Create your views here.
 def getBibleData(question) :
-    book, chap, verse, get_para = bdg.recogBiblePosition(question)
-    if get_para :
-        title, contents = bdg.getBibleParagraph(book, chap, verse)
-    else :
-        title, contents = bdg.getBibleVerse(book, chap[0], verse[0])
-    return title, contents
+    return bibleReader.search(question)
 
 def todayBible(request) :
     today = get_today_bible()
-    bdg = BibleDataGetter()
-    book, chap, verse, get_para = bdg.recogBiblePosition(today)
-    if get_para :
-        _, content = bdg.getBibleParagraph(book, chap, verse)
-    else :
-        _, content = bdg.getBibleVerse(book, chap[0], verse[0])
+    bibleReader = BibleReader()
+    _, contents = bibleReader.search(today)
     #{"index": index, "contents": contents,"simple": today_simple,"all": all_contents}
-    return render(request, 'todayBible.html', {"content": content })
+    return render(request, 'todayBible.html', {"content": contents })
 
 def more(request) :
-    contents = bdg.next()
+    contents = bibleReader.readMore()
     return JsonResponse({'contents': contents})
 
 def bible(request):
     try :
         question = request.GET['question']
-        title, contents = getBibleData(question)
+        title, contents = bibleReader.search(question)
         return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
     except :
         return render(request, 'notfound.html')
