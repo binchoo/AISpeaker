@@ -2,7 +2,7 @@
 
 ## 알림사항
 
-- 구글 음성 API의 사용권한 키가 도용되는 일로 구글 측에서 차단을 당했습니다 따라서 텍스트를 읽어주는 구글 보이스를 현재 사용할 수 없습니다
+- 구글 음성 API의 사용권한 키가 도용되는 일로 구글 측에서 차단을 당했습니다. 따라서 텍스트를 읽어주는 구글 보이스를 현재 사용할 수 없습니다
 - 
 
 ## 서비스 실행, 접속, 종료
@@ -41,8 +41,6 @@ docker service rm aispeaker
 
 - 관여자 : binchoo, sangwoo
 
-- 유스케이스 구현량 : 상
-
 - [bible]: https://github.com/binchoo/AISpeaker/tree/master/bible
 
 - Iterator, BatchIterator, BibleReader 클래스 구현함
@@ -51,34 +49,38 @@ docker service rm aispeaker
 
 - 관여자 : minseok
 
-- 유스케이스 구현량 : 상
-
-- [news]: https://github.com/binchoo/AISpeaker/tree/master/news
+- [news]: https://github.com/binchoo/AISpeaker/tree/master/news	"news폴더"
 
 ### 날씨 애플리케이션
 
 - 관여자 : mingidi
 
-- 유스케이스 구현량 : 중
+- 유스케이스 구현량이 낮음
 
-- [weather]: https://github.com/binchoo/AISpeaker/tree/master/weather
+- [weather]: https://github.com/binchoo/AISpeaker/tree/master/weather	"weather폴더"
 
 ### 주식 애플리케이션
 
 - 관여자 : binchoo
-- 유스케이스 구현량 : 하
-- [stock]: https://github.com/binchoo/AISpeaker/tree/master/stock
+
+- 유스케이스 구현량이 낮음
+
+- [stock]: https://github.com/binchoo/AISpeaker/tree/master/stock	"stock폴더"
 
 ### 명령 전달 애플리케이션
 
 - 관여자 : binchoo
-- 유스케이스 구현량 : 상
-- [Forwarder]: https://github.com/binchoo/AISpeaker/tree/master/Forwarder
+
+- [Forwarder]: https://github.com/binchoo/AISpeaker/tree/master/Forwarder	"Forwarder폴더"
+
 - Forwarder, AppFactory, AppExceutor, Application 클래스 구현함
 
 ### 명령 의도 파악기
 
 - 관여자 : sangwoo
+
 - 성능이 만족스럽지 않음
-- [QuestionClassifier]: https://github.com/binchoo/AISpeaker/tree/master/QuestionClassifier
+
+- [QuestionClassifier]: https://github.com/binchoo/AISpeaker/tree/master/QuestionClassifier	"QuestionClassifier폴더"
+
 - 학습 레이블 : q.txt / a.txt
