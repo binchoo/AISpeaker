@@ -53,7 +53,7 @@ docker service rm aispeaker
 
 ### 날씨 애플리케이션
 
-- 관여자 : binchoo, mingidi
+- 관여자 : mingidi
 
 - 유스케이스 구현량이 낮음
 
@@ -83,9 +83,9 @@ docker service rm aispeaker
 
 ### 명령 의도 파악기
 
-- 관여자 : sangwoo
+- 관여자 : binchoo, sangwoo
 
-- 성능이 만족스럽지 않음
+- 모델 성능이 만족스럽지 않음
 
 - [QuestionClassifier](https://github.com/binchoo/AISpeaker/tree/master/QuestionClassifier)
 
