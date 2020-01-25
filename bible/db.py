@@ -1,4 +1,5 @@
 from . models import KlvBible, BibleBooksKlv
+from django.db.models.manager import Manager
 from django.db import connections
 import re
 
@@ -28,7 +29,11 @@ class Iterator :
         return self
 
     def setModelObject(self, model_obj) :
-        self.model_obj = model_obj
+        if isinstance(model_obj, Manager) :
+            self.model_obj = model_obj
+        else :
+            print(type(model_obj))
+            raise ValueError('Please inject an instance of django.db.models.manager.Manager')
         return self
     
     #To Do : id가 0에서 부터 생성되는지, 1에서부터 생성되는지 확인할 것
@@ -67,14 +72,14 @@ class BatchIterator(Iterator) :
         return self
 
     def next(self) :
-        if self.batch == 1 :
-            super().next()
-        else :
-            first_id = self.cursor
-            last_id = self.cursor + self.batch - 1
-            next_one = self.model_obj.filter(id__gte=first_id, id__lte=last_id)
-            self.cursor = last_id + 1
+        first_id = self.cursor
+        last_id = self.cursor + self.batch - 1
+        next_one = self.model_obj.filter(id__gte=first_id, id__lte=last_id)
+        self.cursor = last_id + 1
         return next_one
+
+class BibleScopeError(Exception) :
+    pass
 
 class BibleReader() :
 
@@ -84,6 +89,7 @@ class BibleReader() :
         'verse': re.compile(r"\d+절"),
     }
     __seperator = re.compile(r"에서|부터")
+    __batch_lines = 4
 
     def __init__(self) :
         self.bible = BatchIterator.fromModel(KlvBible.objects)
@@ -106,74 +112,113 @@ class BibleReader() :
         else :
             return None
 
-    def _makeVerboseLabel(self, query) :
-        if query is not None :
-            label = dict()
-            for key, regex in BibleReader.__regexs.items() :
-                label[key] = self._findKeyword(regex, query)
-            return label
+    def _parseKortitleToBookId(self, kortitle) :
+        if kortitle is not None :
+            return BibleBooksKlv.objects.get(korean=kortitle).book
         else :
             return None
 
+    def _makeVerboseLabel(self, query) :
+        label = dict()
+        for key, regex in BibleReader.__regexs.items() :
+            label[key] = self._findKeyword(regex, query)
+        return label
+
     def _validateVerboseLabel(self, left, right) :
         '''
-        좌측 BCV 레이블과 우측 BCV 레이블을 유효하게 만듭니다
-        매개변수로 받은 left와 right의 내용이 변경되니 주의하세요
-        '''
+        우측 BCV 레이블 중 빈 값들을 유추합니다.
+        문맥에 맞추어 left 값을 복사합니다.
+        매개변수로 받은 right의 내용물이 변경되니 주의하세요
+        '''        
+        keys = ['book', 'chapter', 'verse']
         if right is not None :
-            for key, val in right.items() :
-                if val is None :
+            for key in keys :
+                if right[key] is None :
                     right[key] = left[key]
-        else :
-            right = left
+                else :
+                    break
 
-        for key, val in left.items() :
-            if val is None :
-                left[key] = '1 '
-
-    def _parseVerboseLabelToRowId(self, label) :
+    def _parseVerboseLabelToQuerySet(self, label) :
         '''
-        BCV 레이블이 성경 데이터베이스 상에서 몇 번째 행에 위치하는지 계산합니다
+        BCV 레이블이 의미하는 바에 맞게 성경 데이터베이스 범위를 한정합니다
         '''
-        book = BibleBooksKlv.objects.filter(book = label['book'])
-        chapter = label['chapter'][:-1]
-        verse = label['verse'][:-1]
-        row = KlvBible.objects.get(book__exact=book, chapter=chapter, verse=verse)
-        return row.id
+        book = self._parseKortitleToBookId(label['book'])
+        row = KlvBible.objects.filter(book=book)
+        if label['chapter'] is not None :
+            chapter = label['chapter'][:-1]
+            row = row.filter(chapter=chapter)
+        if label['verse'] is not None :
+            verse = label['verse'][:-1]
+            row = row.filter(verse=verse)
+        return row
 
-    def _parseVerboseLabelIntoTitle(self, left, right) :
+    def _parseVerboseLabelToTitle(self, left, right) :
         '''
         좌측 BCV 레이블과 우측 BCV 레이블이 나타내는 범위를 타이틀로 전시할 수 있는 문자열로 반환합니다
         '''
-        title = "{} {}:{}".format(left['book'], left['chapter'][:-1], left['verse'][:-1])
+        labels = []
+        for key, val in left.items() :
+            if val is None :
+                labels.append(1)
+            elif key == 'book' :
+                labels.append(val)
+            else :
+                labels.append(val[:-1])
+
+        title = "{} {}:{} ~ ".format(labels[0], labels[1], labels[2])
         if right is not None :
-            title += "~ {} {}:{}".format(right['book'], right['chapter'][:-1], right['verse'][:-1])
+            labels = []
+            for key, val in right.items() :
+                if val is None :
+                    labels.append("")
+                elif key == 'book' :
+                    labels.append(val)
+                else :
+                    labels.append(val[:-1])
+
+            title += "{} {}:{}".format(labels[0], labels[1], labels[2])
         return title
 
-    def _parseQuery(self, query) :
+    def _parseQueryToVerboseLabel(self, query) :
         left_query, right_query = self._splitQuery(query)
-        start = self._makeVerboseLabel(left_query)
-        end = self._makeVerboseLabel(right_query)
+        start, end = None, None
+        if left_query is not None :
+            start = self._makeVerboseLabel(left_query)
+        if right_query is not None :
+            end = self._makeVerboseLabel(right_query)
         self._validateVerboseLabel(start, end)
         return start, end
+    
+    def _parseQuerySetToText(self, query_set) :
+        strings = [row.data for row in query_set]
+        return "".join(strings)
 
     def search(self, query) :
         '''
         사용자 질의가 요구하는 성경의 범위를 파악하여
         해당하는 성경 텍스트를 반환합니다.
         '''
-        start, end = self._parseQuery(query)
-        print(start, end)
+        start, end = self._parseQueryToVerboseLabel(query)
+        print("Verbose : ", start, end)
 
-        title = self._parseVerboseLabelIntoTitle(start, end)
+        id_start = self._parseVerboseLabelToQuerySet(start).first().id
+        if end is None :     
+            id_end = self._parseVerboseLabelToQuerySet(start).last().id
+        else :
+            id_end = self._parseVerboseLabelToQuerySet(end).last().id
+               
+        if id_end < id_start :
+            raise BibleScopeError('your designated scope is unacceptable.')
 
-        id_start = self._parseVerboseLabelToRowId(start)
-        id_end = self._parseVerboseLabelToRowId(end)
-        assert(id_start <= id_end)
-        print(id_start, id_end)
+        batch = id_end - id_start + 1
+        query_set = self.bible.setCursor(id_start).setBatch(batch).next()
+        contents = self._parseQuerySetToText(query_set)
+        self.bible.setBatch(BibleReader.__batch_lines)
 
-        contents = self.bible.setCursor(id_start).setBatch(id_end - id_start + 1).next()
+        title = self._parseVerboseLabelToTitle(start, end)
         return title, contents
 
     def readMore(self) :
-        return self.bible.setBatch(4).next()
+        query_set = self.bible.next()
+        contents = self._parseQuerySetToText(query_set)
+        return contents
