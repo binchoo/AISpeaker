@@ -41,7 +41,7 @@ docker service rm aispeaker
 
 - 관여자 : binchoo, sangwoo
 
-- [bible]: https://github.com/binchoo/AISpeaker/tree/master/bible
+- [bible](https://github.com/binchoo/AISpeaker/tree/master/bible)
 
 - Iterator, BatchIterator, BibleReader 클래스 구현함
 
@@ -49,7 +49,7 @@ docker service rm aispeaker
 
 - 관여자 : minseok
 
-- [news]: https://github.com/binchoo/AISpeaker/tree/master/news	"news폴더"
+- [news](https://github.com/binchoo/AISpeaker/tree/master/news)
 
 ### 날씨 애플리케이션
 
@@ -57,7 +57,7 @@ docker service rm aispeaker
 
 - 유스케이스 구현량이 낮음
 
-- [weather]: https://github.com/binchoo/AISpeaker/tree/master/weather	"weather폴더"
+- [weather](https://github.com/binchoo/AISpeaker/tree/master/weather)
 
 ### 주식 애플리케이션
 
@@ -65,13 +65,13 @@ docker service rm aispeaker
 
 - 유스케이스 구현량이 낮음
 
-- [stock]: https://github.com/binchoo/AISpeaker/tree/master/stock	"stock폴더"
+- [stock](https://github.com/binchoo/AISpeaker/tree/master/stock)
 
 ### 명령 전달 애플리케이션
 
 - 관여자 : binchoo
 
-- [Forwarder]: https://github.com/binchoo/AISpeaker/tree/master/Forwarder	"Forwarder폴더"
+- [Forwarder](https://github.com/binchoo/AISpeaker/tree/master/Forwarder)
 
 - Forwarder, AppFactory, AppExceutor, Application 클래스 구현함
 
@@ -81,6 +81,12 @@ docker service rm aispeaker
 
 - 성능이 만족스럽지 않음
 
-- [QuestionClassifier]: https://github.com/binchoo/AISpeaker/tree/master/QuestionClassifier	"QuestionClassifier폴더"
+- [QuestionClassifier](https://github.com/binchoo/AISpeaker/tree/master/QuestionClassifier)
 
 - 학습 레이블 : q.txt / a.txt
+
+## 아키텍처 설명 자료
+
+[소설방 발표자료](https://drive.google.com/file/d/1oTqX2iZjI77aaep84KNxqaxkEoFCdRdW/view?usp=sharing)
+
+
