@@ -88,5 +88,6 @@ docker service rm aispeaker
 ## 아키텍처 설명 자료
 
 [소설방 발표자료](https://drive.google.com/file/d/1oTqX2iZjI77aaep84KNxqaxkEoFCdRdW/view?usp=sharing)
+[소설방 보고서](https://drive.google.com/file/d/158pfaQDcUGcCsmSnZP_jNf2ylIhf4cyi/view?usp=sharing)
 
 
