@@ -69,7 +69,7 @@ docker service rm aispeaker
 
 ### 명령 전달 애플리케이션
 
-- 관여자 : binchoo
+- 관여자 : binchoo, Lumy Kelvin
 
 - [Forwarder](https://github.com/binchoo/AISpeaker/tree/master/Forwarder)
 
