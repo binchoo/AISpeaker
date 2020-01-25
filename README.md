@@ -53,7 +53,7 @@ docker service rm aispeaker
 
 ### 날씨 애플리케이션
 
-- 관여자 : mingidi
+- 관여자 : binchoo, mingidi
 
 - 유스케이스 구현량이 낮음
 
@@ -69,7 +69,7 @@ docker service rm aispeaker
 
 ### 명령 전달 애플리케이션
 
-- 관여자 : binchoo, Lumy Kelvin
+- 관여자 : binchoo, Lumy Kelvin, mingidi
 
 - [Forwarder](https://github.com/binchoo/AISpeaker/tree/master/Forwarder)
 
