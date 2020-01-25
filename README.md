@@ -78,8 +78,8 @@ docker service rm aispeaker
 ### 클라이언트 (html,css)
 - 관여자 : Lumy Kelvin, Yewon Jeong
 - [html](https://github.com/binchoo/AISpeaker/tree/master/speakerapp/templates)
-- [js](https://github.com/binchoo/AISpeaker/tree/master/speakerapp/static/js)
-- [css](https://github.com/binchoo/AISpeaker/tree/master/speakerapp/static/css)
+- [js](https://github.com/binchoo/AISpeaker/tree/master/static/js)
+- [css](https://github.com/binchoo/AISpeaker/tree/master/static/css)
 
 ### 명령 의도 파악기
 
