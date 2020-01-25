@@ -89,6 +89,8 @@ docker service rm aispeaker
 
 - [QuestionClassifier](https://github.com/binchoo/AISpeaker/tree/master/QuestionClassifier)
 
+- [어텐션 모델](https://github.com/binchoo/AISpeaker/blob/master/speakerapp/question_classifier.py)
+
 - 학습 레이블 : q.txt / a.txt
 
 ## 아키텍처 설명 자료
