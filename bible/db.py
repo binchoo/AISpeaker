@@ -94,15 +94,16 @@ class BibleReader() :
         각각 자료의 시작과 자료의 끝 위치를 의미합니다
         '''
         left_query, right_query = self._splitQuery(query)
-        start, end = None, None
-        if left_query is not None :
-            start = self._makeVerboseLabel(left_query)
-        if right_query is not None :
+        
+        start = self._makeVerboseLabel(left_query)
+        query_is_single = (right_query is None)
+
+        if query_is_single :
+            return start, start
+        else :
             end = self._makeVerboseLabel(right_query)
-        self._validateVerboseLabel(start, end)
-        if end is None :
-            end = start
-        return start, end
+            self._validateVerboseLabel(start, end)
+            return start, end
 
     def _makeVerboseLabel(self, query) :
         '''
@@ -110,9 +111,12 @@ class BibleReader() :
         딕셔너리를 얻습니다. query는 __seperator = re.compile(r"에서|부터")를 사용하여 분할된 query여야 합니다.
         '''
         label = dict()
-        for key, regex in BibleReader.__regexs.items() :
-            label[key] = self._findKeyword(regex, query)
-        return label
+        if query is not None :
+            for key, regex in BibleReader.__regexs.items() :
+                label[key] = self._findKeyword(regex, query)
+            return label
+        else :
+            return None
 
     def _findKeyword(self, regex, query) :
         '''
@@ -128,10 +132,7 @@ class BibleReader() :
         '''
         한국어 성경이름을 O(구약)1(순서), N(신약)1(순서) 형태로 바꿉니다
         '''
-        if kortitle is not None :
-            return BibleBooksKlv.objects.get(korean=kortitle).book
-        else :
-            return None
+        return BibleBooksKlv.objects.get(korean=kortitle).book
 
     def _verboseLabelToQuerySet(self, label) :
         '''
@@ -166,8 +167,11 @@ class BibleReader() :
         지정된 데이터베이스 범위를 {} {}:{} ~ {} {}:{} 꼴로 표현합니다
         '''
         title_form = "{} {}:{}"
-        start = title_form.format(self.verbose_start['book'], self.start.chapter, self.start.verse)
-        end = title_form.format(self.verbose_end['book'], self.end.chapter, self.end.verse)
+        try :
+            start = title_form.format(self.verbose_start['book'], self.start.chapter, self.start.verse)
+            end = title_form.format(self.verbose_end['book'], self.end.chapter, self.end.verse)
+        except :
+            raise self.BibleScopeError('your designated scope is unacceptable.')
         return start + "~" + end
         
     def _makeContents(self) :
@@ -209,7 +213,7 @@ class BibleReader() :
         __batch_lines 만큼의 구절을 더 읽어들여 반환합니다
         '''
         query_set = self.bible.next()
-        contents = self._querySetToText(query_set)
+        contents = "".join([row.data for row in query_set])
         return contents
 
     class BibleScopeError(Exception) :
