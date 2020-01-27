@@ -177,7 +177,7 @@ class BibleReader() :
         title = self._verboseLabelToTitle(verbose_start, verbose_end)
         
         return title, contents
-
+    # To Do : kortitle로 조회가능하도록 자료구조를 바꾸자. 혹은 2자리 영어 book을 kortitle과 매칭하는 테이블을 메모리에 올려두자
     def readMore(self) :
         query_set = self.bible.next()
         contents = self._querySetToText(query_set)
