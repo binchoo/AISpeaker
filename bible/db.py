@@ -132,11 +132,10 @@ class BibleReader() :
             batch = self.end.id - self.start.id + 1
             query_set = self.bible.setCursor(self.start.id).setBatch(batch).next()
             contents = self._querySetToText(query_set)
+            self.bible.setBatch(BibleReader.__batch_lines)
+            return contents
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
-        finally :
-            self.bible.setBatch(BibleReader.__batch_lines)
-        return contents
 
     def _makeVerboseLabel(self, query) :
         label = dict()
