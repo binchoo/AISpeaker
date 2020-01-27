@@ -134,6 +134,9 @@ class BibleReader() :
         '''
         return BibleBooksKlv.objects.get(korean=kortitle).book
 
+    def _bookIdToKortitle(self, book_id) :
+        return BibleBooksKlv.objects.get(book=book_id).korean
+
     def _verboseLabelToQuerySet(self, label) :
         '''
         레이블이 의미하는 대로 데이터베이스 조회 범위를 한정합니다
@@ -168,8 +171,8 @@ class BibleReader() :
         '''
         title_form = "{} {}:{}"
         try :
-            start = title_form.format(self.verbose_start['book'], self.start.chapter, self.start.verse)
-            end = title_form.format(self.verbose_end['book'], self.end.chapter, self.end.verse)
+            start = title_form.format(self._bookIdToKortitle(self.start.book), self.start.chapter, self.start.verse)
+            end = title_form.format(self._bookIdToKortitle(self.end.book), self.end.chapter, self.end.verse)
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
         return start + "~" + end
@@ -213,8 +216,11 @@ class BibleReader() :
         __batch_lines 만큼의 구절을 더 읽어들여 반환합니다
         '''
         query_set = self.bible.next()
+        self.end = query_set.last()
+
+        title = self._makeTitle()
         contents = "".join([row.data for row in query_set])
-        return contents
+        return title, contents
 
     class BibleScopeError(Exception) :
         pass

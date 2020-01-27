@@ -24,7 +24,7 @@ def todayBible(request) :
     return render(request, 'todayBible.html', {"content": contents })
 
 def more(request) :
-    contents = bibleReader.readMore()
+    title, contents = bibleReader.readMore()
     return JsonResponse({'contents': contents})
 
 def bible(request):
