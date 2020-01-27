@@ -28,12 +28,12 @@ def more(request) :
     return JsonResponse({'contents': contents})
 
 def bible(request):
-    try :
-        question = request.GET['question']
-        title, contents = bibleReader.search(question)
-        return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
-    except :
-        return render(request, 'notfound.html')
+#try :
+    question = request.GET['question']
+    title, contents = bibleReader.search(question)
+    return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
+#except :
+    return render(request, 'notfound.html')
 
 #생명의 삶 창세기 몇장 몇절 에서 몇장 몇절까지
 def get_today_bible():
