@@ -5,22 +5,13 @@ import re
 
 class Iterator :
 
-    __creatable = False
-
-    @staticmethod
-    def fromModel(model_obj) :
-        Iterator.__creatable = True
-        iterator = Iterator()
+    @classmethod
+    def fromModel(cls, model_obj) :
+        iterator = cls()
         iterator.setModelObject(model_obj)
-
-        Iterator.__creatable = False
         return iterator
 
     def __init__(self) :
-        '''
-        이 클래스의 생성자는 Private 생성자로서 행동합니다
-        '''
-        assert(Iterator.__creatable)
         self.cursor = 0
         self.model_obj = None
 
@@ -47,24 +38,8 @@ class Iterator :
 
 class BatchIterator(Iterator) :
 
-    __creatable = False
-
-    @staticmethod
-    def fromModel(model_obj) :
-        BatchIterator.__creatable = True
-        iterator = BatchIterator()
-        iterator.setModelObject(model_obj)
-
-        BatchIterator.__creatable = False
-        return iterator
-
     def __init__(self) :
-        '''
-        이 클래스의 생성자는 Private 생성자로서 행동합니다
-        '''
-        assert(BatchIterator.__creatable)
-        self.cursor = 0
-        self.model_obj = None
+        super(BatchIterator, self).__init__()
         self.batch = 1
 
     def setBatch(self, batch) :
@@ -77,9 +52,6 @@ class BatchIterator(Iterator) :
         next_one = self.model_obj.filter(id__gte=first_id, id__lte=last_id)
         self.cursor = last_id + 1
         return next_one
-
-class BibleScopeError(Exception) :
-    pass
 
 class BibleReader() :
 
@@ -112,7 +84,7 @@ class BibleReader() :
         else :
             return None
 
-    def _parseKortitleToBookId(self, kortitle) :
+    def _kortitleToBookId(self, kortitle) :
         if kortitle is not None :
             return BibleBooksKlv.objects.get(korean=kortitle).book
         else :
@@ -138,11 +110,11 @@ class BibleReader() :
                 else :
                     break
 
-    def _parseVerboseLabelToQuerySet(self, label) :
+    def _verboseLabelToQuerySet(self, label) :
         '''
         BCV 레이블이 의미하는 바에 맞게 성경 데이터베이스 범위를 한정합니다
         '''
-        book = self._parseKortitleToBookId(label['book'])
+        book = self._kortitleToBookId(label['book'])
         row = KlvBible.objects.filter(book=book)
         if label['chapter'] is not None :
             chapter = label['chapter'][:-1]
@@ -152,7 +124,7 @@ class BibleReader() :
             row = row.filter(verse=verse)
         return row
 
-    def _parseVerboseLabelToTitle(self, left, right) :
+    def _verboseLabelToTitle(self, left, right) :
         '''
         좌측 BCV 레이블과 우측 BCV 레이블이 나타내는 범위를 타이틀로 전시할 수 있는 문자열로 반환합니다
         '''
@@ -179,7 +151,7 @@ class BibleReader() :
             title += "{} {}:{}".format(labels[0], labels[1], labels[2])
         return title
 
-    def _parseQueryToVerboseLabel(self, query) :
+    def _queryToVerboseLabel(self, query) :
         left_query, right_query = self._splitQuery(query)
         start, end = None, None
         if left_query is not None :
@@ -189,36 +161,42 @@ class BibleReader() :
         self._validateVerboseLabel(start, end)
         return start, end
     
-    def _parseQuerySetToText(self, query_set) :
+    def _querySetToText(self, query_set) :
         strings = [row.data for row in query_set]
         return "".join(strings)
+
+    def _verboseLabelToId(self, left, right) :
+        left_query_set = self._verboseLabelToQuerySet(left)
+    
+        id_left = left_query_set.first().id
+        if right is not None :
+            right_query_set = self._verboseLabelToQuerySet(right)
+            id_right = right_query_set.last().id
+        else :
+            id_right = left_query_set.last().id
+        
+        if id_left > id_right :
+            raise self.BibleScopeError('your designated scope is unacceptable.')
+        return id_left, id_right
 
     def search(self, query) :
         '''
         사용자 질의가 요구하는 성경의 범위를 파악하여
         해당하는 성경 텍스트를 반환합니다.
         '''
-        start, end = self._parseQueryToVerboseLabel(query)
-        print("Verbose : ", start, end)
-
-        id_start = self._parseVerboseLabelToQuerySet(start).first().id
-        if end is None :     
-            id_end = self._parseVerboseLabelToQuerySet(start).last().id
-        else :
-            id_end = self._parseVerboseLabelToQuerySet(end).last().id
-               
-        if id_end < id_start :
-            raise BibleScopeError('your designated scope is unacceptable.')
-
+        start, end = self._queryToVerboseLabel(query)
+        id_start, id_end = self._verboseLabelToId(start, end)
+        
         batch = id_end - id_start + 1
         query_set = self.bible.setCursor(id_start).setBatch(batch).next()
-        contents = self._parseQuerySetToText(query_set)
         self.bible.setBatch(BibleReader.__batch_lines)
 
-        title = self._parseVerboseLabelToTitle(start, end)
-        return title, contents
+        return self._verboseLabelToTitle(start, end), self._querySetToText(query_set)
 
     def readMore(self) :
         query_set = self.bible.next()
-        contents = self._parseQuerySetToText(query_set)
+        contents = self._querySetToText(query_set)
         return contents
+
+    class BibleScopeError(Exception) :
+        pass
