@@ -66,7 +66,7 @@ docker service rm aispeaker
 
 - 유스케이스 구현량이 낮음
 
-- [stock](https://github.com/binchoo/AISpeaker/tree/master/stock)
+- [chart](https://github.com/binchoo/AISpeaker/tree/master/chart)
 
 ### 명령 전달 애플리케이션
 
