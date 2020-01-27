@@ -43,6 +43,8 @@ class BatchIterator(Iterator) :
         self.batch = 1
 
     def setBatch(self, batch) :
+        if batch < 1 :
+            raise Exception
         self.batch = batch
         return self
 
@@ -128,11 +130,8 @@ class BibleReader() :
         contents = None
         try :
             batch = self.end.id - self.start.id + 1
-            if batch < 1 :
-                raise Exception
-            else :
-                query_set = self.bible.setCursor(self.start.id).setBatch(batch).next()
-                contents = self._querySetToText(query_set)
+            query_set = self.bible.setCursor(self.start.id).setBatch(batch).next()
+            contents = self._querySetToText(query_set)
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
         finally :
