@@ -19,7 +19,7 @@ def getBibleData(question) :
 def todayBible(request) :
     today = get_today_bible()
     bibleReader = BibleReader()
-    _, contents = bibleReader.search(today)
+    _, contents = bibleReader.parse(today)
     #{"index": index, "contents": contents,"simple": today_simple,"all": all_contents}
     return render(request, 'todayBible.html', {"content": contents })
 
@@ -30,7 +30,7 @@ def more(request) :
 def bible(request):
 #try :
     question = request.GET['question']
-    title, contents = bibleReader.search(question)
+    title, contents = bibleReader.parse(question).read()
     return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
 #except :
     return render(request, 'notfound.html')
