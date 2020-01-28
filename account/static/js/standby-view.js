@@ -1,3 +1,8 @@
+/**
+ * StanbyView는 쉽게 말해서 기본 화면이다.
+ * 이곳에서 실제 DOM접근이 발생하며, DOM을 어떻게 조작하는지에 대해 실제로 정의한다(애니메이션 등).
+ * update가 발생하면 변경여부를 확인하여 변경이 발생한 부분만 변경한다.
+ */
 class StandbyView {
   constructor() {
     this.speakerCircle = $(

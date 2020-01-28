@@ -1,3 +1,10 @@
+/**
+ * View에 보여지는 데이터 중 변경이 발생하는 부분에 대한 명세를 가지고 있는 데이터 객체
+ * View Model이라는 가상 DOM 구조체를 가지며 View의 가변 데이터를 저장한다.
+ * Model에 변경이 발생하면 View Update를 호출하여 View에 반영한다.
+ * DMM의 Reload를 방지하며 잦은 DOM접근을 차단하여 전체적인 속도 개선에 도움을 준다.
+ * MVC구조중 유일하게 상태와 데이터를 저장하는 부분이다.
+ */
 class Model {
   constructor() {
     this.viewModel = {
@@ -119,6 +126,11 @@ class Model {
     this.thisView = view;
   }
 
+  /**
+   * 이미 작성된 Overlay에 추가적인 정보를 추가하는 경우, Reload를 하는 것이 설계상 맞으나,
+   * 약간의 변칙으로 DOM에 직접 접근하여 데이터를 추가한다. (Reload 불필요)
+   * 아래 주석 부분을 선택하면 Reload를 통해서 추가한다.
+   */
   appandModelData(text) {
     let data = this.viewModel["overlay-view"].data[3].arg.data;
     let index = data.indexOf('</p><div onclick="next()" />') - 1;
@@ -126,6 +138,7 @@ class Model {
     this.viewModel["overlay-view"].data[3].arg.data = data;
     this.answer = data;
     this.appendData(text);
+
     // this.viewModel["overlay-view"].data[3].modified = true;
     // this.viewModel["overlay-view"].data[3].arg.update = true;
     // this.updateView();
