@@ -133,8 +133,8 @@ class BibleReader() :
             elif n == 1 :
                 right_verbose = left_verbose
             
-        self.start = left_verbose.narrowQuerySet(KlvBible, keys_with_order).first()
-        self.end = right_verbose.narrowQuerySet(KlvBible, keys_with_order).last()
+        self.start = left_verbose.narrowQuerySet(KlvBible.objects, keys_with_order).first()
+        self.end = right_verbose.narrowQuerySet(KlvBible.objects, keys_with_order).last()
         return self
 
     def read(self) :
