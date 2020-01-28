@@ -197,8 +197,8 @@ class BibleReader() :
 
         def adjustToLeft(self, left, keys_with_order) :
             for key in keys_with_order :
-                if self.label[key] is None :
-                    self.label[key] = left[key]
+                if self.getField(key) is None :
+                    self.setField(key, left.getField(key))
                 else :
                     break
             return self
