@@ -57,17 +57,12 @@ class BatchIterator(Iterator) :
 
 class BibleReader() :
 
-    __regexs = {
-        'book': re.compile(r"(창세기|출애굽기|레위기|민수기|신명기|여호수아|사사기|룻기|사무엘상|사무엘하|열왕기상|열왕기하|역대상|역대하|에스라|느헤미야|에스더|욥기|시편|잠언|전도서|아가|이사야|예레미야|예레미야 애가|에스겔|다니엘|호세아|요엘|아모스|오바댜|요나|미가|나훔|하박국|스바냐|학개|스가랴|말라기|마태복음|마가복음|누가복음|요한복음|사도행전|로마서|고린도전서|고린도후서|갈라디아서|에베소서|빌립보서|골로새서|데살로니가전서|데살로니가후서|디모데전서|디모데후서|디도서|빌레몬서|히브리서|야고보서|베드로전서|베드로후서|요한1서|요한2서|요한3서|유다서|요한계시록)"),
-        'chapter': re.compile(r"\d+장"),
-        'verse': re.compile(r"\d+절"),
-    }
     __seperator = re.compile(r"에서|부터")
     __batch_lines = 4
 
-    @staticmethod
-    def fromQuery(query) :
-        reader = BibleReader()
+    @classmethod
+    def fromQuery(cls, query) :
+        reader = cls()
         reader.parse(query)
         return reader
 
@@ -86,84 +81,6 @@ class BibleReader() :
         else :
             left_query, right_query = splitted_query
         return left_query, right_query
-
-    def _queryToVerboseLabel(self, query) :
-        '''
-        query로 부터 book, chapter, verse를 키로 갖는
-        딕셔너리를 두 개를 얻습니다.
-        각각 자료의 시작과 자료의 끝 위치를 의미합니다
-        '''
-        left_query, right_query = self._splitQuery(query)
-        
-        start = self._makeVerboseLabel(left_query)
-        query_is_single = (right_query is None)
-
-        if query_is_single :
-            return start, start
-        else :
-            end = self._makeVerboseLabel(right_query)
-            self._validateVerboseLabel(start, end)
-            return start, end
-
-    def _makeVerboseLabel(self, query) :
-        '''
-        query로 부터 book, chapter, verse를 키로 갖는
-        딕셔너리를 얻습니다. query는 __seperator = re.compile(r"에서|부터")를 사용하여 분할된 query여야 합니다.
-        '''
-        label = dict()
-        if query is not None :
-            for key, regex in BibleReader.__regexs.items() :
-                label[key] = self._findKeyword(regex, query)
-            return label
-        else :
-            return None
-
-    def _findKeyword(self, regex, query) :
-        '''
-        사용자 질의에 정규표현식을 적용하여 키워드를 추출합니다
-        '''
-        found = regex.findall(query)
-        if len(found) == 1 :
-            return found[0]
-        else :
-            return None
-
-    def _kortitleToBookId(self, kortitle) :
-        '''
-        한국어 성경이름을 O(구약)1(순서), N(신약)1(순서) 형태로 바꿉니다
-        '''
-        return BibleBooksKlv.objects.get(korean=kortitle).book
-
-    def _bookIdToKortitle(self, book_id) :
-        return BibleBooksKlv.objects.get(book=book_id).korean
-
-    def _verboseLabelToQuerySet(self, label) :
-        '''
-        레이블이 의미하는 대로 데이터베이스 조회 범위를 한정합니다
-        '''
-        book = self._kortitleToBookId(label['book'])
-        row = KlvBible.objects.filter(book=book)
-        if label['chapter'] is not None :
-            chapter = label['chapter'][:-1]
-            row = row.filter(chapter=chapter)
-        if label['verse'] is not None :
-            verse = label['verse'][:-1]
-            row = row.filter(verse=verse)
-        return row
-
-    def _validateVerboseLabel(self, left, right) :
-        '''
-        우측 BCV 레이블 중 빈 값들을 유추합니다.
-        문맥에 맞추어 left 값을 복사해 옵니다.
-        매개변수로 받은 right의 내용물이 변경되니 주의하세요
-        '''        
-        keys = ['book', 'chapter', 'verse']
-        if right is not None :
-            for key in keys :
-                if right[key] is None :
-                    right[key] = left[key]
-                else :
-                    break
 
     def _makeTitle(self) :
         '''
@@ -185,19 +102,39 @@ class BibleReader() :
         try :
             batch = self.end.id - self.start.id + 1
             query_set = self.bible.setCursor(self.start.id).setBatch(batch).next()
-            contents = "".join([row.data for row in query_set])
+            contents = self._mergeQuerySetString(query_set)
             self.bible.setBatch(BibleReader.__batch_lines)
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
         return contents
 
+    def _nextQuerySet(self) :
+        query_set = self.bible.next()
+        self.end = query_set.last()
+        return query_set
+
+    def _mergeQuerySetString(self, query_set) :
+        return "".join([row.data for row in query_set])
+
     def parse(self, query) :
         '''
         사용자 질의가 요구하는 성경의 범위를 파악합니다
         '''
-        self.verbose_start, self.verbose_end = self._queryToVerboseLabel(query)
-        self.start = self._verboseLabelToQuerySet(self.verbose_start).first()
-        self.end = self._verboseLabelToQuerySet(self.verbose_end).last()
+        left_verbose, right_verbose = None, None
+        keys_with_order=('book', 'chapter', 'verse')
+
+        for n, splitted_query in enumerate(self._splitQuery(query)) :
+            if splitted_query is not None :
+                verbose = BibleReader.VerboseLabel.fromQuery(splitted_query)
+                if n == 0 :
+                    left_verbose = verbose
+                else :
+                    right_verbose = verbose.adjustToLeft(left_verbose, keys_with_order)
+            elif n == 1 :
+                right_verbose = left_verbose
+            
+        self.start = left_verbose.narrowQuerySet(KlvBible, keys_with_order).first()
+        self.end = right_verbose.narrowQuerySet(KlvBible, keys_with_order).last()
         return self
 
     def read(self) :
@@ -215,12 +152,80 @@ class BibleReader() :
         여태 읽어들인 위치에서부터
         __batch_lines 만큼의 구절을 더 읽어들여 반환합니다
         '''
-        query_set = self.bible.next()
-        self.end = query_set.last()
-
+        query_set = self._nextQuerySet()
         title = self._makeTitle()
-        contents = "".join([row.data for row in query_set])
+        contents = self._mergeQuerySetString(query_set)
         return title, contents
+
+    @staticmethod
+    def _kortitleToBookId(kortitle) :
+        return BibleBooksKlv.objects.get(korean=kortitle).book
+
+    @staticmethod
+    def _bookIdToKortitle(book_id) :
+        return BibleBooksKlv.objects.get(book=book_id).korean
+
+    class VerboseLabel :
+
+        __regexs = {
+        'book': re.compile(r"(창세기|출애굽기|레위기|민수기|신명기|여호수아|사사기|룻기|사무엘상|사무엘하|열왕기상|열왕기하|역대상|역대하|에스라|느헤미야|에스더|욥기|시편|잠언|전도서|아가|이사야|예레미야|예레미야 애가|에스겔|다니엘|호세아|요엘|아모스|오바댜|요나|미가|나훔|하박국|스바냐|학개|스가랴|말라기|마태복음|마가복음|누가복음|요한복음|사도행전|로마서|고린도전서|고린도후서|갈라디아서|에베소서|빌립보서|골로새서|데살로니가전서|데살로니가후서|디모데전서|디모데후서|디도서|빌레몬서|히브리서|야고보서|베드로전서|베드로후서|요한1서|요한2서|요한3서|유다서|요한계시록)"),
+        'chapter': re.compile(r"\d+장"),
+        'verse': re.compile(r"\d+절"),
+        }
+
+        @classmethod
+        def fromQuery(cls, query) :
+            attributes = cls.getKeywordsInQuery(query)
+            return cls(**attributes)
+
+        @classmethod
+        def getKeywordsInQuery(cls, query) :
+            key_val = dict()
+            for key, regex in cls.__regexs.items() :
+                found = regex.findall(query)
+                if len(found) == 1 :
+                    key_val[key] = found
+                else :
+                    key_val[key] = None
+            return key_val
+           
+        def __init__(self, **kwargs) :
+            if len(kwargs) > 0 :
+                self.label = kwargs
+            else :
+                self.label = dict()
+
+        def adjustToLeft(self, left, keys_with_order) :
+            for key in keys_with_order :
+                if self.label[key] is None :
+                    self.label[key] = left[key]
+                else :
+                    break
+            return self
+
+        def setField(self, key, value) :
+            self.label[key] = value
+        
+        def getField(self, key) :
+            return self.label[key]
+
+        def getUnverboseField(self, key) :
+            val = self.label[key]
+            if val is not None :
+                if key == 'book' :
+                    return BibleReader._kortitleToBookId(val)
+                else:
+                    return val[:-1]
+            else :
+                return None
+
+        def narrowQuerySet(self, model_obj, keys_with_order) :
+            row = model_obj
+            for key in keys_with_order :
+                unverbose_value = self.getUnverboseField(key)
+                if unverbose_value is not None :
+                    row = row.filter({key : unverbose_value})
+            return row
 
     class BibleScopeError(Exception) :
         pass
