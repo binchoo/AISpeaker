@@ -6,20 +6,20 @@ import re
 class Iterator :
 
     @classmethod
-    def fromModel(cls, model_obj) :
+    def from_model(cls, model_obj) :
         iterator = cls()
-        iterator.setModelObject(model_obj)
+        iterator.set_model_obj(model_obj)
         return iterator
 
     def __init__(self) :
         self.cursor = 0
         self.model_obj = None
 
-    def setCursor(self, cursor) :
+    def set_cursor(self, cursor) :
         self.cursor = cursor
         return self
 
-    def setModelObject(self, model_obj) :
+    def set_model_obj(self, model_obj) :
         if isinstance(model_obj, Manager) :
             self.model_obj = model_obj
         else :
@@ -28,7 +28,7 @@ class Iterator :
         return self
     
     #To Do : id가 0에서 부터 생성되는지, 1에서부터 생성되는지 확인할 것
-    def hasNext(self) :
+    def has_next(self) :
         return self.cursor < self.model_obj.count()
 
     def next(self) :
@@ -42,7 +42,7 @@ class BatchIterator(Iterator) :
         super(BatchIterator, self).__init__()
         self.batch = 1
 
-    def setBatch(self, batch) :
+    def set_batch(self, batch) :
         if batch < 1 :
             raise Exception
         self.batch = batch
@@ -58,18 +58,18 @@ class BatchIterator(Iterator) :
 class BibleReader() :
 
     __seperator = re.compile(r"에서|부터")
-    __batch_lines = 4
+    BATCH_LINES = 4
 
     @classmethod
-    def fromQuery(cls, query) :
+    def from_query(cls, query) :
         reader = cls()
         reader.parse(query)
         return reader
 
     def __init__(self) :
-        self.bible = BatchIterator.fromModel(KlvBible.objects)
+        self.bible = BatchIterator.from_model(KlvBible.objects)
 
-    def _splitQuery(self, query) :
+    def _split_query(self, query) :
         '''
         정규표현식 __seperator = re.compile(r"에서|부터") 를 사용하여
         사용자의 질문을 둘로 쪼갭니다. 쪼갤 수 없을 경우 
@@ -82,38 +82,38 @@ class BibleReader() :
             left_query, right_query = splitted_query
         return left_query, right_query
 
-    def _makeTitle(self) :
+    def _make_title(self) :
         '''
         지정된 데이터베이스 범위를 {} {}:{} ~ {} {}:{} 꼴로 표현합니다
         '''
         title_form = "{} {}:{}"
         try :
-            start = title_form.format(self._bookIdToKortitle(self.start.book), self.start.chapter, self.start.verse)
-            end = title_form.format(self._bookIdToKortitle(self.end.book), self.end.chapter, self.end.verse)
+            start = title_form.format(self._bookid2kortitle(self.start.book), self.start.chapter, self.start.verse)
+            end = title_form.format(self._bookid2kortitle(self.end.book), self.end.chapter, self.end.verse)
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
         return start + "~" + end
         
-    def _makeContents(self) :
+    def _make_contents(self) :
         '''
         지정된 범위의 성경 데이터베이스를 읽어들여 문자열로 취합해 반환합니다
         '''
         contents = None
         try :
             batch = self.end.id - self.start.id + 1
-            query_set = self.bible.setCursor(self.start.id).setBatch(batch).next()
-            contents = self._mergeQuerySetString(query_set)
-            self.bible.setBatch(BibleReader.__batch_lines)
+            query_set = self.bible.set_cursor(self.start.id).set_batch(batch).next()
+            contents = self._merge_queryset_string(query_set)
+            self.bible.set_batch(BibleReader.BATCH_LINES)
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
         return contents
 
-    def _nextQuerySet(self) :
+    def _next_queryset(self) :
         query_set = self.bible.next()
         self.end = query_set.last()
         return query_set
 
-    def _mergeQuerySetString(self, query_set) :
+    def _merge_queryset_string(self, query_set) :
         return "".join([row.data for row in query_set])
 
     def parse(self, query) :
@@ -123,46 +123,46 @@ class BibleReader() :
         left_verbose, right_verbose = None, None
         keys_with_order=('book', 'chapter', 'verse')
 
-        for n, splitted_query in enumerate(self._splitQuery(query)) :
+        for n, splitted_query in enumerate(self._split_query(query)) :
             if splitted_query is not None :
-                verbose = BibleReader.VerboseLabel.fromQuery(splitted_query)
+                verbose = BibleReader.VerboseLabel.from_query(splitted_query)
                 if n == 0 :
                     left_verbose = verbose
                 else :
-                    right_verbose = verbose.adjustToLeft(left_verbose, keys_with_order)
+                    right_verbose = verbose.adjust_to_left(left_verbose, keys_with_order)
             elif n == 1 :
                 right_verbose = left_verbose
             
-        self.start = left_verbose.narrowQuerySet(KlvBible.objects, keys_with_order).first()
-        self.end = right_verbose.narrowQuerySet(KlvBible.objects, keys_with_order).last()
+        self.start = left_verbose.narrow_queryset(KlvBible.objects, keys_with_order).first()
+        self.end = right_verbose.narrow_queryset(KlvBible.objects, keys_with_order).last()
         return self
 
     def read(self) :
         '''
         지정된 성경 범위를 웹 페이지에 표시할 타이틀과 컨텐츠로 만들어 반환합니다
         '''
-        title = self._makeTitle()
-        contents = self._makeContents()
+        title = self._make_title()
+        contents = self._make_contents()
         return title, contents
 
     # To Do : kortitle로 조회가능하도록 자료구조를 바꾸자. 
     # 혹은 2자리 영어 book을 kortitle과 매칭하는 테이블을 메모리에 올려두자
-    def readMore(self) :
+    def readmore(self) :
         '''
         여태 읽어들인 위치에서부터
         __batch_lines 만큼의 구절을 더 읽어들여 반환합니다
         '''
-        query_set = self._nextQuerySet()
-        title = self._makeTitle()
-        contents = self._mergeQuerySetString(query_set)
+        query_set = self._next_queryset()
+        title = self._make_title()
+        contents = self._merge_queryset_string(query_set)
         return title, contents
 
     @staticmethod
-    def _kortitleToBookId(kortitle) :
+    def _kortitle2bookid(kortitle) :
         return BibleBooksKlv.objects.get(korean=kortitle).book
 
     @staticmethod
-    def _bookIdToKortitle(book_id) :
+    def _bookid2kortitle(book_id) :
         return BibleBooksKlv.objects.get(book=book_id).korean
 
     class VerboseLabel :
@@ -174,12 +174,12 @@ class BibleReader() :
         }
 
         @classmethod
-        def fromQuery(cls, query) :
-            attributes = cls.getKeywordsInQuery(query)
+        def from_query(cls, query) :
+            attributes = cls.get_keywords_in_query(query)
             return cls(**attributes)
 
         @classmethod
-        def getKeywordsInQuery(cls, query) :
+        def get_keywords_in_query(cls, query) :
             key_val = dict()
             for key, regex in cls.__regexs.items() :
                 found = regex.findall(query)
@@ -195,37 +195,37 @@ class BibleReader() :
             else :
                 self.label = dict()
 
-        def adjustToLeft(self, left, keys_with_order) :
+        def adjust_to_left(self, left, keys_with_order) :
             for key in keys_with_order :
-                if self.getField(key) is None :
-                    self.setField(key, left.getField(key))
+                if self.get_field(key) is None :
+                    self.set_field(key, left.getField(key))
                 else :
                     break
             return self
 
-        def setField(self, key, value) :
+        def set_field(self, key, value) :
             self.label[key] = value
         
-        def getField(self, key) :
+        def get_field(self, key) :
             return self.label[key]
 
-        def getUnverboseField(self, key) :
+        def get_unverbose_field(self, key) :
             val = self.label[key]
             if val is not None :
                 if key == 'book' :
-                    return BibleReader._kortitleToBookId(val)
+                    return BibleReader._kortitle2bookid(val)
                 else:
                     return val[:-1]
             else :
                 return None
 
-        def narrowQuerySet(self, model_obj, keys_with_order) :
+        def narrow_queryset(self, model_obj, keys_with_order) :
             row = model_obj
             print(self.label)
             for key in keys_with_order :
-                unverbose_value = self.getUnverboseField(key)
-                if unverbose_value is not None :
-                    row = row.filter(**{key : unverbose_value})
+                unberbose_field = self.get_unverbose_field(key)
+                if unberbose_field is not None :
+                    row = row.filter(**{key : unberbose_field})
             return row
 
     class BibleScopeError(Exception) :
