@@ -221,10 +221,11 @@ class BibleReader() :
 
         def narrowQuerySet(self, model_obj, keys_with_order) :
             row = model_obj
+            print(self.label)
             for key in keys_with_order :
                 unverbose_value = self.getUnverboseField(key)
                 if unverbose_value is not None :
-                    row = row.filter({key : unverbose_value})
+                    row = row.filter(**{key : unverbose_value})
             return row
 
     class BibleScopeError(Exception) :
