@@ -184,7 +184,7 @@ class BibleReader() :
             for key, regex in cls.__regexs.items() :
                 found = regex.findall(query)
                 if len(found) == 1 :
-                    key_val[key] = found
+                    key_val[key] = found[0]
                 else :
                     key_val[key] = None
             return key_val
