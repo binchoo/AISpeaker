@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'AISpeaker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-with open("./secret.json") as f :
+with open("./AISpeaker/secret.json") as f :
     secrets = json.loads(f.read())
 
 def get_secret(db, attribute, secrets=secrets) :
