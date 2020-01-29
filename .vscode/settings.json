@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "python.pythonPath": "C:\\Users\\Lunox\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+=======
+    "python.pythonPath": "C:\\Users\\wnwoq\\Anaconda3\\envs\\mxnetpy3.5\\python.exe",
+>>>>>>> a89ae6cc4c453ec866e4c9b426dd967826cce4cc
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }
