@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -80,22 +80,32 @@ WSGI_APPLICATION = 'AISpeaker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+with open("./secret.json") as f :
+    secrets = json.loads(f.read())
+
+def get_secret(db, attribute, secrets=secrets) :
+    try :
+        return secrets[db][attribute]
+    except KeyError :
+        error_msg = 'set the {}.{} variable.'.format(db, attribute)
+        raise NotImplementedError(error_msg)
+
 DATABASES = {
     'chart': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangostock',
-        'USER' : 'djangostock',
-        'PASSWORD' : '3615',
-        'HOST' : '45.119.144.211',
-        'PORT' : '5432',
+        'ENGINE': get_secret('chart', 'ENGINE'),
+        'NAME': get_secret('chart', 'NAME'),
+        'USER' : get_secret('chart', 'USER'),
+        'PASSWORD' : get_secret('chart', 'PASSWORD'),
+        'HOST' : get_secret('chart', 'HOST'),
+        'PORT' : get_secret('chart', 'PORT'),
     },
     'bible': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangobible',
-        'USER' : 'djangobible',
-        'PASSWORD' : '3615',
-        'HOST' : '45.119.144.211',
-        'PORT' : '5431',
+        'ENGINE': get_secret('bible', 'ENGINE'),
+        'NAME': get_secret('bible', 'NAME'),
+        'USER' : get_secret('bible', 'USER'),
+        'PASSWORD' : get_secret('bible', 'PASSWORD'),
+        'HOST' : get_secret('bible', 'HOST'),
+        'PORT' : get_secret('bible', 'PORT'),
     },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

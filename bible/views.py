@@ -1,6 +1,5 @@
 from django.shortcuts import render
 import os
-# Create your views here.
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from django.http import HttpResponse, JsonResponse
@@ -13,27 +12,23 @@ from ast import literal_eval
 
 bibleReader = BibleReader()
 # Create your views here.
-def getBibleData(question) :
-    return bibleReader.search(question)
-
 def todayBible(request) :
     today = get_today_bible()
-    bibleReader = BibleReader()
-    _, contents = bibleReader.parse(today)
+    _, contents = BibleReader().from_query(today).read()
     #{"index": index, "contents": contents,"simple": today_simple,"all": all_contents}
     return render(request, 'todayBible.html', {"content": contents })
 
 def more(request) :
-    title, contents = bibleReader.readMore()
+    _, contents = bibleReader.readmore()
     return JsonResponse({'contents': contents})
 
 def bible(request):
-#try :
-    question = request.GET['question']
-    title, contents = bibleReader.parse(question).read()
-    return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
-#except :
-    return render(request, 'notfound.html')
+    try :
+        question = request.GET['question']
+        title, contents = bibleReader.parse(question).read()
+        return render(request, 'bible.html', {'question': question, 'title': title ,'contents': contents})
+    except :
+        return render(request, 'notfound.html')
 
 #생명의 삶 창세기 몇장 몇절 에서 몇장 몇절까지
 def get_today_bible():
