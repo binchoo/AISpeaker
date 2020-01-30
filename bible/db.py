@@ -57,8 +57,8 @@ class BatchIterator(Iterator) :
 
 class BibleReader() :
 
-    __seperator = re.compile(r"에서|부터")
-    BATCH_LINES = 4
+    __SEPERATOR = re.compile(r"에서|부터")
+    __BATCH_LINES = 4
 
     @classmethod
     def from_query(cls, query) :
@@ -69,44 +69,71 @@ class BibleReader() :
     def __init__(self) :
         self.bible = BatchIterator.from_model(KlvBible.objects)
 
+    def parse(self, query) :
+        left_query, right_query = self._split_query(query)
+        left_verbose, right_verbose = self._make_verboselabels(left_query, right_query)   
+        self.start = left_verbose.fetch_first_of(KlvBible.objects)
+        self.end = right_verbose.fetch_last_of(KlvBible.objects)
+        return self
+
     def _split_query(self, query) :
-        '''
-        정규표현식 __seperator = re.compile(r"에서|부터") 를 사용하여
-        사용자의 질문을 둘로 쪼갭니다. 쪼갤 수 없을 경우 
-        튜플 query, None을 반환합니다
-        '''
-        splitted_query = BibleReader.__seperator.split(query)
+        splitted_query = BibleReader.__SEPERATOR.split(query)
         if len(splitted_query) < 2 :
             left_query, right_query = query, None
         else :
             left_query, right_query = splitted_query
         return left_query, right_query
 
+    def _make_verboselabels(self, left_query, right_query) :
+        left_verbose = BibleReader.VerboseLabel.from_query(left_query)
+        if right_query is None :
+            right_verbose = left_verbose
+        else :
+            right_verbose = BibleReader.VerboseLabel.from_query(right_query)
+            right_verbose.adjust_to_left(left_verbose)
+        return left_verbose, right_verbose
+
+    def read(self) :
+        title = self._make_title()
+        contents = self._make_contents()
+        return title, contents
+
     def _make_title(self) :
         '''
-        지정된 데이터베이스 범위를 {} {}:{} ~ {} {}:{} 꼴로 표현합니다
+        지정된 데이터베이스 범위를 {} {}:{} ~ {} {}:{} 꼴로 표현한다
         '''
         title_form = "{} {}:{}"
         try :
-            start = title_form.format(self._bookid2kortitle(self.start.book), self.start.chapter, self.start.verse)
-            end = title_form.format(self._bookid2kortitle(self.end.book), self.end.chapter, self.end.verse)
+            start = title_form.format(
+                self._bookid2kortitle(self.start.book), 
+                self.start.chapter, 
+                self.start.verse
+            )
+            end = title_form.format(
+                self._bookid2kortitle(self.end.book), 
+                self.end.chapter, 
+                self.end.verse
+            )
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
         return start + "~" + end
         
     def _make_contents(self) :
-        '''
-        지정된 범위의 성경 데이터베이스를 읽어들여 문자열로 취합해 반환합니다
-        '''
         contents = None
         try :
             batch = self.end.id - self.start.id + 1
             query_set = self.bible.set_cursor(self.start.id).set_batch(batch).next()
             contents = self._merge_queryset_string(query_set)
-            self.bible.set_batch(BibleReader.BATCH_LINES)
+            self.bible.set_batch(BibleReader.__BATCH_LINES)
         except :
             raise self.BibleScopeError('your designated scope is unacceptable.')
         return contents
+
+    def readmore(self) :
+        query_set = self._next_queryset()
+        title = self._make_title()
+        contents = self._merge_queryset_string(query_set)
+        return title, contents
 
     def _next_queryset(self) :
         query_set = self.bible.next()
@@ -115,47 +142,6 @@ class BibleReader() :
 
     def _merge_queryset_string(self, query_set) :
         return "".join([row.data for row in query_set])
-
-    def parse(self, query) :
-        '''
-        사용자 질의가 요구하는 성경의 범위를 파악합니다
-        '''
-        left_verbose, right_verbose = None, None
-        keys_with_order=('book', 'chapter', 'verse')
-
-        for n, splitted_query in enumerate(self._split_query(query)) :
-            if splitted_query is not None :
-                verbose = BibleReader.VerboseLabel.from_query(splitted_query)
-                if n == 0 :
-                    left_verbose = verbose
-                else :
-                    right_verbose = verbose.adjust_to_left(left_verbose, keys_with_order)
-            elif n == 1 :
-                right_verbose = left_verbose
-            
-        self.start = left_verbose.narrow_queryset(KlvBible.objects, keys_with_order).first()
-        self.end = right_verbose.narrow_queryset(KlvBible.objects, keys_with_order).last()
-        return self
-
-    def read(self) :
-        '''
-        지정된 성경 범위를 웹 페이지에 표시할 타이틀과 컨텐츠로 만들어 반환합니다
-        '''
-        title = self._make_title()
-        contents = self._make_contents()
-        return title, contents
-
-    # To Do : kortitle로 조회가능하도록 자료구조를 바꾸자. 
-    # 혹은 2자리 영어 book을 kortitle과 매칭하는 테이블을 메모리에 올려두자
-    def readmore(self) :
-        '''
-        여태 읽어들인 위치에서부터
-        __batch_lines 만큼의 구절을 더 읽어들여 반환합니다
-        '''
-        query_set = self._next_queryset()
-        title = self._make_title()
-        contents = self._merge_queryset_string(query_set)
-        return title, contents
 
     @staticmethod
     def _kortitle2bookid(kortitle) :
@@ -167,11 +153,14 @@ class BibleReader() :
 
     class VerboseLabel :
 
-        __regexs = {
-        'book': re.compile(r"(창세기|출애굽기|레위기|민수기|신명기|여호수아|사사기|룻기|사무엘상|사무엘하|열왕기상|열왕기하|역대상|역대하|에스라|느헤미야|에스더|욥기|시편|잠언|전도서|아가|이사야|예레미야|예레미야 애가|에스겔|다니엘|호세아|요엘|아모스|오바댜|요나|미가|나훔|하박국|스바냐|학개|스가랴|말라기|마태복음|마가복음|누가복음|요한복음|사도행전|로마서|고린도전서|고린도후서|갈라디아서|에베소서|빌립보서|골로새서|데살로니가전서|데살로니가후서|디모데전서|디모데후서|디도서|빌레몬서|히브리서|야고보서|베드로전서|베드로후서|요한1서|요한2서|요한3서|유다서|요한계시록)"),
-        'chapter': re.compile(r"\d+장"),
-        'verse': re.compile(r"\d+절"),
+        __REGEXS = {
+            'book': re.compile(r"(창세기|출애굽기|레위기|민수기|신명기|여호수아|사사기|룻기|사무엘상|사무엘하|열왕기상|열왕기하|역대상|역대하|에스라|느헤미야|에스더|욥기|시편|잠언|전도서|아가|이사야|예레미야|예레미야 애가|에스겔|다니엘|호세아|요엘|아모스|오바댜|요나|미가|나훔|하박국|스바냐|학개|스가랴|말라기|마태복음|마가복음|누가복음|요한복음|사도행전|로마서|고린도전서|고린도후서|갈라디아서|에베소서|빌립보서|골로새서|데살로니가전서|데살로니가후서|디모데전서|디모데후서|디도서|빌레몬서|히브리서|야고보서|베드로전서|베드로후서|요한1서|요한2서|요한3서|유다서|요한계시록)"),
+            'chapter': re.compile(r"\d+장"),
+            'verse': re.compile(r"\d+절"),
         }
+        _KEYS_ORDERED_DESCENDING_HIERARCHY = [
+            'book', 'chapter', 'verse'
+        ]
 
         @classmethod
         def from_query(cls, query) :
@@ -181,7 +170,7 @@ class BibleReader() :
         @classmethod
         def get_keywords_in_query(cls, query) :
             key_val = dict()
-            for key, regex in cls.__regexs.items() :
+            for key, regex in cls.__REGEXS.items() :
                 found = regex.findall(query)
                 if len(found) == 1 :
                     key_val[key] = found[0]
@@ -195,21 +184,41 @@ class BibleReader() :
             else :
                 self.label = dict()
 
-        def adjust_to_left(self, left, keys_with_order) :
-            for key in keys_with_order :
+        def adjust_to_left(self, left) :
+            '''
+            오른쪽 쿼리는 이 메소드를 사용할 필요가 있다.
+            자신의 빈 레이블을 왼편 쿼리로부터 유추하기 위해서다.
+            ex) "창세기 1장 1절부터 10절까지 보여줘"
+                left_verbose <- {book:"창세기", chapter:"1장", verse:"10절"}
+                right_verbose <- {book:None, chapter:None, verse:"10절"}
+                right_query.adjust_to_left(left_query) -> {book:"창세기", chapter:"1장", verse:"10절"}
+            '''
+            for key in self._KEYS_ORDERED_DESCENDING_HIERARCHY :
                 if self.get_field(key) is None :
                     self.set_field(key, left.get_field(key))
                 else :
                     break
             return self
-
-        def set_field(self, key, value) :
-            self.label[key] = value
         
-        def get_field(self, key) :
-            return self.label[key]
+        def fetch_first_of(self, model_obj) :
+            return self.narrow_queryset(model_obj).first()
+
+        def fetch_last_of(self, model_obj) :
+            return self.narrow_queryset(model_obj).last()
+
+        def narrow_queryset(self, model_obj) :
+            row = model_obj
+            for key in self._KEYS_ORDERED_DESCENDING_HIERARCHY :
+                unverbose_field = self.get_unverbose_field(key)
+                if unverbose_field is not None :
+                    row = row.filter(**{key : unverbose_field})
+            return row
 
         def get_unverbose_field(self, key) :
+            '''
+            KlvBible 데이터베이스의 칼럼 값들은 정수와 같이 단순(Unverbose)하다.
+            이 메소드는 Verbose 값 "창세기"를 "1O", "1장"을 "1"로 반환하는 역할을 하고 있다.
+            '''
             val = self.label[key]
             if val is not None :
                 if key == 'book' :
@@ -219,14 +228,11 @@ class BibleReader() :
             else :
                 return None
 
-        def narrow_queryset(self, model_obj, keys_with_order) :
-            row = model_obj
-            print(self.label)
-            for key in keys_with_order :
-                unberbose_field = self.get_unverbose_field(key)
-                if unberbose_field is not None :
-                    row = row.filter(**{key : unberbose_field})
-            return row
+        def set_field(self, key, value) :
+            self.label[key] = value
+        
+        def get_field(self, key) :
+            return self.label[key]
 
     class BibleScopeError(Exception) :
         pass
