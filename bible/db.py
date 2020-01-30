@@ -69,13 +69,15 @@ class BibleReader() :
     def __init__(self) :
         self.bible = BatchIterator.from_model(KlvBible.objects)
 
+    #TODO 이 메서드는 speakerapp.utils.QueryAnalyzer로 편입하자.
     def parse(self, query) :
         left_query, right_query = self._split_query(query)
         left_verbose, right_verbose = self._make_verboselabels(left_query, right_query)   
-        self.start = left_verbose.fetch_first_of(KlvBible.objects)
-        self.end = right_verbose.fetch_last_of(KlvBible.objects)
+        self.start_row = left_verbose.fetch_first_of(KlvBible.objects)
+        self.end_row = right_verbose.fetch_last_of(KlvBible.objects)
         return self
-
+    
+    #TODO 이 메서드는 speakerapp.utils.QueryAnalyzer로 편입하자.
     def _split_query(self, query) :
         splitted_query = BibleReader.__SEPERATOR.split(query)
         if len(splitted_query) < 2 :
@@ -84,13 +86,14 @@ class BibleReader() :
             left_query, right_query = splitted_query
         return left_query, right_query
 
+    #TODO 이 메서드는 speakerapp.utils.QueryAnalyzer로 편입하자.
     def _make_verboselabels(self, left_query, right_query) :
         left_verbose = BibleReader.VerboseLabel.from_query(left_query)
-        if right_query is None :
-            right_verbose = left_verbose
-        else :
+        if right_query :
             right_verbose = BibleReader.VerboseLabel.from_query(right_query)
             right_verbose.adjust_to_left(left_verbose)
+        else :
+            right_verbose = left_verbose
         return left_verbose, right_verbose
 
     def read(self) :
@@ -98,49 +101,48 @@ class BibleReader() :
         contents = self._make_contents()
         return title, contents
 
-    def _make_title(self) :
-        '''
-        지정된 데이터베이스 범위를 {} {}:{} ~ {} {}:{} 꼴로 표현한다
-        '''
-        title_form = "{} {}:{}"
-        try :
-            start = title_form.format(
-                self._bookid2kortitle(self.start.book), 
-                self.start.chapter, 
-                self.start.verse
-            )
-            end = title_form.format(
-                self._bookid2kortitle(self.end.book), 
-                self.end.chapter, 
-                self.end.verse
-            )
-        except :
-            raise self.BibleScopeError('your designated scope is unacceptable.')
-        return start + "~" + end
-        
-    def _make_contents(self) :
-        contents = None
-        try :
-            batch = self.end.id - self.start.id + 1
-            query_set = self.bible.set_cursor(self.start.id).set_batch(batch).next()
-            contents = self._merge_queryset_string(query_set)
-            self.bible.set_batch(BibleReader.__BATCH_LINES)
-        except :
-            raise self.BibleScopeError('your designated scope is unacceptable.')
-        return contents
-
     def readmore(self) :
         query_set = self._next_queryset()
         title = self._make_title()
         contents = self._merge_queryset_string(query_set)
         return title, contents
 
+    def _make_title(self) :
+        '''
+        지정된 데이터베이스 범위를 {} {}:{} ~ {} {}:{} 꼴로 표현한다
+        '''
+        start_title = self._make_title_from_row(self.start_row)
+        end_title = self._make_title_from_row(self.end_row, self.start_row)
+        return start_title + " ~ " + end_title
+
+    def _make_title_from_row(self, row, *args) :
+        try :
+            if args and args[0].book == row.book :
+                title = "{}:{}".format(row.chapter, row.verse)
+            else :
+                title = "{} {}:{}".format(self._bookid2kortitle(row.book), row.chapter, row.verse)
+        except :
+            raise self.BibleScopeError('your designated scope is unacceptable.')
+        return title
+        
+    def _make_contents(self) :
+        contents = None
+        try :
+            batch = self.end_row.id - self.start_row.id + 1
+            query_set = self.bible.set_cursor(self.start_row.id).set_batch(batch).next()
+            contents = self._merge_queryset_string(query_set)
+            self.bible.set_batch(BibleReader.__BATCH_LINES)
+        except :
+            raise self.BibleScopeError('your designated scope is unacceptable.')
+        return contents
+
     def _next_queryset(self) :
         query_set = self.bible.next()
-        self.end = query_set.last()
+        self.end_row = query_set.last()
         return query_set
 
-    def _merge_queryset_string(self, query_set) :
+    @staticmethod
+    def _merge_queryset_string(query_set) :
         return "".join([row.data for row in query_set])
 
     @staticmethod
@@ -151,6 +153,7 @@ class BibleReader() :
     def _bookid2kortitle(book_id) :
         return BibleBooksKlv.objects.get(book=book_id).korean
 
+    #TODO 이 클래스를 일반화하여 speakerapp.utils.QueryAnalyzer로 편입하자.
     class VerboseLabel :
 
         __REGEXS = {
