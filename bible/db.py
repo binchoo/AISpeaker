@@ -69,7 +69,6 @@ class BibleReader() :
     def __init__(self) :
         self.bible = BatchIterator.from_model(KlvBible.objects)
 
-    #TODO 이 메서드는 speakerapp.utils.QueryAnalyzer로 편입하자.
     def parse(self, query) :
         left_query, right_query = self._split_query(query)
         left_verbose, right_verbose = self._make_verboselabels(left_query, right_query)   
