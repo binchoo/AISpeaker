@@ -108,7 +108,7 @@ class BibleReader() :
 
     def _make_title(self) :
         '''
-        지정된 데이터베이스 범위를 {} {}:{} ~ {} {}:{} 꼴로 표현한다
+        지정된 데이터베이스 범위를 나타내는 문자열을 {책} {장}:{절} ~ {책} {장}:{절} 꼴로 반환한다.
         '''
         start_title = self._make_title_from_row(self.start_row)
         end_title = self._make_title_from_row(self.end_row, self.start_row)
@@ -140,6 +140,7 @@ class BibleReader() :
         self.end_row = query_set.last()
         return query_set
 
+    #TODO 아래의 세 메소드들을 굳이 스태틱 메소드로 지녀야할까? 클래스 밖에 놔두는 것은 어떨까.
     @staticmethod
     def _merge_queryset_string(query_set) :
         return "".join([row.data for row in query_set])
@@ -188,10 +189,10 @@ class BibleReader() :
 
         def adjust_to_left(self, left) :
             '''
-            오른쪽 쿼리는 이 메소드를 사용할 필요가 있다.
-            자신의 빈 레이블을 왼편 쿼리로부터 유추하기 위해서다.
+            오른쪽 VerboseLabel은 이 메소드를 사용할 필요가 있다.
+            자신의 빈 값을 왼편 VerboseLabel를 보고 유추하기 위해서다.
             ex) "창세기 1장 1절부터 10절까지 보여줘"
-                left_verbose <- {book:"창세기", chapter:"1장", verse:"10절"}
+                left_verbose <- {book:"창세기", chapter:"1장", verse:"1절"}
                 right_verbose <- {book:None, chapter:None, verse:"10절"}
                 right_query.adjust_to_left(left_query) -> {book:"창세기", chapter:"1장", verse:"10절"}
             '''
@@ -219,7 +220,7 @@ class BibleReader() :
         def get_unverbose_field(self, key) :
             '''
             KlvBible 데이터베이스의 칼럼 값들은 정수와 같이 단순(Unverbose)하다.
-            이 메소드는 Verbose 값 "창세기"를 "1O", "1장"을 "1"로 반환하는 역할을 하고 있다.
+            이 메소드는 Verbose한 "창세기"를 "1O", "1장"을 "1"로 바꾸는 역할을 하고 있다.
             '''
             val = self.label[key]
             if val is not None :
