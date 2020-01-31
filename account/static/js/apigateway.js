@@ -1,3 +1,7 @@
+/**
+ * 서버와의 통신을 담당하는 부분.
+ * 서버에 대한 정의와 서버 API가 정의되어있다.
+ */
 class APIGateway {
   constructor(serverName) {
     switch (serverName) {
@@ -74,8 +78,7 @@ class APIGateway {
         type: "POST",
         url: "speaker/qc_inverter",
         dataType: "json",
-        data: {
-        },
+        data: {},
         success: res => {
           console.log(res.responseText);
         },
@@ -85,7 +88,6 @@ class APIGateway {
       });
     }
   }
-
 
   sendAdditionalQuestion(question, contents) {
     if (this.serverUrl === undefined) {

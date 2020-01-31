@@ -1,3 +1,9 @@
+/**
+ * Model과 다른 기능요소를 연결하는 부분.
+ * 가장 많은 모듈과 연결되어 있다.
+ * DOM이벤트가 정의되어 있는 클래스로 실제로 이벤트의 시작지점이 된다.
+ * 내부에 상태를 가지고 있지 않아서 순수함수의 특성을 가진다.
+ */
 class Controller {
   constructor() {}
   objectLinker(model, stt, tts, gateway) {

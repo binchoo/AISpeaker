@@ -7,6 +7,13 @@ var sttManager;
 var ttsManager;
 var apiGateway;
 
+/**
+ * 설계요소와는 별개로 DOM의 준비와 동시에 JS Class를 로드하는 부분.
+ * 실제 스크립트의 엔트리포인트 역할을 한다.
+ * objectLinker는 <A>.objectLinker(<B>)형태로 A->B 연결을 의미한다.
+ * 생성시에 DOME에 접근하는 클래스나 loading 시간차로 인한 오류를 막기 위해서 별도로 관리한다.
+ */
+
 $(document).ready(function() {
   model = new Model();
   view = new View();

@@ -1,3 +1,7 @@
+/**
+ * TTS는 단순하게 텍스트를 입력받으면 음성으로 읽어준다.
+ * 해당 모듈은 음성읽기, 읽기정지 등 TTS의 기능을 한 곳으로 모으기 위해 존재한다.
+ */
 class TTSModel {
   constructor() {}
   objectLinker(controller) {

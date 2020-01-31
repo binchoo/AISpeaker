@@ -4,16 +4,13 @@ from . import views
 
 urlpatterns = [
     #speaker/
-    path('', views.speaker, name='speaker'),
+    # path('', views.speaker, name='speaker'),
 
     #speaker/result
     path('result', views.result, name='result'),
 
     #speaker/wait
     path('wait', views.wait, name = 'wait'),
-
-    #speaker/controller
-    path('controller', views.controller, name='controller'),
 
     #speaker/qc_inverter
     path('qc_inverter', views.qc_invert, name='qc_invert'),
