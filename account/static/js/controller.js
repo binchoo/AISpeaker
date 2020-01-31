@@ -98,6 +98,22 @@ class Controller {
     this.StandbyView_PlayAndPhuse();
   }
 
+  getText(text) {
+    this.model.getText(text);
+  }
+
+  serverError(errorCode) {
+    alert(errorCode);
+  }
+
+  appandData(data) {
+    this.model.appandModelData(data);
+  }
+
+  receiveResult(result) {
+    this.model.receiveResult(result);
+  }
+
   JustTogglePlayAndPhuse() {
     let isPause = model.getModelData("standby-view", 1);
     model.changeViewModel([{ view: "standby-view", argc: 1, argv: !isPause }]);

@@ -15,8 +15,8 @@ class APIGateway {
         this.serverUrl = undefined;
     }
   }
-  objectLinker(model) {
-    this.model = model;
+  objectLinker(controller) {
+    this.controller = controller;
 
     let csrftoken = this.getCookie("csrftoken");
     $.ajaxSetup({
@@ -30,7 +30,7 @@ class APIGateway {
 
   sendQuestion(question) {
     if (this.serverUrl === undefined) {
-      this.model.getServerError(500);
+      this.controller.serverError(500);
     } else {
       $.ajax({
         type: "POST",
@@ -51,7 +51,7 @@ class APIGateway {
 
   sendIteratorRequest() {
     if (this.serverUrl === undefined) {
-      this.model.getServerError(500);
+      this.controller.getServerError(500);
     } else {
       $.ajax({
         type: "POST",
@@ -61,7 +61,7 @@ class APIGateway {
           data: 3
         },
         success: res => {
-          this.model.appandModelData(res.contents);
+          this.controller.appandData(res.contents);
         },
         error: res => {
           console.log(res);
@@ -72,7 +72,7 @@ class APIGateway {
 
   sendInvertQC() {
     if (this.serverUrl === undefined) {
-      this.model.getServerError(500);
+      this.controller.getServerError(500);
     } else {
       $.ajax({
         type: "POST",
@@ -91,7 +91,7 @@ class APIGateway {
 
   sendAdditionalQuestion(question, contents) {
     if (this.serverUrl === undefined) {
-      this.model.getServerError(500);
+      this.controller.getServerError(500);
     } else {
       $.ajax({
         type: "POST",
@@ -112,7 +112,7 @@ class APIGateway {
   }
 
   receive(res) {
-    this.model.receiveResult(res.responseText);
+    this.controller.receiveResult(res.responseText);
   }
 
   getCookie(name) {

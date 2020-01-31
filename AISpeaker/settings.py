@@ -80,32 +80,34 @@ WSGI_APPLICATION = 'AISpeaker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-with open("./AISpeaker/secret.json") as f :
+with open("./AISpeaker/sercret.json") as f:
     secrets = json.loads(f.read())
 
-def get_secret(db, attribute, secrets=secrets) :
-    try :
+
+def get_secret(db, attribute, secrets=secrets):
+    try:
         return secrets[db][attribute]
-    except KeyError :
+    except KeyError:
         error_msg = 'set the {}.{} variable.'.format(db, attribute)
         raise NotImplementedError(error_msg)
+
 
 DATABASES = {
     'chart': {
         'ENGINE': get_secret('chart', 'ENGINE'),
         'NAME': get_secret('chart', 'NAME'),
-        'USER' : get_secret('chart', 'USER'),
-        'PASSWORD' : get_secret('chart', 'PASSWORD'),
-        'HOST' : get_secret('chart', 'HOST'),
-        'PORT' : get_secret('chart', 'PORT'),
+        'USER': get_secret('chart', 'USER'),
+        'PASSWORD': get_secret('chart', 'PASSWORD'),
+        'HOST': get_secret('chart', 'HOST'),
+        'PORT': get_secret('chart', 'PORT'),
     },
     'bible': {
         'ENGINE': get_secret('bible', 'ENGINE'),
         'NAME': get_secret('bible', 'NAME'),
-        'USER' : get_secret('bible', 'USER'),
-        'PASSWORD' : get_secret('bible', 'PASSWORD'),
-        'HOST' : get_secret('bible', 'HOST'),
-        'PORT' : get_secret('bible', 'PORT'),
+        'USER': get_secret('bible', 'USER'),
+        'PASSWORD': get_secret('bible', 'PASSWORD'),
+        'HOST': get_secret('bible', 'HOST'),
+        'PORT': get_secret('bible', 'PORT'),
     },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

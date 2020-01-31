@@ -10,8 +10,8 @@ class STTManger {
   constructor() {
     this.recognitionAdapter = new STTAdapter(this);
   }
-  objectLinker(model) {
-    this.model = model;
+  objectLinker(controller) {
+    this.controller = controller;
 
     let rec = this.recognitionAdapter.recognitionOnLoad();
     if (rec === undefined) {
@@ -25,10 +25,10 @@ class STTManger {
     this.recognitionAdapter.stop();
   }
   getText(result) {
-    model.getText(result);
+    controller.getText(result);
   }
   update() {
-    this.model.updateSpeechAnimation();
+    this.controller.updateSpeechAnimation();
   }
 }
 

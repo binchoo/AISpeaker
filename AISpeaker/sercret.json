@@ -1,0 +1,18 @@
+{
+    "chart": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "djangostock",
+        "USER" : "djangostock",
+        "PASSWORD" : "3615",
+        "HOST" : "45.119.144.211",
+        "PORT" : "5432"
+    },
+    "bible": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "djangobible",
+        "USER" : "djangobible",
+        "PASSWORD" : "3615",
+        "HOST" : "45.119.144.211",
+        "PORT" : "5431"
+    }
+}

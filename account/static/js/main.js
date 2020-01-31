@@ -27,8 +27,8 @@ $(document).ready(function() {
   model.objectLinker(view, controller);
   controller.objectLinker(model, sttManager, ttsManager, apiGateway);
   view.objectLinker(controller, [stanby, overlay]);
-  apiGateway.objectLinker(model);
-  sttManager.objectLinker(model);
+  apiGateway.objectLinker(controller);
+  sttManager.objectLinker(controller);
   ttsManager.objectLinker(controller);
 
   stanby.objectLinker(view);
