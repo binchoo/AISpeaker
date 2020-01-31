@@ -97,6 +97,9 @@ class Controller {
   speachEnd() {
     this.StandbyView_PlayAndPhuse();
   }
+  updateSpeechAnimation() {
+    this.model.updateSpeechAnimation();
+  }
 
   getText(text) {
     this.model.getText(text);

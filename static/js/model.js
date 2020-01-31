@@ -147,7 +147,6 @@ class Model {
         '<div id="dic_area">',
         "</div>"
       );
-      console.log(contesnts);
       this.controller.sendAdditionalQuestion(text, contesnts);
     }
   }

@@ -62,7 +62,6 @@ class StandbyView {
 
   startRecognition(arg) {
     if (arg.show) {
-      console.log("Speaker On");
       this.haloEffect
         .addClass("effect-halo-runnig")
         .removeClass("effect-halo-blink");
@@ -72,7 +71,6 @@ class StandbyView {
       siriWave.start();
       siriWave.setSpeed(0.1);
     } else {
-      console.log("Speaker Off");
       this.haloEffect
         .addClass("effect-halo-blink")
         .removeClass("effect-halo-runnig");

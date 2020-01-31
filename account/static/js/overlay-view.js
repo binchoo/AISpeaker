@@ -67,7 +67,6 @@ class OverlayView {
 
   startRecognition(arg) {
     if (arg.show) {
-      console.log("Speaker On");
       this.haloEffect
         .addClass("effect-halo-runnig")
         .removeClass("effect-halo-blink");
@@ -116,12 +115,10 @@ class OverlayView {
       };
     }
     if (arg.show) {
-      console.log("show overlay");
       this.showOverlayView = true;
       this.overlayView.addClass("slide-up").removeClass("slide-down");
       this.overlayView.css({ opacity: "1", "pointer-events": "auto" });
     } else {
-      console.log("hide overlay");
       this.showOverlayView = false;
       this.overlayView.addClass("slide-down").removeClass("slide-up");
       this.overlayView.css({ opacity: "0", "pointer-events": "none" });
